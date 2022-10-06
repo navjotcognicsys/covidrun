@@ -1,0 +1,204 @@
+﻿@model Covid.Infrastructure.ViewModel.Complaint.vmComplaint
+
+@{
+    ViewBag.Title = "CompaintDetails";
+}
+
+@section HomeDesign
+   {
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+            <li class="breadcrumb-item"><a href="@Url.Action("DashBoard", "DashBoard")"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item">
+                Compalint Search
+            </li>
+        </ol>
+    </nav>
+}
+<div class="row">
+    <div class="col">
+        <form>
+
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">View</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    @Html.Label("Local Body", new { @class = "form-control-label" })
+                                    <select class="form-control" id="localBodyList" name="LocalBody">
+                                        <option value="">Please Select </option>
+                                        @foreach (var i in Model.LocalBodyList)
+                                        {
+                                            <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    @Html.Label("Zone", new { @class = "form-control-label" })
+                                    <select class="form-control" id="zoneList" name="Zone"></select>
+
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    @Html.Label("Ward", new { @class = "form-control-label" })
+                                    <select class="form-control" id="wardList" name="Ward"></select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    @Html.Label("Complaint Status", new { @class = "form-control-label" })
+                                    <select class="form-control" id="Stat" name="Status">
+                                        <option value="0" selected>Please select</option>
+                                        <option value="1" >OPEN</option>
+                                        <option value="2">WORKING</option>
+                                        <option value="3">CLOSED</option>
+                                        <option value="4">REJECTED</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            @*<div class="col-lg-3">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-country">Date of arrvial</label>
+                                        <input type='text' class="form-control" id='datetimepicker4'  />
+                                    </div>
+                                </div>*@
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    @Html.Label("Complaint Type", new { @class = "form-control-label" })
+                                    @*@Html.DropDownListFor(model => model.ComplaintTypeList, new SelectList(Model.ComplaintTypeList.OrderBy(x => x)), new { Class = "form-control", Name = "ComplaintType" })*@
+
+                                    <select class="form-control" id="ComplaintTypeId" name="ComplaintType">
+                                        <option value="0">Please Select </option>
+                                        @foreach (var i in Model.ComplaintTypeList)
+                                        {
+                                            <option value="@i.ComplaintTypeId">@i.ComplaintTypeName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="form-group mt-4">
+                                    <input type="button" class="btn btn-success" value="Submit" onclick="ChangeData()" />
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                        <div id="DataView">
+                            @Html.Partial("~/Views/Complaint/PartialViews/ComplaintDetailsPartial.cshtml", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        //alert()
+    });
+
+
+    var ChangeData = function () {
+      
+        var LBID = $("#localBodyList").val();
+        var ZID = $("#zoneList").val();
+        var WID = $("#wardList").val();
+        //var datetimepicker4 = $("#datetimepicker4").val();
+        var ComplaintType = $("#ComplaintTypeId").val();
+        var Status = $("#Stat").val();
+        var RelatedPersonID = $("#RelatedPersonID").val();
+        $.ajax({
+            url: '/Complaint/GetComplaintByFilter',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                LOcalBodyID: LBID,
+                ZoneID: ZID,
+                WardID: WID,
+                //DateOfCreation: datetimepicker4,
+                ComplaintType: ComplaintType,
+                Status: Status
+
+
+            }),
+            success: function (data) {
+                $("#DataView").html("");
+                $("#DataView").append(data);
+
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+    $('#localBodyList').change(function () {
+        //alert();
+        $.ajax({
+            url: "/Complaint/GetZoneDropDown",
+            type: "POST",
+            dataType: "json",
+            data: { LocalBodyId: $(this).val() },
+            success: function (data) {
+                $('#zoneList').find('option').remove();
+                $('#wardList').find('option').remove();
+                $('#zoneList').append(`<option value="">Please select</option>`)
+
+                for (var i = 0; i < data.length; i++) {
+                    var x = data[i];
+                    $('#zoneList').append(`<option value="${x.LocalBodyID}">
+                                       ${x.LocalBodyName}
+                                  </option>`);
+                }
+
+            }
+        })
+        //ChangeData();
+    });
+    $('#zoneList').change(function () {
+
+        $.ajax({
+            url: "/Complaint/GetWardByZoneDropDown",
+            type: "POST",
+            dataType: "json",
+            data: { LocalBodyId: $(this).val() },
+            success: function (data) {
+                $('#wardList').find('option').remove();
+                $('#wardList').append(`<option value="">Please select</option>`)
+                for (var i = 0; i < data.length; i++) {
+                    var x = data[i];
+                    $('#wardList').append(`<option value="${x.LocalBodyID}">
+                                       ${x.LocalBodyName}
+                                  </option>`);
+                }
+
+            }
+        })
+        //ChangeData();
+    });
+
+
+</script>
+
+
+

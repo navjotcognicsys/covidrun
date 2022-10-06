@@ -1,0 +1,188 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmCovidPerson
+@using Covid.Infrastructure.Helpers;
+@using Covid.Core.Common;
+@{
+    ViewBag.Title = "Person Details Update Form";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (SessionHelper.UserDetails!=null)
+    {
+        if (SessionHelper.UserDetails.UserType.ToUpper() == UserTypeCommon.RRT.ToUpper())
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+        else
+        {
+            Layout = null;
+        }
+    }
+    else
+    {
+        Layout = null;
+    }
+}
+
+
+
+<div class="row">
+    <div class="col">
+
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0">Person Details Update </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form action="~/Person/UpdateCovidPersonDetails" method="post" id="myForm">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-PatientName">Name </label>
+                                    <input type="hidden" value="@Model.PersonDetail.Id" name="PersonId" />
+                                    @Html.TextBoxFor(x => x.PersonDetail.PatientName, new { Name = "Name", @class = "form-control", @id = "input-Name", @required = "required" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-TravelDetails">पिछले पंद्रह -बीस दिनों में की गई यात्रा का विवरण </label>
+                                    @Html.TextBoxFor(x => x.PersonDetail.TravelDetails, new { Name = "Travel", @class = "form-control", @id = "input-Travel" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-WorkDetails">आप क्या काम करते है | और कहाँ काम करते है </label>
+                                    @Html.TextBoxFor(x => x.PersonDetail.WorkDetails, new { Name = "Work", @class = "form-control", @id = "input-Work" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-FamilyMemberCuount">आपके परिवार में कितने सदस्य है </label>
+                                    @Html.TextBoxFor(x => x.PersonDetail.FamilyMemberCuount, new { Name = "FamilyMemberCuount", @class = "form-control", type = "number", @id = "input-FamilyMemberCuount" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-FiftyPlus">50 वर्ष से अधिक कितने सदस्य है </label>
+                                    @Html.TextBoxFor(x => x.PersonDetail.FiftyPlus, new { Name = "FiftyPlus", @class = "form-control", type = "number", @id = "input-FiftyPlus" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-AnyIssueFiftyPlus">50 वर्ष से अधिक किसी सदस्य को कोई अन्य बीमारी है क्या </label>
+                                    @Html.TextBoxFor(x => x.PersonDetail.AnyIssueFiftyPlus, new { Name = "AnyIssueFiftyPlus", @class = "form-control", @id = "input-AnyIssueFiftyPlus" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-RoomCount">आपके घर में कितने कमरे है </label>
+                                    @Html.TextBoxFor(x => x.PersonDetail.RoomCount, new { Name = "RoomCount", @class = "form-control", type = "number", @id = "input-RoomCount" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">क्या आपको कोई लक्षण है (सर्दी,खांसी, बुखार सांस लेने में तकलीफ अन्य ) </label>
+                                    @Html.TextBoxFor(x => x.PersonDetail.Symtoms, new { Name = "Symtoms", @class = "form-control", @id = "input-Symtoms" })
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">क्या आपको कोई अन्य बीमारी है ( BP, Sugar, Ashthma, Thyroid etc)</label>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-3">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="Fev" name="Fever" type="checkbox" @(Model.PersonDetail.IsSymtoms == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="Fev">
+                                                    <span class="text-muted"> BP, Sugar, Ashthma, Thyroid</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="Cuf" name="Cough" type="checkbox" @(Model.PersonDetail.IsVaccine == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="Cuf">
+                                                    <span class="text-muted"> वैक्‍सीनेशन हुआ है या नही</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">वैक्‍सीनेशन हुआ है या नही यदि हॉं तो कौन सा डोज </label>
+                                    @Html.TextBoxFor(x => x.PersonDetail.DoesCount, new { Name = "DoesCount", @class = "form-control", type = "number", @id = "input-DoesCount" })
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Current Status</label>
+                                    <select name="Quarantine" id="Quarantine" class="form-control View_Drop OverIew">
+                                        <option value="-1">Phone Not Pick</option>
+                                        <option value="0">Home</option>
+                                        <option value="1">Need Shift</option>
+                                        <option value="2">Admitted</option>
+                                        <option value="3">Death</option>
+                                        <option value="4">Isolation Done</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Remarks </label>
+                                    <textarea type="text" name="Remarks" id="Rmrk" class="form-control" placeholder="">@Model.PersonDetail.Comments</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+
+                                    <input type="button" id="input-Rural/Urban" class="btn btn-primary" onclick="myFunction()" value="Submit">
+                                    @*@if ((SessionHelper.UserDetails == null) || SessionHelper.UserDetails.UserType.ToUpper() == UserTypeCommon.CommandCenter.ToUpper())
+                                    {
+                                        <input type="button" id="input-Rural/Urban" class="btn btn-primary" onclick="myFunction()" value="Submit">
+                                    }
+                                    else
+                                    {
+                                        <input type="submit" id="input-Rural/Urban" class="btn btn-primary" value="Submit">
+                                    }*@
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<script>
+    function myFunction() {
+
+        $.ajax({
+            url: '/Person/UpdateCovidPersonDetails',
+            type: 'post',
+            data: $('#myForm').serialize(),
+            success: function (result) {
+                alert("Form submit successfully");
+                if (result === "OK") {
+                    $("#QuPopup").modal("hide");
+                    return false;
+                }
+
+            }
+        });
+
+
+    }
+   
+</script>

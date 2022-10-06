@@ -1,0 +1,1095 @@
+﻿@model Covid.Infrastructure.ViewModel.Dashboard.vmDashboard
+@*@model Covid.Infrastructure.ViewModel.Person.vmPerson*@
+@using Covid.Presentation.Common;
+@using Covid.Infrastructure.Helpers;
+@using Covid.Core.Common;
+@{
+    ViewBag.Title = "DashBoard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var LocalBodyID = 0;
+    var ZoneId = 0;
+    var WardId = 0;
+    var RRT = "RRT";
+    var CommandCenter = "Command Center";
+}
+    <meta http-equiv="refresh" content="60" />
+
+@if (Model.DashboardCountList != null)
+{
+    if (SessionHelper.UserDetails.UserType == @RRT)
+    {
+        if (@Model.DashboardCountList.Count() > 0)
+        {
+            foreach (var item in Model.DashboardCountList)
+            {
+                <div class="row mt-3">
+                    <div class="col-xl-4 col-md-6" onclick="location.href = '/DashBoard/GetIPersonDeailByFilter?Isquarantine=1&IsPositive=0'">
+                        <a href="#">
+                        <div class="card card-stats">
+                            <!-- Card body -->
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col">
+                                        <h5 class="card-title text-uppercase text-muted mb-0">Quarantine Check ( pending people list for todays) </h5>
+                                        <span class="h2 font-weight-bold mb-0">@item.QuarantineCheck</span>
+
+                                    </div>
+                                    <div class="col-auto">
+                                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                            <i class="ni ni-active-40"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<p class="mt-3 mb-0 text-sm">
+                                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                                        <span class="text-nowrap">Since last month</span>
+                                    </p>*@
+                            </div>
+                        </div>
+                            </a>
+                    </div>
+                    <div class="col-xl-4 col-md-6" onclick="location.href = '/DashBoard/GetComplaintDetails'">
+                        <a href="#">
+                            <div class="card card-stats">
+                                <!-- Card body -->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Complaint assign to me </h5>
+                                            <span class="h2 font-weight-bold mb-0">@item.ComplaintAssignTo</span>
+
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                                <i class="ni ni-chart-pie-35"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                </p>*@
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xl-4 col-md-6" onclick="location.href = '/DashBoard/GetIPersonDeailByFilter?Isquarantine=0&IsPositive=1'">
+                        <a href="">
+                            <div class="card card-stats">
+                                <!-- Card body -->
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title text-uppercase text-muted mb-0">Infected people in my ward </h5>
+                                            <span class="h2 font-weight-bold mb-0">@item.RRTInfected</span>
+
+
+                                        </div>
+                                        <div class="col-auto">
+                                            <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                                <i class="ni ni-money-coins"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<p class="mt-3 mb-0 text-sm">
+                    <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                    <span class="text-nowrap">Since last month</span>
+                </p>*@
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                </div>
+                break;
+            }
+        }
+    }
+    if (SessionHelper.UserDetails.UserType == @CommandCenter)
+    {
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Local Body</label>
+                    <select class="form-control" name="LocalBodyId" id="LBID" required>
+                        <option value="" disabled="" selected>Local Body</option>
+                        @if (Model.LocalBodyList.Count() != 0)
+                        {
+                            foreach (var i in Model.LocalBodyList)
+                            {
+                                if (@i.LocalBodyID == Model.DashboardCount.LocalBodyId)
+                                {
+                                    <option selected value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                    continue;
+                                }
+                                <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Zone </label>
+                    <select class="form-control" name="ZoneId" id="ZID">
+                        @if (Model.GetZoneList.Count() != 0)
+                        {
+                            foreach (var i in Model.GetZoneList)
+                            {
+                                if (@i.LocalBodyID == Model.DashboardCount.ZoneId)
+                                {
+                                    <option selected value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                    continue;
+                                }
+                                <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+
+                            }
+
+                        }
+                    </select>
+                </div>
+            </div>
+
+            @*<div class="col-lg-6">
+                    <div class="form-group">
+                        <label class="form-control-label" for="input-last-name">Ward  </label>
+                        <select class="form-control" name="WardId" id="WID">
+                            @if (Model.GetWardList.Count() != 0)
+                            {
+                                foreach (var i in Model.GetWardList)
+                                {
+                                    if (@i.LocalBodyID == Model.DashboardCount.WardId)
+                                    {
+                                        <option selected value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                        continue;
+                                    }
+                                    <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                }
+
+                            }
+                        </select>
+                    </div>
+                </div>*@
+        </div>
+        if (@Model.DashboardCountList.Count() > 0)
+        {
+            foreach (var item in Model.DashboardCountList)
+            {
+<div class="row mt-3">
+    @*<div class="col-xl-4 col-md-6" onclick="ChangeData('')">*@
+    <div class="col-xl-4 col-md-6" onclick="location.href='@Url.Action("PersonSearch","Person")'">
+        <a href="#">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total no of people registration - Data</h5>
+                            <span class="h2 font-weight-bold mb-0">@item.RegistrationCount</span>
+
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                                <i class="ni ni-active-40"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    @*<div class="col-xl-4 col-md-6" onclick="ChangeData('Isquarantine')">*@
+    <div class="col-xl-4 col-md-6" onclick="location.href='@Url.Action("PersonSearch","Person")'">
+        <a href="#">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total no of people Quarantine </h5>
+
+                            <span class="h2 font-weight-bold mb-0">@item.QuarantineCount</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                <i class="ni ni-chart-pie-35"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-4 col-md-6" onclick="location.href='@Url.Action("ComplaintDetails","Complaint")'">
+        <a herf="#">
+
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Registered complaint </h5>
+
+                            <span class="h2 font-weight-bold mb-0">@item.Registeredcomplaint</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                <i class="ni ni-chart-pie-35"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    @*<div class="col-xl-4 col-md-6" onclick="ChangeData('IsPositive')">*@
+    <div class="col-xl-4 col-md-6" onclick="location.href='@Url.Action("PersonSearch","Person")'">
+        <a href="#">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Infected people</h5>
+                            <span class="h2 font-weight-bold mb-0">@item.InfectedCount</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-info text-white rounded-circle shadow">
+                                <i class="ni ni-chart-bar-32"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    @*<div class="col-xl-4 col-md-6 ZonewiseIsVisible" style="display:none;" onclick="ChangeData('ZoneWiseDataForQuarantine')">*@
+    <div class="col-xl-4 col-md-6 ZonewiseIsVisible" style="display:none;"onclick="location.href='@Url.Action("PersonSearch","Person")'">
+        <a href="#">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Zone Name: <span class="h5 font-weight-bold mb-0 zoneNameID" id="zoneNameID"></span></h5>
+                            <h5 class="card-title text-uppercase text-muted mb-0">Zone wise people Quarantine</h5>
+
+                            <span class="h2 font-weight-bold mb-0" id="zoneCountID">@item.ZoneWiseQuarantine</span>
+
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                <i class="ni ni-money-coins"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-4 col-md-6 ZonewiseIsVisible" style="display:none;">
+        <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Zone Name: <span class="h5 font-weight-bold mb-0 zoneNameID" id="zoneNameID"></span></h5>
+                        <h5 class="card-title text-uppercase text-muted mb-0">Zonewise status -- QuarantineCheck completed vs Remaining  </h5>
+
+                        <h6>
+                            <span class="h2 font-weight-bold mb-0" id="QuarantineCheckcompleted">@item.QuarantineCheckcompleted</span>
+                            <b>Vs</b>
+                            <span class="h2 font-weight-bold mb-0" id="QuarantineCheckRemaining">@item.QuarantineCheckRemaining</span>
+                        </h6>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
+                            <i class="ni ni-active-40"></i>
+                        </div>
+                    </div>
+                </div>
+                @*<p class="mt-3 mb-0 text-sm">
+                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                        <span class="text-nowrap">Since last month</span>
+                    </p>*@
+            </div>
+        </div>
+    </div>
+
+    @*<div class="col-xl-4 col-md-6" onclick="ChangeData('NoZoneAndWard')">*@
+    <div class="col-xl-4 col-md-6" onclick="location.href='@Url.Action("PersonSearch","Person")'">
+        <a href="#">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">People without Zone and ward info </h5>
+
+                            <span class="h2 font-weight-bold mb-0">@item.PeoplewithoutZoneandward</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                <i class="ni ni-money-coins"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    <div id="DataView" style="display:none">
+        @Html.Partial("~/Views/DashBoard/ShowPersonData.cshtml", Model)
+    </div>
+</div>
+                break;
+            }
+        }
+
+    }
+     if (SessionHelper.UserDetails.UserType.ToUpper() == UserTypeCommon.IncidentManager.ToUpper())
+    {
+
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Local Body</label>
+                    <select class="form-control" name="LocalBodyId" id="LID" required>
+                        <option value="" disabled="" selected>Local Body</option>
+                        @if (Model.LocalBodyList.Count() != 0)
+                        {
+                            foreach (var i in Model.LocalBodyList)
+                            {
+                                if (@i.LocalBodyID == Model.DashboardCount.LocalBodyId)
+                                {
+                                    <option selected value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                    continue;
+                                }
+                                <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                            }
+
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-control-label" for="input-last-name">Ward </label>
+                    <select class="form-control" name="WardId" id="WID">
+                       
+                    </select>
+                </div>
+            </div>
+
+           
+        </div>
+        if (@Model.DashboardCountList.Count() > 0)
+        {
+            foreach (var item in Model.DashboardCountList)
+            {
+<div class="row mt-3">
+    @*<div class="col-xl-4 col-md-6" onclick="ChangeData('')">*@
+    <div class="col-xl-6 col-md-6" onclick="location.href='@Url.Action("ComplaintDetails","Complaint")'">
+        <a href="#">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total no of Complaints registration - Data</h5>
+                            <span class="h2 font-weight-bold mb-0">@item.TotalComplaints</span>
+
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                <i class="ni ni-chart-pie-35"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    @*<div class="col-xl-4 col-md-6" onclick="ChangeData('Isquarantine')">*@
+    <div class="col-xl-6 col-md-6" onclick="location.href='@Url.Action("ComplaintDetails","Complaint")'">
+        <a href="#">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total no of Open Complaints </h5>
+
+                            <span class="h2 font-weight-bold mb-0">@item.TotalOpenComplaints</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                <i class="ni ni-chart-pie-35"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-4 col-md-6" onclick="location.href='@Url.Action("ComplaintDetails","Complaint")'">
+        <a herf="#">
+
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total no of Working complaint </h5>
+
+                            <span class="h2 font-weight-bold mb-0">@item.TotalWorkingComplaint</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                <i class="ni ni-chart-pie-35"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    @*<div class="col-xl-4 col-md-6" onclick="ChangeData('IsPositive')">*@
+<div class="col-xl-4 col-md-6" onclick="location.href='@Url.Action("ComplaintDetails","Complaint")'">
+    <a herf="#">
+
+        <div class="card card-stats">
+            <!-- Card body -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title text-uppercase text-muted mb-0">Total no of cLOSED complaint </h5>
+
+                        <span class="h2 font-weight-bold mb-0">@item.TotalClosedComplaint</span>
+                    </div>
+                    <div class="col-auto">
+                        <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                            <i class="ni ni-chart-pie-35"></i>
+                        </div>
+                    </div>
+                </div>
+                @*<p class="mt-3 mb-0 text-sm">
+                        <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                        <span class="text-nowrap">Since last month</span>
+                    </p>*@
+            </div>
+        </div>
+    </a>
+</div>
+    <div class="col-xl-4 col-md-6" onclick="location.href='@Url.Action("ComplaintDetails","Complaint")'">
+        <a href="#">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Total no of Reject Complaints</h5>
+                            <span class="h2 font-weight-bold mb-0">@item.TotalRejectComplaint</span>
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-orange text-white rounded-circle shadow">
+                                <i class="ni ni-chart-pie-35"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    @*<div class="col-xl-4 col-md-6 WardwiseIsVisible" style="display:none;" onclick="ChangeData('ZoneWiseDataForQuarantine')">*@
+    <div class="col-xl-6 col-md-6 WardwiseIsVisible" onclick="location.href='@Url.Action("ComplaintDetails","Complaint")'">
+        <a href="#">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Ward Name: <span class="h5 font-weight-bold mb-0 WardName" id="Name"></span></h5>
+                            <h5 class="card-title text-uppercase text-muted mb-0">Ward wise Total Complaints</h5>
+
+                            <span class="h2 font-weight-bold mb-0" id="TWAC">@item.TotalWardComplaints</span>
+
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                <i class="ni ni-money-coins"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-6 col-md-6 WardwiseIsVisible" onclick="location.href='@Url.Action("ComplaintDetails","Complaint")'">
+        <a href="#">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Ward Name: <span class="h5 font-weight-bold mb-0 WardName" id="Name"></span></h5>
+                            <h5 class="card-title text-uppercase text-muted mb-0">Ward wise Open Complaints</h5>
+
+                            <span class="h2 font-weight-bold mb-0" id="TWAOC">@item.TotalWardOpenComplaints</span>
+
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                <i class="ni ni-money-coins"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-4 col-md-6 WardwiseIsVisible" onclick="location.href='@Url.Action("ComplaintDetails","Complaint")'">
+        <a href="#">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Ward Name: <span class="h5 font-weight-bold mb-0 WardName" id="Name"></span></h5>
+                            <h5 class="card-title text-uppercase text-muted mb-0">Ward wise Closed Complaints</h5>
+
+                            <span class="h2 font-weight-bold mb-0" id="TWACC">@item.TotalWardClosedComplaint</span>
+
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                <i class="ni ni-money-coins"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-4 col-md-6 WardwiseIsVisible" onclick="location.href='@Url.Action("ComplaintDetails","Complaint")'">
+        <a href="#">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Ward Name: <span class="h5 font-weight-bold mb-0 WardName" id="Name"></span></h5>
+                            <h5 class="card-title text-uppercase text-muted mb-0">Ward wise Working Complaints</h5>
+
+                            <span class="h2 font-weight-bold mb-0" id="TWAWC">@item.TotalWardWorkingComplaint</span>
+
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                <i class="ni ni-money-coins"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+    <div class="col-xl-4 col-md-6 WardwiseIsVisible" onclick="location.href='@Url.Action("ComplaintDetails","Complaint")'">
+        <a href="#">
+            <div class="card card-stats">
+                <!-- Card body -->
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h5 class="card-title text-uppercase text-muted mb-0">Ward Name: <span class="h5 font-weight-bold mb-0 WardName" id="Name"></span></h5>
+                            <h5 class="card-title text-uppercase text-muted mb-0">Ward wise Reject Complaints</h5>
+
+                            <span class="h2 font-weight-bold mb-0" id="TWARC">@item.TotalWardRejectComplaint</span>
+
+                        </div>
+                        <div class="col-auto">
+                            <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
+                                <i class="ni ni-money-coins"></i>
+                            </div>
+                        </div>
+                    </div>
+                    @*<p class="mt-3 mb-0 text-sm">
+                            <span class="text-success mr-2"><i class="fa fa-arrow-up"></i> 3.48%</span>
+                            <span class="text-nowrap">Since last month</span>
+                        </p>*@
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+
+</div>
+                break;
+            }
+        }
+
+    }
+
+
+}
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+
+                <h4 class="modal-title">View Status</h4>
+                <button type="button" id="crossbutton" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body" id="username_load">
+
+
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+<script>
+   
+
+     var localityUrl = '@Url.Action("FetchZone","DashBoard")';
+    var subLocalityUrl = '@Url.Action("FetchWard", "DashBoard")';
+    var ZoneCount = '@Url.Action("ZoneCountURlz", "DashBoard")'//'~/DashBoard/ZoneCountURL';
+     var WardCount = '@Url.Action("WardURlz", "DashBoard")'//'~/DashBoard/ZoneCountURL';
+			var localities = $('#ZID');
+    var subLocalities = $('#WID');
+    $('#LBID').click(function () {
+
+				localities.empty();
+        subLocalities.empty();
+
+				$.getJSON(localityUrl, { ID: $(this).val() },function(data) {
+                    if (!data) {
+						return;
+					}
+					localities.append($('<option></option>').val('').text('Please select'));
+                    $.each(data, function (index, item) {
+                        //debugger
+						localities.append($('<option></option>').val(item.Value).text(item.Text));
+					});
+                });
+
+
+
+    })
+    $('#LID').click(function () {
+
+				
+        subLocalities.empty();
+
+				$.getJSON(subLocalityUrl, { ID: $(this).val() },function(data) {
+                    if (!data) {
+						return;
+					}
+					subLocalities.append($('<option></option>').val('').text('Please select'));
+                    $.each(data, function (index, item) {
+                        
+						subLocalities.append($('<option></option>').val(item.Value).text(item.Text));
+					});
+                });
+
+
+
+    })
+    $('#ZID').change(function () {
+        var s = $('#ZID').val()
+        //alert(s)
+        if (s == '') {
+            $(".ZonewiseIsVisible").css('display', 'none');
+        }
+        //debugger;
+				//subLocalities.empty();
+				//$.getJSON(subLocalityUrl, { ID: $(this).val() },function(data) {
+				//	if (!data) {
+				//		return;
+				//	}
+				//	subLocalities.append($('<option></option>').val('').text('Please select'));
+				//	$.each(data, function(index, item) {
+				//		subLocalities.append($('<option></option>').val(item.Value).text(item.Text));
+				//	});
+        //            });
+        //debugger
+        $.getJSON(ZoneCount, { ID: $(this).val() }, function (data) {
+            if (!data) {
+                //alert(data);
+                //debugger
+                //alert(data);
+                //alert(Value[item]);
+                //item.Value, item.Text;
+                //alert(item.Value);
+                //alert($("#zoneCountID").text(item.Value));
+                return;
+            }
+            $.each(data, function (index, item) {
+                //debugger
+                if (index == 'Value') {
+
+                    $("#zoneCountID").text(item);
+                }
+                else if (index == 'Text') {
+                    $(".zoneNameID").text(item);
+                }
+
+                else if (index == 'Completed') {
+                    $("#QuarantineCheckcompleted").text(item)
+                    $(".ZonewiseIsVisible").css('display', 'block');
+                }
+                else if (index == 'Remaning') {
+                    $("#QuarantineCheckRemaining").text(item)
+                    $(".ZonewiseIsVisible").css('display', 'block');
+                }
+
+                //alert($("#zoneNameID").text(item.Value));
+                //$("#zoneCountID").text(item.Value);
+                //$("#zoneNameID").text(item.Value);
+            });
+        });
+    })
+
+     $('#WID').change(function () {
+        var s = $('#WID').val()
+        //alert(s)
+        if (s == '') {
+            //$(".WardwiseIsVisible").css('display', 'none');
+        }
+        
+        $.getJSON(WardCount, { ID: $(this).val() }, function (data) {
+            if (!data) {
+               
+                return;
+            }
+            $.each(data, function (index, item) {
+               // debugger
+                if (index == 'TWAC') {
+
+                    $("#TWAC").text(item);
+                }
+                else if (index == 'TWAOC') {
+
+                    $("#TWAOC").text(item);
+                }
+
+               else if (index == 'TWACC') {
+
+                    $("#TWACC").text(item);
+                }
+                else if (index == 'TWAWC') {
+
+                    $("#TWAWC").text(item);
+                }
+                else if (index == 'TWARC') {
+
+                    $("#TWARC").text(item);
+                }
+               else if (index == 'Text') {
+                    $(".WardName").text(item);
+                }
+
+                //alert($("#zoneNameID").text(item.Value));
+                //$("#zoneCountID").text(item.Value);
+                //$("#zoneNameID").text(item.Value);
+            });
+        });
+    })
+    //$(".abc").val("");
+    //var ChangeData = function (e) {
+    //    var Isquarantine = 0;
+    //    var IsPositive = 0;
+    //    var NoZoneAndWard = '';
+    //    var ZoneWiseDataForQuarantine = '';
+    //    if (e == 'Isquarantine') {
+    //        Isquarantine = 1;
+    //    } else if (e == 'IsPositive') {
+    //        IsPositive = 1;
+    //    }
+    //    else if (e == 'NoZoneAndWard') {
+    //        var NoZoneAndWard = ''
+    //    }
+    //    else if (e =='ZoneWiseDataForQuarantine') {
+
+    //    }
+    //    //var Isquarantine = $(".abc").attr("data-id");
+    //    //alert(Isquarantine);
+    //    var LBID = $("#LBID").val();
+    //    var ZID = $("#ZID").val();
+    //    var WID = $("#WID").val();
+    //    $.ajax({
+    //        url: '/DashBoard/GetIPersonDeailByFilter',
+    //        type: 'POST',
+    //        datatype: 'application/json',
+    //        contentType: 'application/json',
+    //        data: JSON.stringify({
+    //            LOcalBodyID: LBID,
+    //            ZoneID: ZID,
+    //            WardID: WID,
+    //            Isquarantine: Isquarantine,
+    //            IsPositive: IsPositive,
+    //            NoZoneAndWard: NoZoneAndWard
+
+    //        }),
+    //        success: function (data) {
+    //            $("#myModal").modal("show");
+    //            $("#username_load").empty("");
+    //            $("#username_load").append(data);
+    //            $(".loader").hide();
+    //            $('.example').DataTable({
+    //                paging: true,
+    //                info: false,
+    //                scrollY: 400,
+    //                scrollX: false,
+    //                "pageLength": 50
+    //            });
+
+
+    //            //$("#DataView").html("");
+    //           // $("#DataView").css('display', 'block');
+    //            //$("#DataView").append(data);
+    //            //respon();
+    //        },
+    //        error: function () {
+
+    //        },
+    //    });
+    //}
+
+
+
+
+
+
+
+
+
+    //$("#ZID1").change(function () {
+    //    var value = $("#ZID").val();
+    //    alert(value)
+    //    $.ajax({
+    //        url: '/DashBoard/ZoneCountURlz',
+    //        type: 'POST',
+    //        datatype: 'application/json',
+    //        contentType: 'application/json',
+    //        data: JSON.stringify({
+    //            ID: value
+    //        }),
+    //        success: function (data) {
+
+    //                 response($.map(data, function (item) {
+    //                     alert(data)
+    //                     return {
+    //                         label: item.Value,
+    //                         value: item.Text
+
+    //                     };
+    //                 }))
+
+
+
+    //            //var appenddata1 = "";
+    //            //appenddata1 = "<option value=''>Select</option>"
+    //            //for (var i = 0; i < data.length; i++) {
+    //            //    appenddata1 += "<option value = '" + data[i].Id + " '>" + data[i].CompanyCode + " </option>";
+    //            //}
+    //            //$("#CompanyId").html(appenddata1);
+    //        },
+    //        error: function (e) {
+    //            alert(e)
+    //        },
+    //    });
+    //});
+
+    //$("#ZID11").change({
+
+    //    source: function (request, response) {
+    //        var ID = $(this).val();
+    //        console.log(ID);
+    //        $.ajax({
+    //            url: "~/DashBoard/ZoneCountURl",
+    //            type: "POST",
+    //            dataType: "json",
+    //            data: {
+    //                ID: ID
+    //            },
+    //            success: function (data) {
+
+    //                response($.map(data, function (item) {
+
+    //                    return {
+
+    //                        label: item.DisplayName, text_value1: item.Value, text_value: item.Text
+    //                    };
+
+    //                }))
+
+    //            }
+    //        })
+    //    },
+
+    //    select: function (event, ui) {
+    //        alert($("#zoneCountID").val(ui.item.text_value1));
+    //        $("#email").val(ui.item.text_value1);
+    //    }
+    //});
+    //$("#ZID1").Change(function () {
+    //    var ID = $(this).val();
+    //    alert(ID)
+    //    $.ajax({
+    //        type: "GET",
+    //        url: "/DashBoard/ZoneCountURlz",
+    //        contentType: "application/json; charset=utf-8",
+    //        dataType: "json",
+    //        data: {
+    //            ID: ID
+    //        },
+    //        success: function (response) {
+    //            if (response != null) {
+    //                alert(response)
+    //                alert($('#zoneCountID').val(response.ZoneWiseQuarantine))
+    //                $('#zoneCountID').val(response.ZoneWiseQuarantine);
+    //                $('#EmployeeDesignation').val(response.userbodyname);
+    //                $('#EmployeeLocation').val(response.Location);
+    //            } else {
+    //                alert("Something went wrong");
+    //            }
+    //        },
+    //        failure: function (response) {
+    //            alert(response.responseText);
+    //        },
+    //        error: function (response) {
+    //            alert(response.responseText);
+    //        }
+    //    });
+    //});
+
+
+</script>
+
+
+@*<script type="text/javascript"
+            src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        });
+    </script>*@
+
+@*<div class="row">
+        <div class="col-xl-8">
+            <div class="card bg-default">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="text-light text-uppercase ls-1 mb-1">Overview</h6>
+                            <h5 class="h3 text-white mb-0">Sales value</h5>
+                        </div>
+                        <div class="col">
+                            <ul class="nav nav-pills justify-content-end">
+                                <li class="nav-item mr-2 mr-md-0" data-toggle="chart" data-target="#chart-sales-dark" data-update='{"data":{"datasets":[{"data":[0, 20, 10, 30, 15, 40, 20, 60, 60]}]}}' data-prefix="$" data-suffix="k">
+                                    <a href="#" class="nav-link py-2 px-3 active" data-toggle="tab">
+                                        <span class="d-none d-md-block">Month</span>
+                                        <span class="d-md-none">M</span>
+                                    </a>
+                                </li>
+                                <li class="nav-item" data-toggle="chart" data-target="#chart-sales-dark" data-update='{"data":{"datasets":[{"data":[0, 20, 5, 25, 10, 30, 15, 40, 40]}]}}' data-prefix="$" data-suffix="k">
+                                    <a href="#" class="nav-link py-2 px-3" data-toggle="tab">
+                                        <span class="d-none d-md-block">Week</span>
+                                        <span class="d-md-none">W</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                     Chart
+                    <div class="chart">
+                         Chart wrapper
+                        <canvas id="chart-sales-dark" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card">
+                <div class="card-header bg-transparent">
+                    <div class="row align-items-center">
+                        <div class="col">
+                            <h6 class="text-uppercase text-muted ls-1 mb-1">Performance</h6>
+                            <h5 class="h3 mb-0">Total orders</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                     Chart
+                    <div class="chart">
+                        <canvas id="chart-bars" class="chart-canvas"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>*@

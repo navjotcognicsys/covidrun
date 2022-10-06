@@ -1,0 +1,256 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmPerson
+@using Covid.Core.Enum
+@{ Layout = null;}
+
+@if (TempData["PersonMessage"] != null)
+{
+    <div class="alert alert-info">
+        <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+        @TempData["PersonMessage"]
+    </div>
+}
+
+
+<div class="table-responsive">
+
+    <table id="example" class="table table-bordered">
+        <thead>
+            <tr role="row">
+
+                <th>
+
+                </th>
+                <th>
+                    Person ID
+                </th>
+
+                <th>
+                    Person Name
+                </th>
+
+                <th>
+                    Mobile No
+                </th>
+
+                <th>
+                    Address
+                </th>
+
+
+
+                <th>
+                    Date Of Arrival
+                </th>
+
+                <th>
+                    Coming From
+                </th>
+
+                <th>
+                    GoingTo
+                </th>
+
+                <th>
+                    HealthStatus
+                </th>
+
+
+                <th>
+                    TravelMode
+                </th>
+
+                <th>
+                    Ward
+                </th>
+                <th>
+                    InfectionSource
+                </th>
+                <th>
+                    Isquarantine
+                </th>
+                <th>
+                    IsSticker
+                </th>
+                <th>
+                    QuarantineDate
+                </th>
+                <th>
+                    StickerDate
+                </th>
+
+                <th>
+                    IsPositive
+                </th>
+                <th>
+                    TwoMonthsDetails
+                </th>
+                <th>
+                    FifteenDaysDetails
+                </th>
+                <th>
+                    IsCough
+                </th>
+                <th>
+                    IsFever
+                </th>
+                <th>
+                    IsShortnessofBreath
+                </th>
+                <th>
+                    CoronaRemark
+                </th>
+                <th>
+                    IsSuspect
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.PersonAllDetalsList != null)
+            {
+                foreach (var i in Model.PersonAllDetalsList)
+                {
+                    <tr role="row" class="odd">
+
+                        @if (i.Isquarantine == "1" || i.Isquarantine == "Yes")
+                        {
+                            <td><input type="button" value="Quarantine Update" class="btn btn-success btn-sm btn_resolved pull-left" onclick="return QuarFun(@i.PersonId)" /></td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td tabindex="0" class="sorting_1">@i.PersonId</td>
+                        <td>@i.PersonName</td>
+                        <td>@i.Mobileno</td>
+                        <td><textarea rows="2" cols="20" disabled name="address" form="usrform">@i.Address</textarea></td>
+                        @if (i.Dateofarrival.HasValue)
+                        {
+                            <td>@i.Dateofarrival.Value.ToString("dd/MM/yyyy") </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+
+                        <td>
+                            <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.ComingFrom</textarea>
+                        </td>
+                        <td>@i.GoingTo</td>
+                        <td>@i.HealthStatus</td>
+                        <td>@i.TravelMode</td>
+                        <td>@i.WardId</td>
+                        <td>@i.InfectionSource</td>
+                        <td>@i.Isquarantine</td>
+                        <td>@i.IsSticker</td>
+                        @if (i.QuarantineDate.HasValue)
+                        {
+                            <td>@i.QuarantineDate.Value.ToString("dd/MM/yyyy") </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        @if (i.StickerDate.HasValue)
+                        {
+                            <td>@i.StickerDate.Value.ToString("dd/MM/yyyy") </td>
+                        }
+                        else
+                        {
+                            <td></td>
+                        }
+                        <td>@i.IsPositive</td>
+                        <td>
+                            <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.TwoMonthsDetails</textarea>
+                        </td>
+                        <td>
+                            <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.FifteenDaysDetails</textarea>
+
+                        </td>
+                        <td>@i.IsCough</td>
+                        <td>@i.IsFever</td>
+                        <td>@i.IsShortnessofBreath</td>
+                        <td>
+                            <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.CoronaRemark</textarea>
+                        </td>
+                        <td>@i.IsSuspect</td>
+
+
+                    </tr>
+                }
+            }
+
+
+        </tbody>
+
+    </table>
+</div>
+
+<div class="form-group mt-4">
+    <button type="button" class="btn btn-success" id="BtnBack" onclick="location.href='@Url.Action("Index", "Home")'">Back to Home</button>
+</div>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+          responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+           
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Excel data'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'PDF data',
+                     orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+                }
+            ]
+        });
+    });
+    QuarFun = function (Id) {
+
+        $.ajax({
+            url: '/Quarantine/OpenQuarantineForm',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                PersonId: Id
+            }),
+            success: function (result) {
+                $("#QuPopupbody").html(result);
+                $("#QuPopup").modal("show");
+            },
+            error: function () {
+
+            },
+        });
+        return false;
+
+    }
+
+
+</script>
+<div id="QuPopup" class="modal fade" role="dialog">
+    <div class="modal-dialog modal_overView modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header View_header">
+                <h3>Quarantine Check</h3>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body" id="QuPopupbody">
+
+
+            </div>
+        </div>
+    </div>
+</div>

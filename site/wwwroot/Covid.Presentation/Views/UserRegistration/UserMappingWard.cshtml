@@ -1,0 +1,155 @@
+﻿@model Covid.Infrastructure.ViewModel.vmUserDetails.vmUserDetails
+
+@{
+    ViewBag.Title = "UserMappingWard";
+}
+@section HomeDesign
+   {
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+            <li class="breadcrumb-item"><a href="@Url.Action("DashBoard", "DashBoard")"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item">
+
+               User and Ward Mapping
+
+            </li>
+        </ol>
+    </nav>
+}
+<div class="row">
+    <div class="col">
+        <form action="~/UserRegistration/SubmittedUserMappingWard" method="post">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">User & Ward </h3>
+                        </div>
+                    </div>
+                </div>
+                @if (TempData["UserMessage"] != null)
+                {
+                    <div class="alert alert-info">
+                        <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+                        @TempData["UserMessage"]
+                    </div>
+                }
+                <div id="message"></div>
+                <div class="card-body">
+                    <div class="col-lg-6">
+                        <div class="row">
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <input type="hidden" id="User" name="UserId" />
+                                    <label class="form-control-label " for="input-username">User </label>
+                                    <input class="form-control User" placeholder="Enter mobile number for searching" id="UserName" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Local Body </label>
+                                    <select class="form-control" id="LBID" name="LocalBodyId" required>
+
+
+
+                                        @if (Model.LocalBody.LocalBodyID == 0)
+                                        {
+                                            if (Model.LocalBodyList.Count() != 0)
+                                            {
+                                                <option value="" selected>Please Select</option>
+                                                foreach (var i in Model.LocalBodyList)
+                                                {
+                                                    <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <option value="@Model.LocalBody.LocalBodyID">@Model.LocalBody.LocalBodyName</option>
+                                        }
+
+
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Ward </label>
+                                    <select class="form-control" multiple="multiple" id="WID" name="Wards" required>
+                                        
+                                            
+                                        
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <input type="submit" id="input-Rural/Urban" class="btn btn-primary" value="Submit">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    var subLocalityUrl = '@Url.Action("GetWardDropDown","UserRegistration")';
+    
+    var subLocalities = $('#WID');
+    $('#LBID').change(function () {
+				subLocalities.empty();
+				$.getJSON(subLocalityUrl, { LocalBodyId: $(this).val() },function(data) {
+					if (!data) {
+						return;
+					}
+					
+					$.each(data, function(index, item) {
+						subLocalities.append($('<option></option>').val(item.Value).text(item.Text));
+					});
+				});
+    })
+
+     $(".User").autocomplete({
+        source: function (request, response) {
+
+            $.ajax({
+                url: "/UserRegistration/AutoCompleteByMoileNumberNotRRT",
+                type: "POST",
+                dataType: "json",
+                data: { firstterm: request.term },
+                success: function (data) {
+
+                    response($.map(data, function (item) {
+
+                        return { label: item.Value, value: item.Text };
+                    }))
+                }
+            })
+        },
+
+        minLength: 5,
+        select: function (event, ui) {
+            var autofillselected = ui.item.value;
+            var autofillLabel = ui.item.label;
+            var str = autofillselected.toString();
+            var ssttr = autofillLabel.toString();
+            $("#User").val(str);
+            ui.item.value = ui.item.label;
+        },
+        change: function (event, ui) {
+            if (ui.item === null) {
+                $("#User").val('');
+                $(this).val('');
+                $('#message').html('<div class="alert alert-danger"><button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>Please select aleast one User Name from the dropdown</div>');
+               // alert('Please select aleast one User Name from the dropdown');
+            }
+        }
+    });
+</script>

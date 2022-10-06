@@ -1,0 +1,100 @@
+﻿@model Covid.Infrastructure.ViewModel.Dashboard.vmDashboard
+@using Covid.Core.Enum
+@{
+
+}
+@section HomeDesign
+   {
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+            <li class="breadcrumb-item"><a href="@Url.Action("DashBoard", "DashBoard")"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item">
+
+                @TempData["Dispaly"]
+
+            </li>
+        </ol>
+    </nav>
+}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0">@TempData["Dispaly"] </h3>
+                    </div>
+                </div>
+            </div>
+            @if (Model.IsP == 0 && Model.IsQ == 0)
+            {
+                <div class="col-lg-3">
+
+                    <div class="form-group">
+                        <label class="form-control-label" for="input-country">CheckPost</label>
+
+                        <select name="CheckPoint" id="CheckPoint" class="form-control col-sm-8 View_Drop" onchange="ChangeData1()">
+                            <option value="" selected>Please Select</option>
+                            <option value="0">NO</option>
+                            <option value="1">YES</option>
+                        </select>
+
+                    </div>
+
+                </div>
+            }
+            <input type="hidden" name="Isquarantine" id="Isquarantine" value="@Model.IsQ" />
+            <input type="hidden" name="IsPositive" id="IsPositive" value="@Model.IsP" />
+            <div id="DataView">
+                @Html.Partial("~/Views/DashBoard/PartialViews/PersonSearchPartialDashBoard.cshtml", Model)
+            </div>
+
+        </div>
+    </div>
+</div>
+<script>
+    var ChangeData1 = function () {
+
+        //var LBID = $("#LBID").val();
+        //var ZID = $("#ZID").val();
+        //var WID = $("#WID").val();
+        //var datetimepicker4 = $("#datetimepicker4").val();
+        var Isquarantine = $("#Isquarantine").val();
+        var IsPositive = $("#IsPositive").val();
+        //var TravalMode = $("#TravalMode").val();
+        //var InfectionSource = $("#InfectionSource").val();
+        //var Sticker = $("#Sticker").val();
+        //var RelatedPersonID = $("#RelatedPersonID").val();
+        var CheckPoint = $("#CheckPoint").val();
+
+        $.ajax({
+            url: '/DashBoard/GetPartialPersonDeailByFilter',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                //LOcalBodyID: LBID,
+                //ZoneID: ZID,
+                //WardID: WID,
+                //DateOfArrival: datetimepicker4,
+                Isquarantine: Isquarantine,
+                IsPositive: IsPositive,
+                //TravalMode: TravalMode,
+                //InfectionSource: InfectionSource,
+                //Sticker: Sticker,
+                //RelatedPersonID: RelatedPersonID,
+                CheckPoint: CheckPoint
+
+            }),
+            success: function (data) {
+
+                $("#DataView").html("");
+                $("#DataView").append(data);
+
+            },
+            error: function () {
+
+            },
+        });
+    }
+</script>

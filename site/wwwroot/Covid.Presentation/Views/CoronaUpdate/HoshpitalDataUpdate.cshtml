@@ -1,0 +1,82 @@
+﻿@model Covid.Infrastructure.ViewModel.CoronaDashboard.vmCoronaDashboard
+@using Covid.Infrastructure.Helpers;
+@using Covid.Core.Common;
+@{
+    if (SessionHelper.UserDetails != null)
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+
+    }
+    else
+    {
+        Layout = null;
+    }
+}
+    <div class="row">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">Hospital Data Update </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                   
+                        <div class="table-responsive">
+
+                            <table id="x" class="table table-bordered">
+                                <thead>
+                                    <tr role="row">
+                                       
+                                        <th >Name of Hospital</th>
+                                        <th >O2 Supported beds</th>
+                                        <th >Isolated beds</th>
+                                        <th >ICU beds</th>
+                                        <th> Submit Data </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @if (Model.DashboardHospitalStatusList != null)
+                                    {
+                                        foreach (var i in Model.DashboardHospitalStatusList.OrderBy(i => i.HoshId))
+                                        {
+                                           
+                                    <tr role="row" class="odd">
+                                        <td tabindex="0" class="sorting_1">@i.HoshName</td>
+                                        <form action="~/CoronaDashboard/UpdateHospitalData" method="post" id="myForm">
+                                            <td>
+                                                <input type="text" name="witho2" value=@i.OccOxygenBed >
+                                            </td>
+                                            <td>
+                                                <input type="text" name="withouto2" value=@i.OccIsolationBed>
+                                            </td>
+                                            <td>
+                                                <input type="text" name="ICU"  value=@i.OccICUBed>
+                                            </td>
+
+                                            <td>
+                                                <input type="hidden" name="HoshId"  value=@i.HoshId />
+                                                <input type="submit" value="Submit" />
+
+                                            </td>
+                                        </form>
+
+                                    </tr>
+                                                
+
+                                        }
+                                     }
+
+
+
+                                        </tbody>
+
+                            </table>
+                        </div>
+                </div>
+            </div>
+            </div>
+    </div>

@@ -1,0 +1,98 @@
+﻿@model Covid.Infrastructure.ViewModel.SeroSurve.vmSeroSurve
+
+@{
+    ViewBag.Title = "GetSeroSurveDetails";
+}
+
+@section HomeDesign
+   {
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+            <li class="breadcrumb-item"><a href="@Url.Action("DashBoard", "DashBoard")"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item">
+                Sero Surve Form Search
+            </li>
+        </ol>
+    </nav>
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0"></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+
+                <div class="form-group">
+                    <label class="form-control-label" for="input-country">Search Sero Surve</label>
+                    <input type="text" class="form-control col-sm-11" id="datepicker" placeholder="Date Range">
+
+                </div>
+
+
+            </div>
+
+            <div id="DataView" style="height: 500px; overflow: auto">
+
+                @Html.Partial("~/Views/SeroSurve/PartialViews/GetSeroSurveDetailsPartial.cshtml", Model)
+
+            </div>
+
+
+        </div>
+
+    </div>
+</div>
+
+<script>
+
+
+    var ChangeData = function () {
+
+
+        var SelectedDate = $("#datepicker").val();
+
+
+
+        $.ajax({
+            url: '/SeroSurve/GetSeroSurveDetails',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+
+                SelectedDate: SelectedDate
+
+
+            }),
+            success: function (data) {
+
+                $("#DataView").html("");
+                $("#DataView").append(data);
+
+            },
+            error: function () {
+
+            },
+        });
+    }
+    $(function () {
+        $("#datepicker").on('apply.daterangepicker', function (ev, picker) {
+            $(this).val(picker.startDate.format('MM/DD/YYYY') + '-' + picker.endDate.format('MM/DD/YYYY'));
+            ChangeData()
+
+        });
+        $('#datepicker').on('cancel.daterangepicker', function (ev, picker) {
+            //do something, like clearing an input
+            $('#datepicker').val('');
+            ChangeData()
+        });
+    });
+
+
+</script>

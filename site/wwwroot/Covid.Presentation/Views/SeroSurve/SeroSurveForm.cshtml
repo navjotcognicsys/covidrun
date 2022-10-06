@@ -1,0 +1,574 @@
+﻿@model Covid.Infrastructure.ViewModel.SeroSurve.vmSeroSurve
+ @{   
+     Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="covid-19 Information">
+    <meta name="author" content="covid-19 Information">
+    <title>covid-19 Information || SERO SURVEILLANCE PROFORMA  </title>
+    <!-- Favicon -->
+    <link rel="icon" href="assets/img/brand/favicon.png" type="image/png">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <!-- Icons -->
+    <link rel="stylesheet" href="assets/vendor/nucleo/css/nucleo.css" type="text/css">
+
+    <!-- Page plugins -->
+    <!-- Argon CSS -->
+    <link rel="stylesheet" href="assets/css/argon.css?v=1.2.0" type="text/css">
+    <script type="text/javascript">
+        function scrollToImportantStuff() {
+            document.getElementById('impDiv').scrollIntoView()
+        }
+        window.onload = scrollToImportantStuff;
+    </script>
+</head>
+<body>
+    <!-- Sidenav -->
+    <!-- Main content -->
+    <div class="main-content" id="panel">
+        <!-- Topnav -->
+        <!-- Header -->
+        <!-- Header -->
+        <div class="header bg-primary pb-6">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <div class="row align-items-center py-4">
+                        <div class="col-lg-6 col-7">
+                           
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page content -->
+        <div id="impDiv"> </div>
+        <div class="container-fluid mt--6">
+            <div class="row">
+                <div class="col">
+                  
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h3 class="mb-0">
+                                        SERO SURVEILLANCE PROFORMA
+                                    </h3>
+                                    <h4>
+                                        @if (TempData["msg"] != null)
+                                        {
+                                            <p class="mb-0" id="successMessage">@TempData["msg"]</p>
+                                        }
+
+                                    </h4>
+                                </div>
+                            </div>
+                        </div>
+                        
+                            <div class="card-body">
+                                <form  action="@Url.Action("AddSeroSurve", "SeroSurve")" method="post" id="target">
+                                    <div class="">
+                                        <div class="row">
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.Label("Ward", new { @class = "form-control-label" })
+                                                    <select class="form-control" id="WardId" name="WardId" required>
+                                                        <option value="" selected>Please Select </option>
+                                                        @foreach (var i in Model.WardList)
+                                                        {
+                                                            var displayValue = i.LocalBodyID + "-" + i.LocalBodyName;
+                                                            <option value="@displayValue">@i.LocalBodyName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">निवास स्थल का चयन करें *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.Address, new { Name = "Address", @class = "form-control", @id = "input-Address", @required = "required" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-username">Name * </label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.Name, new { Name = "Name", @class = "form-control", @id = "input-Name", @required = "required" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-last-name">Mobile No. *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.Mobile, new { Name = "Mobile", @class = "form-control", @id = "input-Name", @required = "required", pattern = @"^\d{10}$", title = "Please enter 10 digit mobile number", @maxlength = "10" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">Email</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.Email, new { Name = "Email", @class = "form-control", @id = "input-email", @type = "email" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">माता / पिता / पति का नाम *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.ParentsName, new { Name = "ParentsName", @class = "form-control", @id = "input-ParentsName", @required = "required" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">प्रतिभागी की आयु (वर्षों में) *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.Age, new { Name = "Age", @class = "form-control", @id = "input-Age", @required = "required", pattern = "[0-9]+", title = "number only", @maxlength = "2" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">लिंग का चयन करें *</label>
+                                                    <select name="Gender" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">पुरुष</option>
+                                                        <option value="false">महिला</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">क्या नमूने का चयन संभव है </label>
+                                                    <select name="IsSamplePossible" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">
+                                                        यदि नही
+                                                    </label>
+                                                    <select name="CauseForNoSample" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="1">
+                                                            सहमति प्राप्त नहीं
+                                                        </option>
+                                                        <option value="2">
+                                                            सभी रहवासिओं का RT-PCR पॉजिटिव होना
+                                                        </option>
+                                                        <option value="3">
+                                                            किसी भी रहवासी का योग्य न होना
+                                                        </option>
+                                                        <option value="4">
+                                                            मकान बंद होना
+                                                        </option>
+                                                        <option value="5">
+                                                            किसी का भी जबलपुर रहवासी न होना
+                                                        </option>
+                                                        <option value="6">
+                                                            कोई भी अन्य अपेक्षित कारण
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">
+                                                        प्रतिभागी की उच्चतम योग्यता *
+                                                    </label>
+                                                    <select name="HighestEdu" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="1">
+                                                            निरक्षर
+                                                        </option>
+                                                        <option value="2">
+                                                            प्राथमिक शिक्षा
+                                                        </option>
+                                                        <option value="3">
+                                                            माध्यमिक
+                                                        </option>
+                                                        <option value="4">
+                                                            स्नातक
+                                                        </option>
+                                                        <option value="5">
+                                                            स्नातकोत्तर
+                                                        </option>
+                                                        <option value="6">
+                                                            व्यावसायिक
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">व्यवसाय(सटीक व्यवसाय) *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.Occupation, new { Name = "Occupation", @class = "form-control", @id = "input-Occupation", @required = "required" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">
+                                                        व्यवसाय का प्रकार
+                                                    </label>
+                                                    <select name="OccupationType" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="1">
+                                                            स्वरोजगार
+                                                        </option>
+                                                        <option value="2">
+                                                            वेतनभोगी नौकरी
+                                                        </option>
+                                                        <option value="3">
+                                                            दैनिक मज़दूरी
+                                                        </option>
+                                                        <option value="4">
+                                                            व्यवसाय
+                                                        </option>
+                                                        <option value="5">
+                                                            अन्य
+                                                        </option>
+
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">क्या आप या आपके परिवार का कोई व्यक्ति लोक्ड़ाउन के समय आवश्यक सेवाओं में कार्यरत था ? * </label>
+                                                    <select name="IsWorkEmergency" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">
+                                                        यदि आपका का जबाब हाँ है तो बताएं
+                                                    </label>
+                                                    <select name="WhoWork" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="1">
+                                                            डॉक्टर
+                                                        </option>
+                                                        <option value="2">
+                                                            एएनएम
+                                                        </option>
+                                                        <option value="3">
+                                                            आशा
+                                                        </option>
+                                                        <option value="4">
+                                                            पुलिस
+                                                        </option>
+                                                        <option value="5">
+                                                            रिटेलर
+                                                        </option>
+                                                        <option value="6">
+                                                            डिलीवरी बॉय
+                                                        </option>
+                                                        <option value="7">
+                                                            बैंक
+                                                        </option>
+                                                        <option value="8">
+                                                            सब्जी विक्रेता
+                                                        </option>
+                                                        <option value="9">
+                                                            दूध विक्रेता
+                                                        </option>
+                                                        <option value="10">
+                                                            किसान
+                                                        </option>
+                                                        <option value="11">
+                                                            किराना विक्रेता
+                                                        </option>
+                                                        <option value="12">
+                                                            मेडिकल स्टोर
+                                                        </option>
+                                                        <option value="13">
+                                                            ड्राईवर
+                                                        </option>
+                                                        <option value="14">
+                                                            Other
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">निम्न में से कोई भी सरकारी पत्र *</label>
+                                                    <select name="GovtIdType" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="1">Adhar</option>
+                                                        <option value="2">PAN</option>
+                                                        <option value="3">Driving Licenece </option>
+                                                        <option value="4">Voter ID</option>
+                                                        <option value="5">Other </option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">निम्न में से कोई भी सरकारी पत्र क्रमांक *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.GovtId, new { Name = "GovtId", @class = "form-control", @id = "input-GovtId", @required = "required" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">आपके परिवार में कितने सदस्य रहते है *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.NumberofFamily, new { Name = "NumberofFamily", @class = "form-control", @id = "input-NumberofFamily", @required = "required", pattern = "[0-9]+", title = "number only", @maxlength = "2" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">पुरुषों की संख्या *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.MaleMember, new { Name = "MaleMember", @class = "form-control", @id = "input-MaleMember", @required = "required", pattern = "[0-9]+", title = "number only", @maxlength = "2" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">स्त्रीयों की संख्या</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.FemaleMember, new { Name = "FemaleMember", @class = "form-control", @id = "input-FemaleMember", @required = "required", pattern = "[0-9]+", title = "number only", @maxlength = "2" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">बच्चों की संख्या (18 वर्ष से कम आयु) *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.KidsNumber, new { Name = "KidsNumber", @class = "form-control", @id = "input-KidsNumber", @required = "required", pattern = "[0-9]+", title = "number only", @maxlength = "2" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">वयस्को की संख्या (18 वर्ष से ज्यादा) *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.AdlutNumber, new { Name = "AdlutNumber", @class = "form-control", @id = "input-AdlutNumber", @required = "required", pattern = "[0-9]+", title = "number only", @maxlength = "2" })
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">परिवार की औषत मासिक आय *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.FamilyMontlyIncome, new { Name = "FamilyMontlyIncome", @class = "form-control", @id = "input-FamilyMontlyIncome", @required = "required", pattern = "[0-9]+", title = "number only", @maxlength = "6" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">BPL कार्ड धारक </label>
+                                                    <select name="IsBPL" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">मकान का प्रकार </label>
+                                                    <select name="HomeType" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="1">स्वतंत्र घर</option>
+                                                        <option value="2">अपार्टमेंट</option>
+                                                        <option value="3">सोसायटी</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">मकान में कमरों की कुल संख्या  *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.TotalRoom, new { Name = "TotalRoom", @class = "form-control", @id = "input-TotalRoom", @required = "required", pattern = "[0-9]+", title = "number only", @maxlength = "2" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">मकान का कुल क्षेत्रफल(sq ft) *</label>
+                                                    @Html.TextBoxFor(x => x.SeroSurve.TotalArea, new { Name = "TotalArea", @class = "form-control", @id = "input-TotalArea", @required = "required", pattern = "[0-9]+", title = "number only", @maxlength = "5" })
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">घर का स्थान </label>
+                                                    <select name="HomeArea" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">नान स्लम</option>
+                                                        <option value="false">स्लम</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-Batroom">स्नान घर / शौचालय की सुविधा  </label>
+                                                    <select name="Batroom" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="1">घर में सबके लिए एक</option>
+                                                        <option value="2">सामुदायिक</option>
+                                                        <option value="3">सबके लिए अलग अलग</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">मधुमेह  </label>
+                                                    <select name="IsDiabities" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">उच्च रक्तचाप  </label>
+                                                    <select name="BP" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">कर्क रोग  </label>
+                                                    <select name="IsCancer" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">गुर्दे की बीमारी  </label>
+                                                    <select name="IsKidney" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">फेफड़े की बीमारी  </label>
+                                                    <select name="IsLungs" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">ह्र्दय रोग   </label>
+                                                    <select name="IsHeart" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">जिगर की बीमारी  </label>
+                                                    <select name="IsLiver" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">अंग प्रत्यारोपण/ इम्यूनोसप्रेसेंट थेरेपी  </label>
+                                                    <select name="IsOrgantransplant" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">विकलांगता   </label>
+                                                    <select name="IsDisable" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">
+                                                        रक्त रोग
+                                                    </label>
+                                                    <select name="IsBlood" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">क्या आपने कभी भी कोविड 19 के लिये RT- PCR जाँच करायी है  </label>
+                                                    <select name="IsPCR" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">
+                                                        क्या आपको ILI( सर्दी, खांसी, तथा बुखार) के लक्षण है *
+                                                    </label>
+                                                    <select name="IsILI" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-HomeArea">क्या आपको SARI ( सर्दी , खांसी, बुखार तथा साँस लेने में कठिनाई) के लक्षण है * </label>
+                                                    <select name="IsSARI" class="form-control View_Drop OverIew">
+                                                        <option disabled="" value="">Please Select</option>
+                                                        <option value="true">हाँ</option>
+                                                        <option value="false">नहीं</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <input type="submit" id="input-Rural/Urban" class="btn btn-primary" value="Submit">
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <button type="button" class="btn btn-primary" onclick="location.href='@Url.Action("OpenSeroSurveDetails", "SeroSurve")'">Sero Surve Filled by Me</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+
+                    </div>
+            </div>
+            <!-- Footer -->
+        </div>
+        
+       
+    </div>
+
+  
+</body>
+</html>

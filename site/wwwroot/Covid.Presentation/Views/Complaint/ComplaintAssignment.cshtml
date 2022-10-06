@@ -1,0 +1,256 @@
+﻿@using Covid.Infrastructure.Helpers;
+
+@model Covid.Infrastructure.ViewModel.Complaint.vmComplaint
+
+@{
+    ViewBag.Title = "ComplaintAssignment";
+}
+
+
+
+<div class="row">
+    <div class="col">
+        <form action="~/Complaint/UpdateandAssignComplaint" method="post" id="target">
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">Complaint Details </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-lg-7">
+                                <div class="table-responsive">
+                                    <!-- Projects table -->
+                                    <table class="table align-items-center table-flush">
+                                        <thead class="thead-light">
+                                            <tr>
+                                                <th scope="col">Complaint Id  </th>
+                                                <th scope="col">Complaint By  </th>
+                                                <th scope="col">Complaint Details  </th>
+                                                <th scope="col">Remarks  </th>
+                                                <th scope="col">Address</th>
+                                                <th scope="col">Phone</th>
+                                                <th scope="col">AssignTo</th>
+                                                <th scope="col">AssignOn</th>
+                                                <th scope="col">AssignBy</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var x in Model.ComplaintDetailsList)
+                                            {
+                                                <tr>
+                                                    <th scope="row">@x.ComplaintId</th>
+                                                    <th scope="row">@x.Name</th>
+                                                    <td>@x.Details</td>
+                                                    <td>@x.Remark</td>
+                                                    <td>@x.Address</td>
+                                                    <td>@x.MobileNo</td>
+                                                    <td>@x.AssignToName</td>
+                                                    <td>@x.AssignOn</td>
+                                                    <td>@x.AssignByName</td>
+                                                </tr>
+                                            }
+
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <input type="hidden" name="ComplaintId" value="@Model.ComplaintDetails.ComplaintId">
+                            <div class="col-lg-5">
+                                @if (SessionHelper.UserDetails.UserTypeId == 1)
+                                {
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">LocalBody</label>
+                                        <select class="form-control" id="localBodyList" name="LocalBody" required>
+                                            @foreach (var i in Model.LocalBodyList)
+                                            {
+                                                if (i.LocalBodyID == Model.LocalBody.LocalBodyID)
+                                                {
+                                                    <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                                    continue;
+                                                }
+                                                <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                            }
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-email">Zone</label>
+                                        <select class="form-control" id="zoneList" name="Zone" required>
+                                            @if (Model.ZoneBody.LocalBodyID != 0)
+                                            {
+                                                <option selected value="">Please select</option>
+                                                <option  value="@Model.ZoneBody.LocalBodyID">@Model.ZoneBody.LocalBodyName</option>
+
+                                            }
+                                        </select>
+                                        
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-last-name">Ward   </label>
+                                        <select class="form-control" id="wardList" name="Ward" required>
+                                            @if (Model.WardBody.LocalBodyID != 0)
+                                            {
+                                                <option value="">Please select</option>
+                                                <option selected value="@Model.WardBody.LocalBodyID">@Model.WardBody.LocalBodyName</option>
+
+                                            }
+                                        </select>
+                                    </div>
+                                }
+
+
+                                @*<div class="form-group">
+                                        <label class="form-control-label" for="input-email">Assign to</label>
+                                        <select class="form-control" id="Assign" name="AssignTo">
+                                            @foreach (var i in Model.UserType)
+                                            {
+                                                <option value="@i.UserTypeId">@i.UserType</option>
+                                            }
+                                        </select>
+                                    </div>*@
+                                            
+
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Complaint Status</label>
+                                    <select class="form-control" name="Status">
+                                        <option value="1" @(Model.ComplaintDetails.Status == 1 ? "selected" : "")>OPEN</option>
+                                        <option value="2" @(Model.ComplaintDetails.Status == 2 ? "selected" : "")>WORKING</option>
+                                        <option value="3" @(Model.ComplaintDetails.Status == 3 ? "selected" : "")>CLOSED</option>
+                                        <option value="4" @(Model.ComplaintDetails.Status == 4 ? "selected" : "")>REJECT</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Remarks</label>
+                                    <textarea class="form-control" name="Remark"></textarea>@Model.ComplaintDetails.Remark
+                                </div>
+                                <div class="form-group">
+                                    <input type="submit" id="input-Rural/Urban" class="btn btn-primary" value="Submit">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+    </div>
+</div>
+
+
+<script>
+
+    //$(document).ready(function () {
+    //    $('#localBodyList').val("1");
+    //    $.ajax({
+    //        url: "/Complaint/GetZoneDropDown",
+    //        type: "POST",
+    //        async: false,
+    //        dataType: "json",
+    //        data: { LocalBodyId: $('#localBodyList').val() },
+    //        success: function (data) {
+    //            for (var i = 0; i < data.length; i++) {
+    //                var x = data[i];
+    //                $('#zoneList').append(`<option value="${x.LocalBodyID}">
+    //                                   ${x.LocalBodyName}
+    //                              </option>`);
+    //            }
+
+    //        }
+    //    })
+
+    //    $.ajax({
+    //        url: "/Complaint/GetZoneDropDown",
+    //        type: "POST",
+    //        async: false,
+    //        dataType: "json",
+    //        data: { LocalBodyId: $('#zoneList').val() },
+    //        success: function (data) {
+    //            for (var i = 0; i < data.length; i++) {
+    //                var x = data[i];
+    //                $('#wardList').append(`<option value="${x.LocalBodyID}">
+    //                                   ${x.LocalBodyName}
+    //                              </option>`);
+    //            }
+
+    //        }
+    //    })
+    //});
+
+                var localityUrl = '@Url.Action("GetZoneDropDown","Complaint")';
+			var subLocalityUrl = '@Url.Action("GetZoneDropDown","Complaint")';
+			var localities = $('#zoneList');
+        var subLocalities = $('#wardList');
+        $('#localBodyList').change(function () {
+				localities.empty();
+				subLocalities.empty();
+				$.getJSON(localityUrl, { LocalBodyId: $(this).val() },function(data) {
+					if (!data) {
+						return;
+					}
+				 localities.append($('<option></option>').val('').text('Please select'));
+                    $.each(data, function (index, item) {
+                        localities.append($('<option></option>').val(item.LocalBodyID).text(item.LocalBodyName));
+					});
+				});
+        })
+        $('#zoneList').change(function () {
+				subLocalities.empty();
+				$.getJSON(subLocalityUrl, { LocalBodyId: $(this).val() },function(data) {
+					if (!data) {
+						return;
+					}
+					subLocalities.append($('<option></option>').val('').text('Please select'));
+                    $.each(data, function (index, item) {
+                        debugger;
+						subLocalities.append($('<option></option>').val(item.LocalBodyID).text(item.LocalBodyName));
+					});
+				});
+			})
+    //$('#localBodyList').change(function () {
+
+    //    $.ajax({
+    //        url: "/Complaint/GetZoneDropDown",
+    //        type: "POST",
+    //        dataType: "json",
+    //        data: { LocalBodyId: $(this).val() },
+    //        success: function (data) {
+    //            $('#zoneList').find('option').remove();
+    //            $('#wardList').find('option').remove();
+    //            for (var i = 0; i < data.length; i++) {
+    //                var x = data[i];
+    //                $('#zoneList').append(`<option value="${x.LocalBodyID}">
+    //                                   ${x.LocalBodyName}
+    //                              </option>`);
+    //            }
+
+    //        }
+    //    })
+    //});
+    //$('#zoneList').change(function () {
+    //    //alert();
+    //    debugger;
+    //    $.ajax({
+    //        url: "/Complaint/GetZoneDropDown",
+    //        type: "POST",
+    //        dataType: "json",
+    //        data: { LocalBodyId: $(this).val() },
+    //        success: function (data) {
+    //            $('#wardList').find('option').remove();
+    //            for (var i = 0; i < data.length; i++) {
+    //                var x = data[i];
+    //                $('#wardList').append(`<option value="${x.LocalBodyID}">
+    //                                   ${x.LocalBodyName}
+    //                              </option>`);
+    //            }
+
+    //        }
+    //    })
+    //});
+</script>

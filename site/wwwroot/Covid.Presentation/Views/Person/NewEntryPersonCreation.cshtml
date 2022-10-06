@@ -1,0 +1,176 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmPerson
+@{
+     Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+    <html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="covid-19 Information">
+        <meta name="author" content="covid-19 Information">
+        <title>Person Registration </title>
+        <!-- Favicon -->
+        <link rel="icon" href="assets/img/brand/favicon.png" type="image/png">
+        <!-- Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+        <!-- Icons -->
+        <link rel="stylesheet" href="assets/vendor/nucleo/css/nucleo.css" type="text/css">
+
+        @*<link rel="stylesheet" href="assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">*@
+        <!-- Page plugins -->
+        <!-- Argon CSS -->
+        <link rel="stylesheet" href="assets/css/argon.css?v=1.2.0" type="text/css">
+    </head>
+    <body>
+        <div class="row">
+            <div class="col">
+                <form action="~/Person/SubmitNewEntryPersonCreation" method="post">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="row align-items-center">
+                                <div class="col-8">
+                                    <h3 class="mb-0">Out sider Form  </h3>
+                                </div>
+                            </div>
+                        </div>
+                        @if (TempData["PersonMessage"] != null)
+                        {
+                            <div class="alert alert-info">
+                                <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+                                @TempData["PersonMessage"]
+                            </div>
+                        }
+                        <div class="card-body">
+                            <div class="">
+                                <div class="row">
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">
+                                                Name *
+                                            </label>
+                                            <input type="text" id="Name" class="form-control" name="Name" placeholder="" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-first-name">Gender</label>
+                                            <div class="row mt-2">
+                                                <div class="col-lg-6">
+                                                    <div class="custom-control custom-control-alternative custom-radio">
+                                                        <input class="custom-control-input" id="Male" name="Gender" value="Male" type="radio" required>
+                                                        <label class="custom-control-label" for="Male">
+                                                            <span class="text-muted"> Male </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="custom-control custom-control-alternative custom-radio">
+                                                        <input class="custom-control-input" id="Female" name="Gender" value="Female" type="radio">
+                                                        <label class="custom-control-label" for="Female">
+                                                            <span class="text-muted"> Female </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6">
+                                                    <div class="custom-control custom-control-alternative custom-radio">
+                                                        <input class="custom-control-input" id="Other" name="Gender" value="Other" type="radio">
+                                                        <label class="custom-control-label" for="Other">
+                                                            <span class="text-muted"> Other </span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-last-name">Mobile Number *</label>
+                                            <input type="text" id="MobileNumber" name="MobileNumber" class="form-control" placeholder="" pattern="^\d{10}$" title="Please enter a valid 10 digit mobile number." required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Coming from which State (किस राज्य से जबलपुर आना चाहते हैं )  </label>
+                                            <input type="text" id="ComingFromOtherState" name="ComingFromOtherState" class="form-control" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-first-name">
+                                                Full Address of Other State 
+                                            </label>
+                                            <textarea id="ComingAddressofOtherState" class="form-control" placeholder="" name="ComingAddressofOtherState"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-username">Going to which State (जबलपुर से किस राज्य जाना चाहते हैं ) </label>
+                                            <input type="text" id="GoingToOtherState" name="GoingToOtherState" class="form-control" placeholder="">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-first-name">
+                                                Full Address of Other State
+                                            </label>
+                                            <textarea id="GoingAddressofOtherState" class="form-control" placeholder="" name="GoingAddressofOtherState"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-last-name">
+                                                Full address of Jabalpur *
+                                            </label>
+                                            <input type="text" id="AddressofJabalpur" class="form-control" placeholder="" name="AddressofJabalpur" required>
+                                        </div>
+                                    </div>
+
+
+
+
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-email">Occupation *</label>
+                                            <input type="text" id="Occupation" name="Occupation" class="form-control" placeholder="" />
+                                        </div>
+                                    </div>
+
+
+
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label class="form-control-label" for="input-city">
+                                                No of Persons *
+                                            </label>
+                                            <input type="text" id="input-District" class="form-control" name="NoofPersons" placeholder="" required>
+                                        </div>
+                                    </div>
+
+
+
+
+
+
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <input type="submit" id="input-Rural/Urban" class="btn btn-primary" value="Submit">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </body>
+
+</html>
+

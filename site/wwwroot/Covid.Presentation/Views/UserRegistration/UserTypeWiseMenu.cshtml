@@ -1,0 +1,21 @@
+﻿
+@model List<Covid.Core.DBEntities.UserDetails.UserTypeMenuMaster>
+@{
+    var c ="";
+}
+
+@foreach (var i in Model)
+{
+    { c = Request.Url.PathAndQuery.Equals(i.MenuURL==null?"":i.MenuURL) ? "active" : ""; }
+
+    <li class="nav-item">
+        <a class="nav-link @c" href="@i.MenuURL">
+            <i class="ni ni-books text-primary"></i>
+            <span class="nav-link-text">@i.MenuName</span>
+        </a>
+    </li>
+    <input type="hidden" class="counter" value="@c" />
+
+
+}
+

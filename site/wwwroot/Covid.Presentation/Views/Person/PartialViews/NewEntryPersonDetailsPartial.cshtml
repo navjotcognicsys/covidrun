@@ -1,0 +1,150 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmPerson
+
+@{
+    //var m = Model.QList.Select(x => new { x.PersonId, x.PersonName, x.MobileNo, x.Address }).Distinct();
+    var c = 1;
+}
+@if (TempData["PersonMessage"] != null)
+{
+    <div class="alert alert-info">
+        <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+        @TempData["PersonMessage"]
+    </div>
+}
+@if (Model.OutSiderFormList != null)
+{
+
+
+    <div class="table-responsive">
+
+        <table id="" class="table table-bordered example">
+            <thead>
+                <tr role="row">
+                    <th>Serial Number</th>
+                    <th>
+                        Person Id
+                    </th>
+                    <th>
+                        Person Name
+                    </th>
+                    <th>
+                        Gender
+                    </th>
+                    <th>
+                        Mobile No.
+                    </th>
+                    <th>
+                       Coming from Other State
+                    </th>
+
+                   
+                    <th>
+                        Coming from Other State full Address
+                    </th>
+                    <th>
+                       Going to Other State
+                    </th>
+                    <th>
+                        Going to Other State full Address
+                    </th>
+                    <th>
+                        Address of Jabalpur
+                    </th>
+                    <th>
+                        Occupation
+                    </th>
+                    <th>
+                        No of Person
+                    </th>
+                    <td>
+                        Created Date
+                    </td>
+                  
+
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.OutSiderFormList != null)
+                {
+                    foreach (var j in Model.OutSiderFormList)
+                    {
+                <tr role="row" class="odd">
+                    <td>@c</td>
+                    <td>@j.ID</td>
+
+                    <td>@j.Name</td>
+                    <td>@j.Gender</td>
+                    <td>
+                        @j.MobileNumber
+                    </td>
+                    <td>@j.ComingFromOtherState</td>
+
+                    <td>@j.ComingAddressofOtherState</td>
+                    @*<td>@j.Checkedby</td>*@
+
+                    <td>@j.GoingToOtherState</td>
+                    <td>@j.GoingAddressofOtherState</td>
+                    <td>@j.AddressofJabalpur</td>
+
+                    <td>
+                        @j.Occupation
+                    </td>
+                    <td>
+                        @j.NoofPersons
+                    </td>
+                    <td>
+                        @j.CreatedDate
+                    </td>
+                </tr>
+                        { c = c + 1; }
+                    }
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+
+
+
+
+}
+else
+{
+    <p>No data </p>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.example').DataTable({
+            responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Excel data'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'PDF data',
+                     orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+                }
+            ]
+        });
+    });
+
+</script>

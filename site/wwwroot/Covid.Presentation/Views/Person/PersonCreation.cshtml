@@ -1,0 +1,421 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmPerson
+@using Covid.Core.Enum
+@{
+    ViewBag.Title = "PersonCreation";
+}
+
+@section HomeDesign
+   {
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+            <li class="breadcrumb-item"><a href="@Url.Action("DashBoard", "DashBoard")"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item">
+                Person Creation
+            </li>
+        </ol>
+    </nav>
+}
+<div class="row">
+
+    <div class="col">
+        <form action="~/Person/GetPersonCreation" method="post">
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">Personal Creations </h3>
+                        </div>
+                    </div>
+                </div>
+                @if (TempData["PersonMessage"] != null)
+                {
+                    <div class="alert alert-info">
+                        <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+                        @TempData["PersonMessage"]
+                    </div>
+                }
+                <div class="card-body">
+
+                    <div class="">
+                        <div class="row">
+                            @Html.HiddenFor(model => model.PersonDetail.PersonId)
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Related Person ID</label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.PersonRelationID, new { @class = "form-control col-md-7 col-xs-12", type = "text" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Person Name*  </label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.PersonName, new { @class = "form-control col-md-7 col-xs-12", type = "text", required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Mobile No.* </label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.Mobileno, new { @class = "form-control col-md-7 col-xs-12", type = "number", required = "required", pattern = @"^\d{10}$", title = "Please enter a valid 10 digit mobile number." })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">Email</label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.Email, new { @class = "form-control col-md-7 col-xs-12", type = "email" })
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Address* </label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.Address, new { @class = "form-control col-md-7 col-xs-12", type = "Text", required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Date of Arrival* </label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.Dateofarrival, new { @class = "form-control col-md-7 col-xs-12", type = "date" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Coming From* </label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.ComingFrom, new { @class = "form-control col-md-7 col-xs-12", type = "Text" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Going To* </label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.GoingTo, new { @class = "form-control col-md-7 col-xs-12", type = "Text" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Permanent Address*</label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.PermanentAddress, new { @class = "form-control col-md-7 col-xs-12", type = "Text", required = "required" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Health Status </label>
+                                    <select name="HealthStatus" class="form-control View_Drop OverIew">
+                                        @if (Model.PersonDetail.HealthStatus == 1)
+                                        {
+                                            <option selected value="1">Sick</option>
+                                            <option value="0">Fit</option>
+
+                                        }
+                                        else if (Model.PersonDetail.HealthStatus == 0)
+                                        {
+                                            <option value="1">Sick</option>
+                                            <option value="0" selected>Fit</option>
+                                        }
+                                        else
+                                        {
+                                            <option disabled="" value="">Please Select</option>
+                                            <option value="1">Sick</option>
+                                            <option value="0">Fit</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Local Body*</label>
+                                    <select class="form-control" name="LocalBodyId" id="LBID">
+                                        <option value=selected>Local Body</option>
+                                        @if (Model.LocalBodyList.Count() != 0)
+                                        {
+                                            foreach (var i in Model.LocalBodyList)
+                                            {
+                                                if (@i.LocalBodyID == Model.PersonDetail.LocalBodyId)
+                                                {
+                                                    <option selected value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                                    continue;
+                                                }
+                                                <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Zone </label>
+                                    <select class="form-control" name="ZoneId" id="ZID">
+                                        @if (Model.GetZoneList.Count() != 0)
+                                        {
+                                            foreach (var i in Model.GetZoneList)
+                                            {
+                                                if (@i.LocalBodyID == Model.PersonDetail.ZoneId)
+                                                {
+                                                    <option selected value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                                    continue;
+                                                }
+                                                <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Ward  </label>
+                                    <select class="form-control" name="WardId" id="WID">
+                                        @if (Model.GetWardList.Count() != 0)
+                                        {
+                                            foreach (var i in Model.GetWardList)
+                                            {
+                                                if (@i.LocalBodyID == Model.PersonDetail.WardId)
+                                                {
+                                                    <option selected value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                                    continue;
+                                                }
+                                                <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Positive *</label>
+                                    <select name="Positive" class="form-control View_Drop OverIew" required>
+                                        @if (Model.PersonDetail.IsPositive == 1)
+                                        {
+                                            <option selected value="1">Yes</option>
+                                            <option value="0">No</option>
+
+                                        }
+                                        else if (Model.PersonDetail.IsPositive == 0)
+                                        {
+                                            <option value="1">Yes</option>
+                                            <option value="0" selected>No</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="">Please Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Travel Mode </label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.TravelMode, new { @class = "form-control col-md-7 col-xs-12", type = "Text" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Infection Source </label>
+                                    <select name="InfectionSource" class="form-control col-sm-8 View_Drop">
+                                        <option value=selected>Please Select User</option>
+                                        @if (Model.InfectionSourceList != null || Model.InfectionSourceList.Count() > 0)
+                                        {
+                                            foreach (var i in Model.InfectionSourceList)
+                                            {
+                                                if (i.InfectionId == Model.PersonDetail.InfectionSource)
+                                                {
+                                                    <option selected value="@i.InfectionId">@i.InfectionSource</option>
+                                                    continue;
+                                                }
+                                                <option value="@i.InfectionId">@i.InfectionSource</option>
+                                            }
+
+                                        }
+
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Quarantine *</label>
+                                    <select name="Quarantine" class="form-control View_Drop OverIew" required>
+                                        @if (Model.PersonDetail.Isquarantine == 1)
+                                        {
+                                            <option selected value="1">Yes</option>
+                                            <option value="0">No</option>
+
+                                        }
+                                        else if (Model.PersonDetail.Isquarantine == 0)
+                                        {
+                                            <option value="1">Yes</option>
+                                            <option value="0" selected>No</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="">Please Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Sticker *</label>
+                                    <select name="Sticker" class="form-control View_Drop OverIew" required>
+                                        @if (Model.PersonDetail.IsSticker == 1)
+                                        {
+                                            <option selected value="1">Yes</option>
+                                            <option value="0">No</option>
+
+                                        }
+                                        else if (Model.PersonDetail.IsSticker == 0)
+                                        {
+                                            <option value="1">Yes</option>
+                                            <option value="0" selected>No</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="">Please Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Quarantine Date </label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.QuarantineDate, new { @class = "form-control col-md-7 col-xs-12", type = "date" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Sticker Date </label>
+                                    @Html.TextBoxFor(model => model.PersonDetail.StickerDate, new { @class = "form-control col-md-7 col-xs-12", type = "date" })
+                                </div>
+                            </div>
+                            @if (Model.PersonDetail.PersonId != 0)
+                            {
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-last-name">Current Location </label>
+                                        @Html.TextBoxFor(model => model.PersonDetail.CurrentLocation, new { @class = "form-control col-md-7 col-xs-12", type = "text" })
+                                    </div>
+                                </div>
+                            }
+                            @*<div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-last-name">Created By </label>
+                                        @Html.TextBoxFor(model => model.PersonDetail.CreatedBy, new { @class = "form-control col-md-7 col-xs-12", type = "Text" })
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-last-name">Created On </label>
+                                        @Html.TextBoxFor(model => model.PersonDetail.CreatedOn, new { @class = "form-control col-md-7 col-xs-12", type = "date" })
+                                    </div>
+                                </div>*@
+
+                            @*<div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-last-name">Check post Number </label>
+                                        @Html.TextBoxFor(model => model.PersonDetail.CheckpostId, new { @class = "form-control col-md-7 col-xs-12", type = "number" })
+                                    </div>
+                                </div>*@
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">Suspect </label>
+                                    <select name="Suspect" class="form-control View_Drop OverIew" required>
+                                        @if (Model.PersonDetail.IsSuspect == 1)
+                                        {
+                                            <option selected value="1">Yes</option>
+                                            <option value="0">No</option>
+
+                                        }
+                                        else if (Model.PersonDetail.IsSuspect == 0)
+                                        {
+                                            <option value="1">Yes</option>
+                                            <option value="0" selected>No</option>
+                                        }
+                                        else
+                                        {
+                                            <option value="">Please Select</option>
+                                            <option value="1">Yes</option>
+                                            <option value="0">No</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <input type="submit" id="input-Rural/Urban" class="btn btn-primary" value="Submit">
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+     var localityUrl = '@Url.Action("FetchZone","Person")';
+			var subLocalityUrl = '@Url.Action("FetchWard","Person")';
+			var localities = $('#ZID');
+    var subLocalities = $('#WID');
+    $('#LBID').click(function () {
+				localities.empty();
+				subLocalities.empty();
+				$.getJSON(localityUrl, { ID: $(this).val() },function(data) {
+					if (!data) {
+						return;
+					}
+					localities.append($('<option></option>').val('').text('Please select'));
+					$.each(data, function(index, item) {
+						localities.append($('<option></option>').val(item.Value).text(item.Text));
+					});
+				});
+    })
+    $('#ZID').click(function () {
+				subLocalities.empty();
+				$.getJSON(subLocalityUrl, { ID: $(this).val() },function(data) {
+					if (!data) {
+						return;
+					}
+					subLocalities.append($('<option></option>').val('').text('Please select'));
+					$.each(data, function(index, item) {
+						subLocalities.append($('<option></option>').val(item.Value).text(item.Text));
+					});
+				});
+			})
+</script>
+
+

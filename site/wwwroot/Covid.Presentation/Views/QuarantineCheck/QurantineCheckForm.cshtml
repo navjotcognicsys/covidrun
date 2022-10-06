@@ -1,0 +1,237 @@
+﻿@model Covid.Infrastructure.ViewModel.Quarantine.vmQuarantine
+@using Covid.Infrastructure.Helpers;
+@using Covid.Core.Common;
+@{
+    ViewBag.Title = "QurantineCheckForm";
+    if (SessionHelper.UserDetails!=null)
+    {
+        if (SessionHelper.UserDetails.UserType.ToUpper() == UserTypeCommon.RRT.ToUpper())
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+        else
+        {
+            Layout = null;
+        }
+    }
+    else
+    {
+        Layout = null;
+    }
+}
+
+
+
+<div class="row">
+    <div class="col">
+
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0">Quarantine check </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form action="~/Quarantine/UpdateQuarantineDetails" method="post" id="myForm">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Name </label>
+                                    <input type="hidden" value="@Model.QuarantineDetails.PersonId" name="PersonId" />
+                                    @Html.TextBoxFor(x => x.QuarantineDetails.PersonName, new { Name = "Name", @class = "form-control", @id = "input-Name", @required = "required" })
+                                    @*<input type="text" id="input-Name" class="form-control" placeholder="" required>*@
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Sticker date </label>
+                                    <input type="hidden" id="StickDate1" name="stickerDate1" required value="@Model.QuarantineDetails.CheckedOn">
+                                    <input type="text" id="StickDate" name="stickerDate" class="form-control" placeholder="" value=@Model.QuarantineDetails.StickerDate>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Symptoms</label>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-3">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="Fev" name="Fever" type="checkbox" @(Model.QuarantineDetails.Fever == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="Fev">
+                                                    <span class="text-muted"> Fever</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="Cuf" name="Cough" type="checkbox" @(Model.QuarantineDetails.Cough == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="Cuf">
+                                                    <span class="text-muted"> Cough</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="BreathingProb" name="BreathingProblem" type="checkbox" value="@Model.QuarantineDetails.BreathingProblem" @(Model.QuarantineDetails.Fever == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="BreathingProb">
+                                                    <span class="text-muted"> Breathing problem</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="Na" type="checkbox" value="@Model.QuarantineDetails.BreathingProblem" @(Model.QuarantineDetails.BreathingProblem == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="Na">
+                                                    <span class="text-muted"> NA</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Sticker </label>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="this2" name="Stick" type="radio" value="1" @(Model.QuarantineDetails.AnyNeed == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="this2">
+                                                    <span class="text-muted"> Yes</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="this3" name="Stick" type="radio" value="0" @(Model.QuarantineDetails.AnyNeed == false ? "checked" : "")>
+                                                <label class="custom-control-label" for="this3">
+                                                    <span class="text-muted"> No</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Any Trouble </label>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="AnyTroub1" name="AnyTroub" type="radio" value="1" @(Model.QuarantineDetails.AnyTrouble == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="AnyTroub1">
+                                                    <span class="text-muted"> Yes</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="AnyTroub2" name="AnyTroub" type="radio" value="0" @(Model.QuarantineDetails.AnyTrouble == false ? "checked" : "")>
+                                                <label class="custom-control-label" for="AnyTroub2">
+                                                    <span class="text-muted"> No</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Any Need </label>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="AnyNeedYes" name="AnyNeed" type="radio" @(Model.QuarantineDetails.AnyNeed == true ? "checked" : "") value="True">
+                                                <label class="custom-control-label" for="AnyNeedYes">
+                                                    <span class="text-muted"> Yes</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="AnyNeedNo" name="AnyNeed" type="radio" @(Model.QuarantineDetails.AnyNeed == false ? "checked" : "") value="False">
+                                                <label class="custom-control-label" for="AnyNeedNo">
+                                                    <span class="text-muted"> No</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Remarks </label>
+                                    <textarea type="text" name="Remarks" id="Rmrk" class="form-control" placeholder="">@Model.QuarantineDetails.Remark</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    @if ((SessionHelper.UserDetails==null) || SessionHelper.UserDetails.UserType.ToUpper() == UserTypeCommon.CommandCenter.ToUpper())
+                                    {
+                                        <input type="button" id="input-Rural/Urban" class="btn btn-primary" onclick="myFunction()" value="Submit">
+                                    }
+                                    else
+                                    {
+                                        <input type="submit" id="input-Rural/Urban" class="btn btn-primary" value="Submit">
+                                    }
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<script>
+    function myFunction() {
+
+        $.ajax({
+            url: '/Quarantine/UpdateQuarantineDetails',
+            type: 'post',
+            data: $('#myForm').serialize(),
+            success: function (result) {
+                alert("Form submit successfully");
+                if (result === "OK") {
+                    $("#QuPopup").modal("hide");
+                    return false;
+                }
+
+            }
+        });
+
+
+    }
+    $("#StickDate").datepicker();
+    //function formatDate(date) {
+    //    var d = new Date(date),
+    //        month = '' + (d.getMonth() + 1),
+    //        day = '' + d.getDate(),
+    //        year = d.getFullYear();
+
+    //    if (month.length < 2)
+    //        month = '0' + month;
+    //    if (day.length < 2)
+    //        day = '0' + day;
+
+    //    return [month, day, year].join('-');
+    //}
+    //$(document).ready(function () {
+    //    var x = formatDate($("#StickDate").val())
+    //    $("#StickDate").val(x)
+    //    alert($("#StickDate1").val());
+    //})
+</script>

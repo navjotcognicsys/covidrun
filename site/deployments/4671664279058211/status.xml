@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<deployment>
+  <id>4671664279058211</id>
+  <author>Navjot Shrivastava</author>
+  <deployer>VSTS</deployer>
+  <authorEmail />
+  <message>{"type":"Deployment","commitId":"94b1c0d5a464a42745bf5efc005df0375fd93e70","buildId":"467","buildNumber":"467","repoProvider":"GitHub","repoName":"navjotcognicsys/covidjbp","collectionUrl":"https://dev.azure.com/navjotshrivastava/","teamProject":"bcd77516-5886-4459-aaa2-2a9e696cb81b","buildProjectUrl":"https://dev.azure.com/navjotshrivastava/bcd77516-5886-4459-aaa2-2a9e696cb81b","repositoryUrl":"https://github.com/navjotcognicsys/covidjbp","branch":"master","teamProjectName":"covidjbp","slotName":"production"}</message>
+  <progress />
+  <status>Failed</status>
+  <statusText />
+  <lastSuccessEndTime>2022-09-27T11:44:21.3490661Z</lastSuccessEndTime>
+  <receivedTime>2022-09-27T11:44:21.3490661Z</receivedTime>
+  <startTime>2022-09-27T11:44:21.3490661Z</startTime>
+  <endTime>2022-09-27T11:44:21.3490661Z</endTime>
+  <complete>True</complete>
+  <is_temp>False</is_temp>
+  <is_readonly>True</is_readonly>
+  <project_type></project_type>
+  <vsproject_id></vsproject_id>
+</deployment>

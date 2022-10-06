@@ -1,0 +1,197 @@
+﻿@model Covid.Infrastructure.ViewModel.vmUserDetails.vmUserDetails
+<style>
+    img.two {
+        height: 50%;
+        width: 150%;
+    }
+</style>
+
+
+<div class="table-responsive">
+
+    <table id="" class="table table-bordered example">
+        <thead>
+            <tr role="row">
+
+                <th>
+                    Image
+                </th>
+                <th>
+                    CreatedAt
+                </th>
+                <th>
+                    In Office?
+                </th>
+
+                <th>
+                    Zone
+                </th>
+
+
+
+                <th>
+                    Officer Name
+                </th>
+                <th>
+                    Mobile No
+                </th>
+                <th>
+                    Office
+                </th>
+                <th>
+                    Location
+                </th>
+
+
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.OfList != null)
+            {
+                foreach (var j in Model.OfList)
+                {
+                    <tr role="row" class="odd">
+
+                        <td><img class="two" src="@j.Image" width="300" height="300"></td>
+
+                        <td>@j.AttendanceDate</td>
+
+                        @if (@j.InOffice == "Yes")
+                        {
+                            <td>
+                                <input type="button" style="background:Green" class="btn btn-primary" />
+                            </td>
+                        }
+                        else
+                        {
+                            <td>
+                                <input type="button" style="background:Red" class="btn btn-primary" />
+                            </td>
+                        }
+
+
+                        <td>@j.ZoneName</td>
+
+                        <td>@j.UserName</td>
+                        <td>@j.MobileNumber</td>
+                        <td>
+                            @j.OfficeName
+                            <br />
+                            Zone :-@j.ZoneName
+
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal" data-lat='@j.UserLatitude' data-lng='@j.UserLongitude'>
+                                Show on Map
+                            </button>
+                        </td>
+                    </tr>
+
+                }
+            }
+
+        </tbody>
+
+    </table>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12 modal_body_content">
+                        <p>Attendance on Map</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12 modal_body_map">
+                        <div class="location-map" id="location-map">
+                            <div style="width: 600px; height: 400px;" id="map_canvas"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.example').DataTable({
+            responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Excel data'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'PDF data',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+                }
+            ]
+        });
+    });
+
+</script>
+
+<script>
+
+    $(document).ready(function () {
+        var map = null;
+        var myMarker;
+        var myLatlng;
+        myLatlng = new L.map('map_canvas').setView([23.1815,79.9864], 13);
+        function initializeGMap(lat, lng) {
+
+
+            L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+                attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+                maxZoom: 18,
+                id: 'mapbox/streets-v11',
+                tileSize: 512,
+                zoomOffset: -1,
+                accessToken: 'pk.eyJ1IjoiY29nbmljIiwiYSI6ImNrYXp0MGsxbzAxZDYyem5qb3RvejdtaWQifQ._9vZCJMPlGZZCrwdWrZsKA'
+            }).addTo(myLatlng);
+
+            var marker = L.marker([lat, lng]).addTo(myLatlng);
+        }
+
+        // Re-init map before show modal
+        $('#myModal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            initializeGMap(button.data('lat'), button.data('lng'));
+            $("#location-map").css("width", "100%");
+            $("#map_canvas").css("width", "100%");
+        });
+
+        // Trigger map resize event after modal shown
+        $('#myModal').on('shown.bs.modal', function () {
+            setTimeout(function () {
+                myLatlng.invalidateSize();
+            }, 10);
+        });
+    });
+</script>
+
+
+
+
+

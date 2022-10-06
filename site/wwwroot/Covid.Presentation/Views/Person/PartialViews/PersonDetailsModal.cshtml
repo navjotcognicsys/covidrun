@@ -1,0 +1,213 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmPerson
+
+<div class="table-responsive">
+
+    <table id="x" class="table table-bordered">
+           
+        <thead>
+            <tr role="row">
+                <th>
+                    Person ID
+                </th>
+                <th>
+                    PersonRelationID
+                </th>
+                <th >
+                    Person Name
+                </th>
+
+                <th style="width: 88px;" aria-label="Office: activate to sort column ascending">
+                    Mobile No
+                </th>
+
+                <th>
+                    Address
+                </th>
+
+                <th>
+                    Email
+                </th>
+
+                <th>
+                    Date Of Arrival
+                </th>
+
+                <th>
+                    Coming From
+                </th>
+
+                <th>
+                    GoingTo
+                </th>
+
+                <th>
+                    Permanent Address
+                </th>
+
+                <th>
+                    HealthStatus
+                </th>
+
+
+                <th>
+                    TravelMode
+                </th>
+
+
+                <th>
+                    LocalBody
+                </th>
+
+                <th>
+                    Zone
+                </th>
+
+                <th>
+                    Ward
+                </th>
+                <th>
+                    InfectionSource
+                </th>
+                <th>
+                    Isquarantine
+                </th>
+                <th>
+                    IsSticker
+                </th>
+                <th>
+                    QuarantineDate
+                </th>
+                <th>
+                    StickerDate
+                </th>
+                <th>
+                    CreatedBy
+                </th>
+                <th>
+                    CreatedOn
+                </th>
+                <th>
+                    UpdatedBy
+                </th>
+                <th>
+                    UpdatedOn
+                </th>
+                <th>
+                    CheckpostId
+                </th>
+                <th>
+                    IsPositive
+                </th>
+                <th>
+                    IsPermissionPass
+                </th>
+                <th>
+                    TwoMonthsDetails
+                </th>
+                <th>
+                    FifteenDaysDetails
+                </th>
+                <th>
+                    IsCough
+                </th>
+                <th>
+                    IsFever
+                </th>
+                <th>
+                    IsShortnessofBreath
+                </th>
+                <th>
+                    CoronaRemark
+                </th>
+                <th>
+                    IsSuspect
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.PersonAllDetail != null)
+            {
+
+                <tr role="row" class="odd">
+
+                    <td tabindex="0" class="sorting_1">@Model.PersonAllDetail.PersonId</td>
+                    <td>@Model.PersonAllDetail.PersonRelationID</td>
+                    <td>@Model.PersonAllDetail.PersonName</td>
+                    <td>@Model.PersonAllDetail.Mobileno</td>
+                    <td>@Model.PersonAllDetail.Address</td>
+                    <td>@Model.PersonAllDetail.Email</td>
+                    @if (Model.PersonAllDetail.Dateofarrival.HasValue)
+                    {
+                        <td>@Model.PersonAllDetail.Dateofarrival.Value.ToString("dd/MM/yyyy") </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+
+                    <td>@Model.PersonAllDetail.ComingFrom</td>
+                    <td>@Model.PersonAllDetail.GoingTo</td>
+                    <td>@Model.PersonAllDetail.PermanentAddress</td>
+                    <td>@Model.PersonAllDetail.HealthStatus</td>
+                    <td>@Model.PersonAllDetail.TravelMode</td>
+                    <td>@Model.PersonAllDetail.LocalBody</td>
+                    <td>@Model.PersonAllDetail.ZoneId</td>
+                    <td>@Model.PersonAllDetail.WardId</td>
+                    <td>@Model.PersonAllDetail.InfectionSource</td>
+                    <td>@Model.PersonAllDetail.Isquarantine</td>
+                    <td>@Model.PersonAllDetail.IsSticker</td>
+                    @if (Model.PersonAllDetail.QuarantineDate.HasValue)
+                    {
+                        <td>@Model.PersonAllDetail.QuarantineDate.Value.ToString("dd/MM/yyyy") </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    @if (Model.PersonAllDetail.StickerDate.HasValue)
+                    {
+                        <td>@Model.PersonAllDetail.StickerDate.Value.ToString("dd/MM/yyyy") </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>@Model.PersonAllDetail.CreatedBy</td>
+                    @if (Model.PersonAllDetail.CreatedOn.HasValue)
+                    {
+                        <td>@Model.PersonAllDetail.CreatedOn.Value.ToString("dd/MM/yyyy") </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>@Model.PersonAllDetail.UpdatedBy</td>
+                    @if (Model.PersonAllDetail.UpdatedOn.HasValue)
+                    {
+                        <td>@Model.PersonAllDetail.UpdatedOn.Value.ToString("dd/MM/yyyy") </td>
+                    }
+                    else
+                    {
+                        <td></td>
+                    }
+                    <td>@Model.PersonAllDetail.CheckpostId</td>
+                    <td>@Model.PersonAllDetail.IsPositive</td>
+                    <td>@Model.PersonAllDetail.IsPermissionPass</td>
+                    <td>@Model.PersonAllDetail.TwoMonthsDetails</td>
+                    <td>@Model.PersonAllDetail.FifteenDaysDetails</td>
+                    <td>@Model.PersonAllDetail.IsCough</td>
+                    <td>@Model.PersonAllDetail.IsFever</td>
+                    <td>@Model.PersonAllDetail.IsShortnessofBreath</td>
+                    <td>@Model.PersonAllDetail.CoronaRemark</td>
+                    <td>@Model.PersonAllDetail.IsSuspect</td>
+
+
+                </tr>
+
+            }
+        </tbody>
+
+    </table>
+</div>

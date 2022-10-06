@@ -1,0 +1,148 @@
+﻿@model Covid.Infrastructure.ViewModel.vmUserDetails.vmUserDetails
+@{
+    ViewBag.Title = "UserRegistration";
+    //Layout = "~/Views/Shared/_LoginLayout.cshtml";
+
+}
+
+<!-- Main content -->
+<div class="main-content">
+    <!-- Header -->
+    @*<div class="header bg-gradient-primary py-7 py-lg-8 pt-lg-9">
+            <div class="separator separator-bottom separator-skew zindex-100">
+                <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                    <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+                </svg>
+            </div>
+        </div>*@
+    <!-- Page content -->
+    <div class="container mt--15 pb-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10 col-md-7">
+                <div class="card bg-secondary border-0 mb-0">
+                    <div class="card-header bg-transparent">
+                        <div class="btn-wrapper text-center">
+                            <span class="avatar avatar-sm rounded-circle">
+                                <img alt="Image placeholder" src="/assets/img/theme/UserReg.png">
+                            </span>
+                        </div>
+                    </div>
+                    @if (TempData["UserMessage"] != null)
+                    {
+                        <div class="alert alert-info">
+                            <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+                            @TempData["UserMessage"]
+                        </div>
+                    }
+                    <div id="message"></div>
+                    <div class="card-body px-lg-5">
+                        <form action="~/UserRegistration/SumbitData" method="post" id="formcheck">
+
+                            <div class="form-group mb-3">
+                                <div class="input-group input-group-merge input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                                    </div>
+                                    <input class="form-control" placeholder="Name" name="Name" type="text" required>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="input-group input-group-merge input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                                    </div>
+                                    <input class="form-control" placeholder="Username (mobile number) " name="MobileNo" type="text" pattern="^\d{10}$" title="Please enter 10 digit mobile number" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <div class="input-group input-group-merge input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                    </div>
+                                    <input class="form-control" placeholder="Password" type="password" name="Password" id="Password"  required>
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <div class="input-group input-group-merge input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                    </div>
+                                    <input class="form-control" placeholder="Retype Password" type="password" id="ConfirmPassword"  required>
+                                </div>
+                            </div>
+                            <div class="form-group mb-3">
+                                <div class="input-group input-group-merge input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
+                                    </div>
+                                    <input class="form-control" placeholder="Email ID" name="EmailID" type="email">
+                                </div>
+                            </div>
+
+                            <div class="form-group mb-3">
+                                <div class="input-group input-group-merge input-group-alternative">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><i class="ni ni-single-02"></i></span>
+                                    </div>
+                                    <select class="form-control" name="UserTypeID" required>
+                                        <option value="" selected>User Type</option>
+                                        @if (Model.usertypeList.Count() != 0)
+                                        {
+                                            foreach (var i in Model.usertypeList)
+                                            {
+                                                <option value="@i.UserTypeId">@i.UserType</option>
+                                            }
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-primary" onclick="return checkPassword()">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+
+    function checkPassword() {
+        password1 = $("#Password").val();
+        password2 = $("#ConfirmPassword").val();
+
+        var inpObj = document.getElementById("formcheck");
+        if (inpObj.checkValidity()) {
+            // If password not entered
+            if (password1 == '') {
+                $('#message').html('<div class="alert alert-danger"><button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>Please enter Password</div>');
+
+                return false;
+            }
+
+            // If confirm password not entered
+            else if (password2 == '') {
+                $('#message').html('<div class="alert alert-danger"><button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>Please enter Retype password</div>');
+
+                return false;
+            }
+            // If Not same return False.
+            else if (password1 != password2) {
+                $('#message').html('<div class="alert alert-danger"><button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>Password did not match: Please enter correctly</div>');
+
+                return false;
+            }
+            else {
+
+                return true;
+            }
+        }
+    }
+</script>

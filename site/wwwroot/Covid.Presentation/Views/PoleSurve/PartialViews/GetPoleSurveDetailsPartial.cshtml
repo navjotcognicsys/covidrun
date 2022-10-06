@@ -1,0 +1,109 @@
+﻿@model Covid.Infrastructure.ViewModel.PoleSurve.vmPoleSurve
+
+@if (TempData["QMessage"] != null)
+{
+    <div class="alert alert-info">
+        <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+        @TempData["QMessage"]
+    </div>
+}
+@if (Model.StreetLightSurveList != null)
+{
+
+
+    <div class="table-responsive">
+
+        <table id="" class="table table-bordered example">
+            <thead>
+                <tr role="row">
+                    <th>Pole Surve ID</th>
+                    <th>Is Cable </th>
+                    <th> Pole Number   </th>
+                    <th> Longitude </th>
+                    <th>Latitude</th>
+                    <th>FittingType</th>
+                    <th>FittingVolt</th>
+                    <th>PoleType</th>
+                    <th>PoleHeight</th>
+                    <th> RoadWidth</th>
+                    <th>MountingHeight</th>
+                    <th>PoleSpan</th>
+                    <th>AreaType</th>
+                    <th> TrafficLevel</th>
+                    <th>User Name</th>
+                    <th> PoleImagePath</th>
+                    <th>SurveDate</th>
+                     </tr>
+            </thead>
+            <tbody>
+                @if (Model.StreetLightSurveList != null)
+                {
+                    foreach (var j in Model.StreetLightSurveList)
+                    {
+                <tr role="row" class="odd">
+                    <td>@j.SLID</td>
+                    <td>@(j.IsCable == true ? "Yes" : "No")</td>
+                    <td>@j.PoleNum</td>
+                    <td>@j.Longitude</td>
+                    <td>@j.Latitude</td>
+
+                    <td>@j.FittingType</td>
+                    <td>@j.FittingVolt</td>
+
+                    <td>@j.PoleType</td>
+                    <td>@j.PoleHeight</td>
+                    <td>@j.RoadWidth</td>
+                    <td>@j.MountingHeight</td>
+                    <td>@j.PoleSpan</td>
+                    <td>@j.AreaType</td>
+                    <td>@j.TrafficLevel</td>
+                    <td>
+                        @j.UserName
+                    </td>
+                    <td>@j.PoleImagePath</td>
+
+
+                    <td>@j.SurveDate.ToString("MMM dd yyy")</td>
+                </tr>
+
+                    }
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+ }
+else
+{
+    <p>No data </p>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.example').DataTable({
+            responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+           
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Excel data'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'PDF data',
+                     orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+                }
+            ]
+        });
+    });
+
+</script>

@@ -1,0 +1,108 @@
+﻿@model Covid.Infrastructure.ViewModel.Quarantine.vmHomeQuarantine
+
+@{
+    ViewBag.Title = "GetPersonNotQuarantineDetails";
+}
+
+@section HomeDesign
+   {
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+            <li class="breadcrumb-item"><a href="@Url.Action("DashBoard", "DashBoard")"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item">
+                Home Quarantine Search
+            </li>
+        </ol>
+    </nav>
+}
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0"></h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+            
+                <div class="col-lg-3">
+                    <div class="form-group">
+                        <label class="form-control-label" for="input-country">Group</label>
+                        <select id="RelatedPersonID" class="form-control col-sm-8 View_Drop">
+                            <option value="" disabled="" selected>Please Select Group</option>
+                            @if (Model.GetRefGroupList != null || Model.GetRefGroupList.Count() > 0)
+                            {
+                                foreach (var i in Model.GetRefGroupList)
+                                {
+
+                                    <option value="@i.RefGroup">@i.RefGroup </option>
+                                }
+
+                            }
+
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-3">
+                    <div class="form-group mt-4">
+                        <button type="button" class="btn btn-success" id="BtnSaveDataUser" onclick="ChangeData()">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div id="DataView" style="height: 500px; overflow: auto">
+
+                @Html.Partial("~/Views/QuarantineCheck/PartialViews/GetHomeQuarantinePartial.cshtml", Model)
+
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+
+    $(function () {
+        $("#SearchDate").datepicker();
+    });
+    var ChangeData = function () {
+
+
+        
+        var PersonId = $("#RelatedPersonID").val();
+
+
+
+        $.ajax({
+            url: '/Quarantine/SearchHomeQuarantineDetails',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+
+                RefGroup: PersonId
+
+
+            }),
+            success: function (data) {
+
+                $("#DataView").html("");
+                $("#DataView").append(data);
+
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+
+
+</script>
+
+

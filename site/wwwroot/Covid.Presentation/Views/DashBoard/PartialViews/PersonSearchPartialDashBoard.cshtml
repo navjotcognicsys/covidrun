@@ -1,0 +1,179 @@
+﻿@model Covid.Infrastructure.ViewModel.Dashboard.vmDashboard
+@using Covid.Core.Enum
+@{Layout = null;}
+
+
+
+
+<div class="table-responsive">
+
+    <table id="example" class="table table-bordered">
+        <thead>
+            <tr role="row">
+                <th>
+                    Action
+                </th>
+                <th>
+                    Person ID
+                </th>
+                <th>
+                    Person Name
+                </th>
+                <th>
+                    Mobile No
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Date Of Arrival
+                </th>
+
+                <th>
+                    Coming From
+                </th>
+
+                <th>
+                    GoingTo
+                </th>
+
+                <th>
+                    HealthStatus
+                </th>
+
+                <th>
+                    TravelMode
+                </th>
+
+                <th>
+                    Ward
+                </th>
+                <th>
+                    InfectionSource
+                </th>
+                <th>
+                    Isquarantine
+                </th>
+                <th>
+                    IsSticker
+                </th>
+                <th>
+                    QuarantineDate
+                </th>
+                <th>
+                    StickerDate
+                </th>
+
+
+                <th>
+                    IsPositive
+                </th>
+
+                <th>
+                    TwoMonthsDetails
+                </th>
+                <th>
+                    FifteenDaysDetails
+                </th>
+                <th>
+                    IsCough
+                </th>
+                <th>
+                    IsFever
+                </th>
+                <th>
+                    IsShortnessofBreath
+                </th>
+                <th>
+                    CoronaRemark
+                </th>
+                <th>
+                    IsSuspect
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.PersonAllDetalsList != null)
+            {
+                foreach (var i in Model.PersonAllDetalsList)
+                {
+                    <tr role="row" class="odd">
+                        <td>
+
+                            @if (i.ActionButtonQ == "Yes")
+                            {
+                                <input type="button" value="Quarantine Update" class="btn btn-success btn-sm btn_resolved pull-left" onclick="location.href = '@Url.Action("OpenQuarantineForm", "Quarantine", new { PersonId = @i.PersonId })'" />
+                            }
+                            else
+                            {
+                                <input type="button" value="Update Details" class="btn btn-success btn-sm btn_resolved pull-left" onclick="location.href = '@Url.Action("GetPersonDetail", "Person", new { PersonId = @i.PersonId })'" />
+                            }
+                        </td>
+
+                        <td tabindex="0" class="sorting_1">@i.PersonId</td>
+                        <td>@i.PersonName</td>
+                        <td>@i.Mobileno</td>
+                        <td>
+                            <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.Address</textarea>
+                        </td>
+                        <td>@i.Dateofarrival</td>
+                        <td>@i.ComingFrom</td>
+                        <td>@i.GoingTo</td>
+                        <td>@i.HealthStatus</td>
+                        <td>@i.TravelMode</td>
+                        <td>@i.WardId</td>
+                        <td>@i.InfectionSource</td>
+                        <td>@i.Isquarantine</td>
+                        <td>@i.IsSticker</td>
+                        <td>@i.QuarantineDate</td>
+                        <td>@i.StickerDate</td>
+                        <td>@i.IsPositive</td>
+                        <td>
+                            <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.TwoMonthsDetails</textarea>
+                        </td>
+                        <td>
+                            <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.FifteenDaysDetails</textarea>
+                        </td>
+                        <td>@i.IsCough</td>
+                        <td>@i.IsFever</td>
+                        <td>@i.IsShortnessofBreath</td>
+                        <td>
+                            <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.CoronaRemark</textarea>
+                        </td>
+                        <td>@i.IsSuspect</td>
+
+                    </tr>
+                }
+            }
+
+        </tbody>
+
+    </table>
+</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#example').DataTable({
+           responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+           
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+       buttons: [
+            {
+                extend: 'excelHtml5',
+                title: 'Excel data'
+            },
+            {
+                extend: 'pdfHtml5',
+                title: 'PDF data',
+                 orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+            }
+        ]
+        });
+    });
+</script>

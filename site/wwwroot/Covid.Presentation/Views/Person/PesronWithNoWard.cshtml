@@ -1,0 +1,97 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmPerson
+
+@{
+    ViewBag.Title = "PesronWithNoWaed";
+
+}
+@section HomeDesign
+   {
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+            <li class="breadcrumb-item"><a href="@Url.Action("DashBoard", "DashBoard")"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item">
+
+                Person without ward
+
+            </li>
+        </ol>
+    </nav>
+}
+
+
+<div class="row">
+    <div class="col">
+        <div class="card">
+        
+            @if (TempData["PersonMessage"] != null)
+            {
+                <div class="alert alert-info">
+                    <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+                    @TempData["PersonMessage"]
+                </div>
+            }
+        
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="form-group">
+                    <label class="form-control-label" for="input-country">Related Person</label>
+                    @*<input type='text' class="form-control" id='RelatedPersonID' />*@
+                    <select id="RelatedPersonID" class="form-control col-sm-8 View_Drop">
+                        <option value="" selected>Please Select User</option>
+                        @if (Model.PositivePersonDetailList != null || Model.PositivePersonDetailList.Count() > 0)
+                        {
+                            foreach (var i in Model.PositivePersonDetailList)
+                            {
+
+                                <option value="@i.PersonId">@i.PersonName (@i.Mobileno)</option>
+                            }
+
+                        }
+
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="form-group mt-4">
+                    <button type="button" class="btn btn-success" id="BtnSaveDataUser" onclick="ChangeData1()">Submit</button>
+                </div>
+            </div>
+        </div>
+        <div id="DataView">
+            @Html.Partial("~/Views/Person/PartialViews/PersonWithNoWardPartial.cshtml", Model)
+        </div>
+            </div>
+    </div>
+</div>
+
+<script>
+      var ChangeData1 = function () {
+        
+       
+        var RelatedPersonID = $("#RelatedPersonID").val();
+         
+        
+        $.ajax({
+            url: '/Person/PersonWithNoWardSearchbyPositive',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+               
+                RelatedPersonID: RelatedPersonID
+                
+            }),
+            success: function (data) {
+               
+                $("#DataView").html("");
+                $("#DataView").append(data);
+               
+            },
+            error: function () {
+
+            },
+        });
+    }
+</script>
+

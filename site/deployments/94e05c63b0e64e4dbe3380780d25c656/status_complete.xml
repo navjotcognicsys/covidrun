@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<deployment>
+  <id>94e05c63b0e64e4dbe3380780d25c656</id>
+  <author>N/A</author>
+  <deployer>VSTS</deployer>
+  <authorEmail>N/A</authorEmail>
+  <message>{"type":"deployment","commitId":"3f542500c37be65306fdb8a018f6d868c41e999f","buildId":"471","releaseId":"69","buildNumber":"471","releaseName":"Release-69","repoProvider":"GitHub","repoName":"navjotcognicsys/covidjbp","collectionUrl":"https://dev.azure.com/navjotshrivastava/","teamProject":"bcd77516-5886-4459-aaa2-2a9e696cb81b","buildProjectUrl":"https://dev.azure.com/navjotshrivastava/bcd77516-5886-4459-aaa2-2a9e696cb81b","repositoryUrl":"","branch":"master","teamProjectName":"covidjbp","slotName":"production"}</message>
+  <progress></progress>
+  <status>Success</status>
+  <statusText></statusText>
+  <lastSuccessEndTime>2022-09-28T06:55:10.4314301Z</lastSuccessEndTime>
+  <receivedTime>2022-09-28T06:55:09.9552723Z</receivedTime>
+  <startTime>2022-09-28T06:55:10.0970845Z</startTime>
+  <endTime>2022-09-28T06:55:10.4314301Z</endTime>
+  <complete>True</complete>
+  <is_temp>False</is_temp>
+  <is_readonly>True</is_readonly>
+  <project_type>Run-From-Zip</project_type>
+  <vsproject_id></vsproject_id>
+</deployment>

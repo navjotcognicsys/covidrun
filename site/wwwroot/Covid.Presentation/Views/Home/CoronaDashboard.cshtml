@@ -1,0 +1,634 @@
+﻿@model Covid.Infrastructure.ViewModel.CoronaDashboard.vmCoronaDashboard
+@using Covid.Presentation.Common;
+@using Covid.Infrastructure.Helpers;
+@using Covid.Core.Common;
+
+@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+<meta http-equiv="refresh" content="60" />
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jabalpur's covid-19 Information || Home</title>
+
+    <script type="text/javascript" charset="utf-8">
+        (function (w, d, t, f) { w[f] = w[f] || function (c, k, n) { s = w[f], k = s['k'] = (s['k'] || (k ? ('&k=' + k) : '')); s['c'] = c = (c instanceof Array) ? c : [c]; s['n'] = n = n || 0; L = d.createElement(t), e = d.getElementsByTagName(t)[0]; L.async = 1; L.src = '//feed.aqicn.org/feed/' + (c[n].city) + '/' + (c[n].lang || '') + '/feed.v1.js?n=' + n + k; e.parentNode.insertBefore(L, e); }; })(window, document, 'script', '_aqiFeed');</script>
+    <!-- Bootstrap Styles-->
+    <link rel="stylesheet" href="~/assets/css/all.css">
+    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/assets/css/mdb.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/mdb-plugins-gathered.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="~/assets/css/style.css">
+    <!-- Custom Styles-->
+    <link href="~/assets/css/custom-styles.css" rel="stylesheet">
+    <!-- Google Fonts-->
+    <link href="~/assets/css/css" rel="stylesheet" type="text/css">
+
+</head>
+
+
+<body>
+
+    <div class="header">
+        <!--Navbar -->
+        <nav class="navbar navbar-expand-lg">
+            @*<a class="navbar-brand" href="#"><img src="~/assets/img/covid-19-logo.png" width="250" alt="Jabalpur Municipal Corporation"></a>*@
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent-333" aria-controls="navbarSupportedContent-333" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent-333">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item  active ">
+                        <a class="nav-link" href="#">
+                            Dashboard
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item  ">
+                        <a class="nav-link" href="@Url.Action("OpenComplaintForm", "Complaint")">
+                            Register Your Complaint
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item  ">
+                        <a class="nav-link" href="@Url.Action("OpenComplaintSearchForm","Complaint")" )">
+                            Complaint Status
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <li class="nav-item  ">
+                        <a class="nav-link" href="@Url.Action("LogIn","Login")">
+                            Login
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+        <!--/.Navbar -->
+    </div>
+
+
+    <div class="banner">
+        <img src="~/assets/img/covid_banner.jpg" alt="" class="responsive img-fluid">
+    </div>
+    <div id="wrapper">
+
+        <div id="page-wrapper">
+            <div class="header main-header">
+                <h1 class="page-header">
+                    Jabalpur's!
+                </h1>
+                <h2>
+                    Covid 19 Dashboard
+                </h2>
+                <ol class="breadcrumb">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Dashboard</a></li>
+                    <li class="active">
+                        Data (Last Updated -@Model.DashboardCoroanCurentStatus.UpdatedOn.ToString())
+                    </li>
+                </ol>
+
+            </div>
+            <div id="page-inner">
+
+                <div class="dashboard-cards covid_alert">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 text-center corona-header">
+                            <h2>Corona Alert</h2>
+                            <p class="today_date">
+                                (@Model.DashboardCoroanCurentStatus.UpdatedOn)
+                            </p>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-5">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 right-brdr">
+
+                                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                                        <div class="card-stacked text-center no-bg active-cases">
+                                            <div class="card-icon">
+                                                <img src="~/assets/img/icon-infected.png" alt="Active Status">
+                                            </div>
+                                            <div class="card-action">
+                                                <strong>Active Cases</strong>
+                                            </div>
+                                            <div class="card-content">
+                                                <div class="row">
+                                                    <div class="col-6 right-border">
+                                                        Today<span class="count">@Model.DashboardCoroanCurentStatus.ActiveCases</span>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        Cumulative<span class="count">@(Model.DashboardCoroanCurentStatus.ConfirmedCases - Model.DashboardCoroanCurentStatus.CumRecoveredCases - Model.DashboardCoroanCurentStatus.CumDeaths)</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                                    <div class="card horizontal cardIcon waves-effect waves-dark">
+
+                                        <div class="card-stacked text-center no-bg negetive-cases">
+                                            <div class="card-icon">
+                                                <img src="~/assets/img/icon-inactive.png" alt="Active Status">
+                                            </div>
+                                            <div class="card-action">
+                                                <strong>Active Cases Status</strong>
+                                            </div>
+                                            <div class="card-content">
+                                                <div class="row">
+                                                    <div class="col-6 right-border">
+                                                        Admit in hospital<span class="count">@Model.DashboardCoroanCurentStatus.AdmitInHospital</span>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        Home isolation<span class="count">@Model.DashboardCoroanCurentStatus.HomeIsolation</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-2">
+                            <div class="card horizontal cardIcon waves-effect waves-dark">
+                                <div class="card-stacked yellowis_bg confirm-cases">
+                                    <div class="card-icon">
+                                        <img src="~/assets/img/icon-infected.png" alt="Active Status">
+                                    </div>
+                                    <div class="card-action">
+                                        <strong>Confirmed Cases</strong>
+                                    </div>
+                                    <div class="card-content">
+                                        <h3>@Model.DashboardCoroanCurentStatus.ConfirmedCases</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-5">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 right-brdr">
+
+                                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                                        <div class="card-stacked text-center no-bg recoverd-cases">
+                                            <div class="card-icon">
+                                                <img src="~/assets/img/icon-inactive.png" alt="Active Status">
+                                            </div>
+                                            <div class="card-action">
+                                                <strong>Total Recovered</strong>
+                                            </div>
+                                            <div class="card-content">
+                                                <div class="row">
+                                                    <div class="col-6 right-border">
+                                                        Today<span class="count">@Model.DashboardCoroanCurentStatus.RecoveredCases</span>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        Cumulative<span class="count">@Model.DashboardCoroanCurentStatus.CumRecoveredCases</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+
+                                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                                        <div class="card-stacked text-center no-bg death-cases">
+                                            <div class="card-icon">
+                                                <img src="~/assets/img/icon-death.png" alt="Active Status">
+                                            </div>
+                                            <div class="card-action">
+                                                <strong>Deaths</strong>
+                                            </div>
+                                            <div class="card-content">
+                                                <div class="row">
+                                                    <div class="col-6 right-border">
+                                                        Today<span class="count">@Model.DashboardCoroanCurentStatus.Deaths</span>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        Cumulative<span class="count">@Model.DashboardCoroanCurentStatus.CumDeaths</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /. ROW  -->
+
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12">
+                        <div class="cirStats">
+
+                        </div>
+                    </div>
+                    <!--/.row-->
+                </div>
+
+                <span id="city-aqi-container"></span>
+                @*<script type="text/javascript" charset="utf-8">_aqiFeed({ container: "city-aqi-container", city: "india/jabalpur/marhatal/" });</script>*@
+                <script type="text/javascript" charset="utf-8"> _aqiFeed({ display: "%details", container: "city-aqi-container", city: "india/jabalpur/marhatal/" });</script>
+
+                
+                @*<div class="dashboard-cards five-cards">
+            <div class="row">
+
+                <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+
+                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                        <div class="card-stacked green_bg text-center">
+                            <div class="card-action">
+                                <strong>Total Hospitals</strong>
+                            </div>
+                            <div class="card-content">
+                                <h3>@Model.DashboardHospitalStatusList.Count</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+
+                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                        <div class="card-stacked orange_bg text-center">
+                            <div class="card-action">
+                                <strong>Total ICU Beds (Pvt Hospital)</strong>
+                            </div>
+                            <div class="card-content">
+                                <h3>
+                                    @(Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Private").Sum(i => i.TotalICUBed))
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+
+                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                        <div class="card-stacked green_bg  text-center">
+                            <div class="card-action">
+                                <strong>Vacant ICU Beds (Pvt Hospital)</strong>
+                            </div>
+                            <div class="card-content">
+                                <h3>
+                                    @(Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Private").Sum(i => i.TotalICUBed) -
+                                        Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Private").Sum(i => i.OccICUBed))
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+
+                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                        <div class="card-stacked orange_bg text-center">
+                            <div class="card-action">
+                                <strong>Oxygen Supported beds (Pvt Hospital)</strong>
+                            </div>
+                            <div class="card-content">
+                                <h3>
+                                    @(Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Private").Sum(i => i.TotalOxygenBed))
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+
+                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                        <div class="card-stacked green_bg  text-center">
+                            <div class="card-action">
+                                <strong>Vacant Oxygen Supported beds (Pvt Hospital)</strong>
+                            </div>
+                            <div class="card-content">
+                                <h3>
+                                    @(Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Private").Sum(i => i.TotalOxygenBed) -
+                                        Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Private").Sum(i => i.OccOxygenBed))
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+
+                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                        <div class="card-stacked orange_bg text-center">
+                            <div class="card-action">
+                                <strong>Total ICU Beds (Govt. Hospital)</strong>
+                            </div>
+                            <div class="card-content">
+                                <h3>
+                                    @(Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Govt").Sum(i => i.TotalICUBed))
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+
+                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                        <div class="card-stacked green_bg  text-center">
+                            <div class="card-action">
+                                <strong>Vacant ICU Beds (Govt Hospital)</strong>
+                            </div>
+                            <div class="card-content">
+                                <h3>
+                                    @(Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Govt").Sum(i => i.TotalICUBed) -
+                                        Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Govt").Sum(i => i.OccICUBed))
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+
+                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                        <div class="card-stacked orange_bg text-center">
+                            <div class="card-action">
+                                <strong>Oxygen Supported beds (Govt. Hospital)</strong>
+                            </div>
+                            <div class="card-content">
+                                <h3>
+                                    @(Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Govt").Sum(i => i.TotalOxygenBed))
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+
+                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                        <div class="card-stacked green_bg  text-center">
+                            <div class="card-action">
+                                <strong>Vacant Oxygen Supported beds (Govt. Hospital)</strong>
+                            </div>
+                            <div class="card-content">
+                                <h3>
+                                    @(Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Govt").Sum(i => i.TotalOxygenBed) -
+                                        Model.DashboardHospitalStatusList.Where(f => f.HoshType == "Govt").Sum(i => i.OccOxygenBed))
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+
+                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                        <div class="card-stacked orange_bg text-center">
+                            <div class="card-action">
+                                <strong>Total Covid Care Beds</strong>
+                            </div>
+                            <div class="card-content">
+                                <h3>
+                                    @(Model.DashboardHospitalStatusList.Sum(i => i.TotalIsolationBed))
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-12 col-sm-12 col-md-6 col-lg-3">
+
+                    <div class="card horizontal cardIcon waves-effect waves-dark">
+                        <div class="card-stacked green_bg  text-center">
+                            <div class="card-action">
+                                <strong>Vacant Covid Care Beds</strong>
+                            </div>
+                            <div class="card-content">
+                                <h3>
+                                    @(Model.DashboardHospitalStatusList.Sum(i => i.TotalIsolationBed) -
+                                        Model.DashboardHospitalStatusList.Sum(i => i.OccIsolationBed))
+                                </h3>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+            </div>
+        </div>
+
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12 health_facility">
+                <div class="card">
+                    <div class="card-action">
+                        <h4 class="mt-0 pt-0"><strong>Covid health facility status (updated on : @Model.DashboardHospitalStatusList.FirstOrDefault().UpdatedDate)</strong></h4>
+                    </div>
+
+                    <div class="panel with-nav-tabs panel-default">
+                        <div class="panel-heading">
+                            <ul class="nav nav-tabs">
+                            </ul>
+                        </div>
+                        <div class="panel-body">
+                            <div class="tab-content">
+                                <div class="tab-pane fade active show" id="tab3default">
+                                    <div class="table-responsive">
+                                        Table
+                                        <table class="table table-hover">
+
+                                            Table head
+                                            <thead>
+                                                <tr class="bold">
+                                                    <th colspan="3" class="light-skyblue">Facility Details</th>
+                                                    <th colspan="5" class="light-yellow">Capacity of Beds</th>
+                                                    <th colspan="4" class="bluet">Occupancy status of beds</th>
+                                                    <th colspan="4" class="green">Vacancy status of Beds</th>
+                                                </tr>
+                                                <tr class="bold">
+                                                    <th rowspan="2">Name of Hospital</th>
+                                                    <th rowspan="2">Type of Hospital</th>
+                                                    <th rowspan="2">Category of Hospital</th>
+                                                    <th rowspan="2">Total Number of beds</th>
+                                                    <th rowspan="2">O2 Supported beds</th>
+                                                    <th rowspan="2">Non O2 supported Bed</th>
+                                                    <th rowspan="2">ICU beds</th>
+                                                    <th rowspan="2">Ventilators</th>
+
+                                                    <th rowspan="2">Total Occupied Beds</th>
+                                                    <th rowspan="2">O2 Supported beds</th>
+                                                    <th rowspan="2">Non O2 Beds</th>
+                                                    <th rowspan="2">ICU beds</th>
+
+                                                    <th rowspan="2">Total vacant Beds</th>
+                                                    <th rowspan="2">O2 Supported beds</th>
+                                                    <th rowspan="2">Non O2 Beds</th>
+                                                    <th rowspan="2">ICU beds</th>
+
+                                                </tr>
+
+                                            </thead>
+                                            Table head
+                                            Table body
+                                            <tbody>
+
+                                                @if (Model.DashboardHospitalStatusList != null)
+                                                {
+                                                    foreach (var item in Model.DashboardHospitalStatusList)
+                                                    {
+                                                        var totalBed = item.TotalIsolationBed + item.TotalICUBed + item.TotalOxygenBed;
+                                                        var occBed = item.OccOxygenBed + item.OccIsolationBed + item.OccICUBed;
+                                                        var vacOxyBed = item.TotalOxygenBed - item.OccOxygenBed;
+                                                        var vacISOBed = item.TotalIsolationBed - item.OccIsolationBed;
+                                                        var vacICUBed = item.TotalICUBed - item.OccICUBed;
+                                                        var VacTotal = vacOxyBed + vacISOBed + vacICUBed;
+
+                                                        <tr>
+                                                            <td>@item.HoshName</td>
+                                                            <td>@item.HoshType</td>
+                                                            <td>@item.HoshCat</td>
+                                                            <td>@totalBed</td>
+                                                            <td>@item.TotalOxygenBed</td>
+                                                            <td>@item.TotalIsolationBed</td>
+                                                            <td>@item.TotalICUBed</td>
+                                                            <td>@item.Ventilators</td>
+
+                                                            <td>@occBed</td>
+                                                            <td>@item.OccOxygenBed</td>
+                                                            <td>@item.OccIsolationBed</td>
+                                                            <td>@item.OccICUBed</td>
+                                                            <td>@VacTotal</td>
+                                                            <td>@vacOxyBed</td>
+                                                            <td>@vacISOBed</td>
+                                                            <td>@vacICUBed</td>
+
+                                                        </tr>
+                                                    }
+                                                }
+                                            </tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="3" align="right"><strong>Total :-</strong></th>
+                                                    @{
+                                                        var TotalBed = Model.DashboardHospitalStatusList.Sum(i => i.TotalOxygenBed) +
+                                                        Model.DashboardHospitalStatusList.Sum(i => i.TotalIsolationBed) +
+                                                        Model.DashboardHospitalStatusList.Sum(i => i.TotalICUBed);
+
+                                                        var TotalOccBed = Model.DashboardHospitalStatusList.Sum(i => i.OccOxygenBed) +
+                                                        Model.DashboardHospitalStatusList.Sum(i => i.OccIsolationBed) +
+                                                        Model.DashboardHospitalStatusList.Sum(i => i.OccICUBed);
+
+                                                    }
+                                                    <th>@Model.DashboardHospitalStatusList.Sum(i => i.TotalOxygenBed)</th>
+                                                    <th>@Model.DashboardHospitalStatusList.Sum(i => i.TotalIsolationBed)</th>
+                                                    <th>@Model.DashboardHospitalStatusList.Sum(i => i.TotalICUBed)</th>
+                                                    <th>@Model.DashboardHospitalStatusList.Sum(i => i.Ventilators)</th>
+                                                    <th>@TotalBed</th>
+                                                    <th>@Model.DashboardHospitalStatusList.Sum(i => i.OccOxygenBed)</th>
+                                                    <th>@Model.DashboardHospitalStatusList.Sum(i => i.OccIsolationBed)</th>
+                                                    <th>@Model.DashboardHospitalStatusList.Sum(i => i.OccICUBed)</th>
+                                                    <th>@TotalOccBed  </th>
+                                                    <th>@(Model.DashboardHospitalStatusList.Sum(i => i.TotalOxygenBed) - Model.DashboardHospitalStatusList.Sum(i => i.OccOxygenBed))</th>
+                                                    <th>@(Model.DashboardHospitalStatusList.Sum(i => i.TotalIsolationBed) - Model.DashboardHospitalStatusList.Sum(i => i.OccIsolationBed))</th>
+                                                    <th>@(Model.DashboardHospitalStatusList.Sum(i => i.TotalICUBed) - Model.DashboardHospitalStatusList.Sum(i => i.OccICUBed))</th>
+                                                    <th>@(TotalBed - TotalOccBed)</th>
+                                                </tr>
+                                            </tfoot>
+                                            Table body
+                                        </table>
+                                        Table
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>*@
+
+
+                <!-- /. ROW  -->
+
+
+            </div>
+            <!-- /. PAGE INNER  -->
+        </div>
+        <!-- /. PAGE WRAPPER  -->
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="exampleModalLabel">Details</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body content">
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="page-footer">
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">
+            Powered By <a href="https://cognicsys.com"> Cognic Systems </a>
+        </div>
+        <!-- Copyright -->
+    </footer>
+    <!-- Footer -->
+    <!-- JS Scripts-->
+    <!-- jQuery Js -->
+    <script type="text/javascript" src="~/assets/js/jquery-3.5.1.min.js"></script>
+
+                <!-- Bootstrap Js -->
+                <script type="text/javascript" src="~/assets/js/bootstrap.min.js"></script>
+
+                <!-- Metis Menu Js -->
+                <script src="~/assets/js/jquery.metisMenu.js"></script>
+                <!-- Morris Chart Js -->
+                <!-- Custom Js -->
+
+
+
+
+
+
+
+
+</body>
+</html>

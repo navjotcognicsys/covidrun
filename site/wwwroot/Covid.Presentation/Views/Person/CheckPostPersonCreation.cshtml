@@ -1,0 +1,331 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmPerson
+@{
+    ViewBag.Title = "CheckPostPersonCreation";
+    
+}
+
+    <div class="row">
+        <div class="col">
+            <form action="~/Person/SubmitCheckPostPersonCreation" method="post">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0">समस्त चेक पोस्ट पर भरे : वाहन में बैठे समस्त व्यक्तियों के लिए पृथक- पृथक भरे </h3>
+                            </div>
+                        </div>
+                    </div>
+                    @if (TempData["PersonMessage"] != null)
+                    {
+                        <div class="alert alert-info">
+                            <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+                            @TempData["PersonMessage"]
+                        </div>
+                    }
+                    <div class="card-body">
+                        <div class="">
+                            <div class="row">
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-username">
+                                            सीमा पर प्रवेश करने वाले व्यक्ति का नाम *
+                                        </label>
+                                        <input type="text" id="PersonName" class="form-control" name="PersonName" placeholder="" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-username">
+                                            जबलपुर की सीमा में आगमन की तिथि एवं समय *
+                                        </label>
+                                        <input type="date" id="DOA" class="form-control" placeholder="" name="Dateofarrival" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-username">स्थान जहाँ से आ रहा है * </label>
+                                        <input type="text" id="ComingFrom" name="ComingFrom" class="form-control" placeholder="" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-first-name">गंतव्य स्थान</label>
+                                        <div class="row mt-2">
+                                            <div class="col-lg-6">
+                                                <div class="custom-control custom-control-alternative custom-radio">
+                                                    <input class="custom-control-input" id="GoingToYes" name="GoingTo" value="Other" type="radio" required>
+                                                    <label class="custom-control-label" for="GoingToYes">
+                                                        <span class="text-muted">
+                                                            जबलपुर के रास्ते अन्य जिले में जाना है, जबलपुर रुकना नहीं
+                                                            है
+                                                        </span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="custom-control custom-control-alternative custom-radio">
+                                                    <input class="custom-control-input" id="GoingToNo" name="GoingTo" value="Jabalpur" type="radio">
+                                                    <label class="custom-control-label" for="GoingToNo">
+                                                        <span class="text-muted"> जबलपुर ही रुकना है</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-first-name">
+                                            क्या व्यक्ति के पास अनुमति पत्र (PASS )
+                                            है?
+                                        </label>
+                                        <div class="row mt-2">
+                                            <div class="col-lg-6">
+                                                <div class="custom-control custom-control-alternative custom-radio">
+                                                    <input class="custom-control-input" id="IsPermissionPassYes" name="IsPermissionPass" value="1" type="radio" required>
+                                                    <label class="custom-control-label" for="IsPermissionPassYes">
+                                                        <span class="text-muted"> हाँ</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="custom-control custom-control-alternative custom-radio">
+                                                    <input class="custom-control-input" id="IsPermissionPassNo" name="IsPermissionPass" value="0" type="radio">
+                                                    <label class="custom-control-label" for="IsPermissionPassNo">
+                                                        <span class="text-muted"> नहीं</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-last-name">
+                                            जबलपुर जिले में गंतव्य स्थान का
+                                            पता *
+                                        </label>
+                                        <input type="text" id="Address" class="form-control" placeholder="" name="Address" required>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label" for="input-first-name">
+                                            स्थायी पता (यदि किसी अन्य जिले के
+                                            निवासी है)*
+                                        </label>
+                                        <textarea id="PAddress" class="form-control" placeholder="" name="PAddress"></textarea>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                <div class="form-group">
+                                    @Html.Label("Local Body", new { @class = "form-control-label" })
+                                    <select class="form-control" id="localBodyList" name="LocalBody">
+                                        <option value="" selected>Please Select </option>
+                                        @foreach (var i in Model.LocalBodyList)
+                                        {
+                                            <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    @Html.Label("Ward", new { @class = "form-control-label" })
+                                    <select class="form-control" id="zoneList" name="Ward">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-last-name">मोबाइल नंबर *</label>
+                                    <input type="text" id="Mobileno" name="Mobileno" class="form-control" placeholder="" pattern="^\d{10}$" title="Please enter a valid 10 digit mobile number." required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-email">ईमेल आई.डी </label>
+                                    <input type="email" id="Email" name="Email" class="form-control" placeholder="" />
+                                </div>
+                            </div>
+
+
+
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-city">
+                                        विगत 02 माह में कोई विदेश यात्रा की गयी है ?
+                                        यदि हाँ तो विस्तार से लिखे *
+                                    </label>
+                                    <input type="text" id="input-District" class="TwoMonthsDetails form-control" name="TwoMonthsDetails" placeholder="" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-city">
+                                        विगत 15 दिन में किस किस स्थान पर यात्रा की
+                                        गयी ?
+                                    </label>
+                                    <input type="text" id="input-State" name="FifteenDaysDetails" class="form-control" placeholder="" required>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <h6 class="heading-small text-muted mb-4">क्या विगत 15 दिन में निम्न लक्षण रहे? </h6>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">सर्दी, खांसी</label>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="IsCoughYes" name="IsCough" value="1" type="radio" required>
+                                                <label class="custom-control-label" for="IsCoughYes">
+                                                    <span class="text-muted"> हाँ</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="IsCoughNo" name="IsCough" value="0" type="radio">
+                                                <label class="custom-control-label" for="IsCoughNo">
+                                                    <span class="text-muted"> नहीं</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">बुखार</label>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="IsFeverYes" name="IsFever" value="1" type="radio" required>
+                                                <label class="custom-control-label" for="IsFeverYes">
+                                                    <span class="text-muted"> हाँ</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="IsFeverNo" name="IsFever" value="0" type="radio">
+                                                <label class="custom-control-label" for="IsFeverNo">
+                                                    <span class="text-muted"> नहीं</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">सांस लेने में तकलीफ</label>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="IsShortnessofBreathYes" name="IsShortnessofBreath" value="1" type="radio" required>
+                                                <label class="custom-control-label" for="IsShortnessofBreathYes">
+                                                    <span class="text-muted"> हाँ</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-radio">
+                                                <input class="custom-control-input" id="IsShortnessofBreathNo" name="IsShortnessofBreath" value="0" type="radio" required>
+                                                <label class="custom-control-label" for="IsShortnessofBreathNo">
+                                                    <span class="text-muted"> नहीं</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">
+                                        क्या पूर्व में कोरोना का टेस्ट कराया है
+                                        ? यदि हाँ तो विस्तार से लिखे
+                                    </label>
+                                    <textarea id="CoronaRemark" class="form-control" placeholder="" name="CoronaRemark" required></textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Check Point</label>
+                                    <select name="CheckPoint" class="form-control col-sm-8 View_Drop" required>
+                                        <option value=0 selected>Please Select</option>
+                                        @if (Model.CheckPointList != null || Model.CheckPointList.Count() > 0)
+                                        {
+                                            foreach (var i in Model.CheckPointList)
+                                            {
+                                                <option value="@i.CheckPointId">@i.CheckPointName</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <input type="submit" id="input-Rural/Urban" class="btn btn-primary" value="Submit">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        </form>
+        <script>
+            var localityUrl = '@Url.Action("GetWardDropDown","Complaint")';
+			//var subLocalityUrl = '@Url.Action("GetWardDropDown","Complaint")';
+			var localities = $('#zoneList');
+        //var subLocalities = $('#ward');
+        $('#localBodyList').change(function () {
+				localities.empty();
+				//subLocalities.empty();
+				$.getJSON(localityUrl, { LocalBodyId: $(this).val() },function(data) {
+					if (!data) {
+						return;
+					}
+				 localities.append($('<option></option>').val('').text('Please select'));
+                    $.each(data, function (index, item) {
+                        localities.append($('<option></option>').val(item.LocalBodyID).text(item.LocalBodyName));
+					});
+				});
+        })
+   //     $('#zoneList').change(function () {
+			//	subLocalities.empty();
+			//	$.getJSON(subLocalityUrl, { LocalBodyId: $(this).val() },function(data) {
+			//		if (!data) {
+			//			return;
+			//		}
+			//		subLocalities.append($('<option></option>').val('0').text('Please select'));
+   //                 $.each(data, function (index, item) {
+   //                     debugger;
+			//			subLocalities.append($('<option></option>').val(item.LocalBodyID).text(item.LocalBodyName));
+			//		});
+			//	});
+			//})
+        </script>
+    </div>
+</div>
+

@@ -1,0 +1,150 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmPerson
+@{
+    var c = 0;
+}
+<div class="table-responsive">
+
+    <table id="x" class="table table-bordered">
+        <thead>
+            <tr role="row">
+                <th>
+                    Person Id
+                </th>
+                <th c>
+                    Person Name
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Mobile No
+                </th>
+
+
+                <th>
+                    Submit Data
+                </th>
+               
+
+
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.PersonAllDetalsList != null)
+            {
+                foreach (var i in Model.PersonAllDetalsList)
+                {
+                    <tr role="row" class="odd">
+
+                        <td tabindex="0" class="sorting_1">@i.PersonId</td>
+                        <td>@i.PersonName</td>
+
+                        <td>
+                            <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.Address</textarea>
+                        </td>
+
+                        <td>
+                            @i.Mobileno
+                        </td>
+                        <td>
+                            <form action="~/Person/PersonWithnoWardUpdate" method="post">
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Local Body</label>
+                                        <select class="form-control LBID" id="LBID_@c" name="LocalBodyId" onchange="ward('@c')" required>
+
+
+
+
+                                            @if (Model.LocalBodyList.Count() != 0)
+                                            {
+                                                <option value="" selected>Please Select</option>
+                                                foreach (var j in Model.LocalBodyList)
+                                                {
+                                                    <option value="@j.LocalBodyID">@j.LocalBodyName</option>
+                                                }
+                                            }
+
+
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <label class="form-control-label">Ward</label>
+                                        <select class="form-control WID" id="WID_@c" name="Wards" required>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12">
+                                    <div class="form-group">
+                                        <input type="hidden" name="PersonId" value="@i.PersonId" />
+                                        <input type="submit" value="Submit" />
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                       
+
+
+                    </tr>
+                    { c = c + 1; }
+                }
+            }
+
+
+
+        </tbody>
+
+    </table>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#x').DataTable({
+            responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Excel data'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'PDF data',
+                     orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+                }
+            ]
+        });
+    });
+
+     var subLocalityUrl = '@Url.Action("GetWardDropDown","Person")';
+
+
+    ward = function (e) {
+      // var subLocalities = $("#WID_"+e);
+				$("#WID_"+e).empty();
+				$.getJSON(subLocalityUrl, { LocalBodyId: $("#LBID_"+e).val() },function(data) {
+					if (!data) {
+						return;
+					}
+
+					$.each(data, function(index, item) {
+						$("#WID_"+e).append($('<option></option>').val(item.Value).text(item.Text));
+					});
+				});
+    }
+
+
+</script>

@@ -1,0 +1,229 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmCovidPerson
+@using Covid.Core.Enum
+@{Layout = null;
+    var c = 1;
+}
+
+
+<div class="table-responsive">
+
+    <table id="example" class="table table-bordered">
+        <thead>
+            <tr role="row">
+                <th>
+                    Serial Number
+                </th>
+                <th>
+
+                </th>
+               
+                <th>
+                    Person ID
+                </th>
+
+                <th>
+                    Person Name
+                </th>
+
+                <th>
+                    Mobile No
+                </th>
+
+                <th>
+                    Address
+                </th>
+
+                <th>
+                    SampleId
+                </th>
+
+                <th>
+                    SampleCollectionDate
+                </th>
+
+                <th>
+                    SRFID
+                </th>
+
+                <th>
+                    Age
+                </th>
+
+                <th>
+                    ICMRID
+                </th>
+
+
+                <th>
+                    SampleTakenBy
+                </th>
+
+                <th>
+                    Ward
+                </th>
+                <th>
+                    Comments
+                </th>
+                
+
+
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.CovidPersonDetailList != null)
+            {
+                foreach (var i in Model.CovidPersonDetailList)
+                {
+            <tr role="row" class="odd">
+                <td>@c</td>
+                @*<td><input type="button" value="Update Details" class="btn btn-success btn-sm btn_resolved pull-left" onclick="location.href = '@Url.Action("GetPersonDetail", "Person", new { PersonId = @i.Id })'" /></td>*@
+                <td><input type="button" value="Update Details" class="btn btn-success btn-sm btn_resolved pull-left" onclick="return QuarFun(@i.Id)" /></td>
+                <td tabindex="0" class="sorting_1">@i.Id</td>
+                <td>@i.PatientName</td>
+                <td>@i.MobileNumber</td>
+                <td><textarea rows="2" cols="20" disabled name="address" form="usrform">@i.Address</textarea></td>
+                <td>@i.SampleId</td>
+                @if (i.SampleCollectionDate != null)
+                {
+                    <td>@i.SampleCollectionDate.ToString("dd/MM/yyyy") </td>
+                }
+                else
+                {
+                    <td></td>
+                }
+
+                <td>
+                    @i.SRFID
+                </td>
+                <td>@i.Age</td>
+                <td>@i.ICMRID</td>
+                <td>@i.SampleTakenBy</td>
+                <td>@i.WardId</td>
+                <td>
+                    <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.Comments</textarea>
+                </td>
+
+
+            </tr>
+                    { c = c + 1; }
+                }
+            }
+
+        </tbody>
+
+    </table>
+</div>
+
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+            responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Excel data'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'PDF data',
+                    orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+                }
+            ]
+        });
+    });
+    QuarFun = function (Id) {
+
+        $.ajax({
+            url: '/Person/OpenCovidPersonForm',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                Id: Id
+            }),
+            success: function (result) {
+                $("#QuPopupbody").html(result);
+                $("#QuPopup").modal("show");
+            },
+            error: function () {
+
+            },
+        });
+        return false;
+
+    }
+</script>
+<div id="QuPopup" class="modal fade" role="dialog">
+    <div class="modal-dialog modal_overView modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header View_header">
+                <h3>Person Update</h3>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body" id="QuPopupbody">
+
+
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function display(Id) {
+
+
+
+
+
+    
+
+
+        $.ajax({
+            url: '/Person/GetQuarDataforPartialView',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+
+                PersonId: Id
+
+
+
+            }),
+            success: function (data) {
+
+                $("#Mybody").html(data);
+                $("#myModal").modal("show");
+
+            },
+            error: function () {
+
+            },
+        });
+    }
+</script>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Qurantine History</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body" id="Mybody">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

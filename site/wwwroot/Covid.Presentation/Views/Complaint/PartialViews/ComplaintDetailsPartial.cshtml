@@ -1,0 +1,110 @@
+﻿@model Covid.Infrastructure.ViewModel.Complaint.vmComplaint
+
+
+
+<div class="table-responsive">
+
+
+    <table id="example" class="table table-bordered">
+        <thead>
+            <tr role="row">
+                <th>
+                    Actions
+                </th>
+                <th>
+                    Name
+                </th>
+
+                <th>
+                    ComplaintType
+                </th>
+
+                <th>
+                    Details
+                </th>
+
+
+                <th>
+                    Mobile No
+                </th>
+                <th>
+                    Address
+                </th>
+                <th>
+                    Zone 
+                </th>
+
+                <th>
+                    Ward
+                </th>
+                <th>
+                    Date Of Creation
+                </th>
+
+
+            </tr>
+        </thead>
+        <tbody>
+
+            @if (Model.ComplaintDetailsList != null)
+            {
+                foreach (var i in Model.ComplaintDetailsList)
+                {
+            <tr role="row" class="odd">
+
+
+                <td><input type="button" class="btn btn-success btn-sm btn_resolved pull-left" value="Assign/Update " onclick="location.href ='@Url.Action("OpenAssignmentForm", "Complaint",new {ComplaintId=@i.ComplaintId ,complaintTypeID=@i.ComplaintTypeId})'" /></td>
+                <td>@i.Name</td>
+                <td>
+                    <textarea rows="3" cols="20" disabled name="address" form="usrform">@i.ComplaintTypeName</textarea>
+                </td>
+                <td>
+                    <textarea rows="3" cols="50" disabled name="Details" form="usrform">@i.Details</textarea>
+                </td>
+
+                <td>@i.MobileNo</td>
+                <td>
+
+                    <textarea rows="3" cols="20" disabled name="address" form="usrform">@i.Address</textarea>
+                </td>
+                <td>@i.zonename</td>
+                <td>@i.wardname</td>
+                <td>@i.CreatedOn.ToString("dd/MM/yyyy")</td>
+
+
+            </tr>
+                }
+            }
+
+
+
+        </tbody>
+
+    </table>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable({
+          responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+           
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+       buttons: [
+            {
+                extend: 'excelHtml5',
+                title: 'Excel data'
+            },
+            {
+                extend: 'pdfHtml5',
+                title: 'PDF data',
+                 orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+            }
+        ]
+        });
+    });
+</script>

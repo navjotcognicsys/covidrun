@@ -1,0 +1,143 @@
+﻿@model Covid.Infrastructure.ViewModel.Quarantine.vmHomeQuarantine
+
+@{
+    //var m = Model.QList.Select(x => new { x.PersonId, x.PersonName, x.MobileNo, x.Address }).Distinct();
+    var c = 1;
+}
+@if (TempData["QMessage"] != null)
+{
+    <div class="alert alert-info">
+        <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+        @TempData["QMessage"]
+    </div>
+}
+
+
+
+    <div class="table-responsive">
+
+        <table id="" class="table table-bordered example">
+            <thead>
+                <tr role="row">
+                    <th>Serial Number</th>
+                    <th>
+                       Action
+                    </th>
+                    <th>
+                        Person Name
+                    </th>
+
+                    <th>
+                        Person Address
+                    </th>
+                    <th>
+                        Mobile No.
+                    </th>
+
+
+
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.PositivePersonDetailList != null)
+                {
+                    foreach (var j in Model.PositivePersonDetailList)
+                    {
+                <tr role="row" class="odd">
+                    <td>@c</td>
+                    <td><input type="button" value="Quarantine Update" class="btn btn-success btn-sm btn_resolved pull-left" onclick="return QuarFun(@j.Id)" /></td>
+                   
+
+                    <td>@j.PatientName</td>
+                    
+                    <td>@j.Address</td>
+
+                    <td>@j.MobileNumber</td>
+
+
+
+                </tr>
+                        { c = c + 1; }
+                    }
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.example').DataTable({
+            responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Excel data'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'PDF data',
+                     orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+                }
+            ]
+        });
+    });
+    QuarFun= function (Id) {
+
+            $.ajax({
+                url: '/Quarantine/OpenHomeQuarantineForm',
+                type: 'POST',
+                datatype: 'application/json',
+                contentType: 'application/json',
+                data: JSON.stringify({
+                   PersonId:Id
+                }),
+                success: function (result) {
+                    $("#QuPopupbody").html(result);
+                    $("#QuPopup").modal("show");
+                },
+                error: function () {
+
+                },
+            });
+            return false;
+        
+    }
+</script>
+<div id="QuPopup" class="modal fade" role="dialog">
+    <div class="modal-dialog modal_overView modal-lg">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header View_header">
+                <h3>Quarantine Check</h3>
+                <button type="button" class="close" data-dismiss="modal">×</button>
+            </div>
+            <div class="modal-body" id="QuPopupbody">
+
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,272 @@
+﻿@model Covid.Infrastructure.ViewModel.Quarantine.vmHomeQuarantine
+@using Covid.Infrastructure.Helpers;
+@using Covid.Core.Common;
+@{
+    ViewBag.Title = "HomeQurantineCheckForm";
+    if (SessionHelper.UserDetails!=null)
+    {
+        if (SessionHelper.UserDetails.UserType.ToUpper() == UserTypeCommon.RRT.ToUpper())
+        {
+            Layout = "~/Views/Shared/_Layout.cshtml";
+        }
+        else
+        {
+            Layout = null;
+        }
+    }
+    else
+    {
+        Layout = null;
+    }
+}
+
+
+
+<div class="row">
+    <div class="col">
+
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0">Home Quarantine check </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <form action="~/Quarantine/UpdateQuarantineDetails" method="post" id="myForm">
+                    <div class="">
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Name </label>
+                                    <input type="hidden" value="@Model.QuarantineDetails.PersonId" name="PersonId" />
+                                    @Html.TextBoxFor(x => x.QuarantineDetails.PersonName, new { Name = "Name", @class = "form-control", @id = "input-Name", @required = "required" })
+                                    @*<input type="text" id="input-Name" class="form-control" placeholder="" required>*@
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-username">Docter Name </label>
+                                    @Html.TextBoxFor(x => x.QuarantineDetails.DrName, new { Name = "DrName", @class = "form-control", @id = "input-DrName" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="custom-control custom-control-alternative custom-checkbox">
+                                    <input class="custom-control-input" id="Fev" name="Fev" onclick="checkboxclick()" type="checkbox" @(Model.QuarantineDetails.IsTemp == true ? "checked" : "")>
+                                    <label class="custom-control-label" for="Fev">
+                                        <span class="text-muted"> क्या पिछले २४ घंटो में आपको बुखार आया है ?</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" id="divpass" style="display:none">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-Temp">टेम्परेचर ? </label>
+                                    @Html.TextBoxFor(x => x.QuarantineDetails.Temp, new { Name = "Temp", type = "number", @class = "form-control", @id = "input-Temp" })
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="custom-control custom-control-alternative custom-checkbox">
+                                    <input class="custom-control-input" id="BreathingProb" name="BreathingProb" onclick="checkboxclick()" type="checkbox" value="@Model.QuarantineDetails.IsBreath" @(Model.QuarantineDetails.IsBreath == true ? "checked" : "")>
+                                    <label class="custom-control-label" for="BreathingProb">
+                                        <span class="text-muted"> क्या आपको सांस लेने में दिक्कत / परेशानी है ?</span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6" style="display:none" id="divSPO2">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-Temp">SPO2 </label>
+                                    @Html.TextBoxFor(x => x.QuarantineDetails.SPO2, new { Name = "SPO2", type = "number", @class = "form-control", @id = "input-Temp" })
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Symptoms</label>
+                                    <div class="row mt-2">
+                                        @*<div class="col-lg-6">
+                        <div class="custom-control custom-control-alternative custom-checkbox">
+                            <input class="custom-control-input" id="Fev" name="Fev" type="checkbox" @(Model.QuarantineDetails.IsTemp == true ? "checked" : "")>
+                            <label class="custom-control-label" for="Fev">
+                                <span class="text-muted"> क्या पिछले २४ घंटो में आपको बुखार आया है ?</span>
+                            </label>
+                        </div>
+                    </div>*@
+
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="Cuf" name="Cuf" type="checkbox" @(Model.QuarantineDetails.IsCough == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="Cuf">
+                                                    <span class="text-muted"> क्या आपको खांसी है ?</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="AnyProblem" name="AnyProblem" type="checkbox" value="@Model.QuarantineDetails.AnyProblem" @(Model.QuarantineDetails.AnyProblem == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="AnyProblem">
+                                                    <span class="text-muted"> क्या आपको अन्य कोई समस्या / परेशानी</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="ContactWithFamilyMember" name="ContactWithFamilyMember" type="checkbox" value="@Model.QuarantineDetails.ContactWithFamilyMember" @(Model.QuarantineDetails.ContactWithFamilyMember == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="ContactWithFamilyMember">
+                                                    <span class="text-muted"> क्या आप घर के अन्य सदस्यों से सीधे संपर्क में है ?</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="AnyFamilyMemberIssue" name="AnyFamilyMemberIssue" type="checkbox" value="@Model.QuarantineDetails.AnyFamilyMemberIssue" @(Model.QuarantineDetails.AnyFamilyMemberIssue == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="AnyFamilyMemberIssue">
+                                                    <span class="text-muted"> क्या आपके घर के किसी अन्य सदस्य को सर्दी ,खांसी ,जुकाम बुखार के लक्षण है ?</span>
+                                                </label>
+                                            </div>
+                                        </div>
+
+
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="IsMedicalKit" name="IsMedicalKit" type="checkbox" value="@Model.QuarantineDetails.IsMedicalKit" @(Model.QuarantineDetails.IsMedicalKit == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="IsMedicalKit">
+                                                    <span class="text-muted"> क्या आपको मेडिकल किट प्राप्त हुई है? </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Yoga </label>
+                                    <div class="row mt-2">
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="IsYogaInstructor" name="IsYogaInstructor" type="checkbox" value="@Model.QuarantineDetails.IsYogaInstructor" @(Model.QuarantineDetails.IsYogaInstructor == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="IsYogaInstructor">
+                                                    <span class="text-muted">
+                                                        क्या आपका योग प्रशिक्षक से संपर्क हुआ है?
+                                                        हाँ /नहीं
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="IsYogaIntrested" name="IsYogaIntrested" type="checkbox" value="@Model.QuarantineDetails.IsYogaIntrested" @(Model.QuarantineDetails.IsYogaIntrested == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="IsYogaIntrested">
+                                                    <span class="text-muted">
+                                                        क्या आप योगासन /प्राणायाम हेतु इच्छुक है?
+                                                        हाँ /नहीं
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="custom-control custom-control-alternative custom-checkbox">
+                                                <input class="custom-control-input" id="IsYogaDoneToday" type="checkbox" name="IsYogaDoneToday" value="@Model.QuarantineDetails.IsYogaDoneToday" @(Model.QuarantineDetails.IsYogaDoneToday == true ? "checked" : "")>
+                                                <label class="custom-control-label" for="IsYogaDoneToday">
+                                                    <span class="text-muted">
+                                                        क्या आज आपने योगाभ्यास तथा प्राणायाम किया है?
+                                                        हाँ /नहीं
+                                                    </span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">DCCCRemark </label>
+                                    <textarea type="text" name="DCCCRemark" id="DCCCRemark" class="form-control" placeholder="">@Model.QuarantineDetails.DCCCRemark</textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">Doctor Remark </label>
+                                    <textarea type="text" name="DoctorRemark" id="DoctorRemark" class="form-control" placeholder="">@Model.QuarantineDetails.DoctorRemark</textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="custom-control custom-control-alternative custom-checkbox">
+                                    <input class="custom-control-input" id="IsVideoCall" name="IsVideoCall" type="checkbox" value="@Model.QuarantineDetails.IsVideoCall" @(Model.QuarantineDetails.IsVideoCall == true ? "checked" : "")>
+                                    <label class="custom-control-label" for="IsVideoCall">
+                                        <span class="text-muted">
+                                            VIDEO CALL(YES OR NO)
+                                        </span>
+                                    </label>
+
+
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-first-name">EPD </label>
+                                    <textarea type="text" name="EPD" id="EPD" class="form-control" placeholder="">@Model.QuarantineDetails.EPD</textarea>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="form-group">
+                                    <input type="button" id="input-Rural/Urban" class="btn btn-primary" onclick="myFunction()" value="Submit">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<script>
+    function myFunction() {
+
+        $.ajax({
+            url: '/Quarantine/UpdateHomeQuarantineDetails',
+            type: 'post',
+            data: $('#myForm').serialize(),
+            success: function (result) {
+                alert("Form submit successfully");
+                if (result === "OK") {
+                    $("#QuPopup").modal("hide");
+                    return false;
+                }
+
+            }
+        });
+
+
+    }
+    function checkboxclick() {
+
+        if ($("#Fev").is(':checked')) {
+            $("#divpass").show(500);
+        }
+        else {
+            $("#divpass").hide(500);
+
+        }
+        if ($("#BreathingProb").is(':checked')) {
+            $("#divSPO2").show(500);
+        }
+        else {
+            $("#divSPO2").hide(500);
+
+        }
+        
+    }
+
+</script>

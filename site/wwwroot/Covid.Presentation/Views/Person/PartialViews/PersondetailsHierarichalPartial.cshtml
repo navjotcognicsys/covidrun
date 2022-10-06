@@ -1,0 +1,180 @@
+﻿@model List<Covid.Core.DBEntities.Person.PersonTreeView>
+<style>
+body {
+  font-family: Calibri, Segoe, "Segoe UI", "Gill Sans", "Gill Sans MT", sans-serif;
+}
+/* It's supposed to look like a tree diagram */
+    .tree,  .tree li {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        position: relative;
+    }
+
+    .tree {
+        margin: 0 0 1em;
+        text-align: center;
+    }
+
+        .tree, .tree ul {
+            display: table;
+        }
+
+            .tree ul {
+                width: 100%;
+              
+            }
+
+            .tree li {
+                display: table-cell;
+                padding: .5em 0;
+                vertical-align: top;
+            }
+                /* _________ */
+                .tree li:before {
+                    outline: solid 3px #666;
+                    content: "";
+                    left: 0;
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                }
+                    .tree li:first-child:before {
+                        left: 50%;
+                    }
+
+                    .tree li:last-child:before {
+                        right: 50%;
+                    }
+               
+
+
+
+            .tree code, .tree span {
+                border: solid .1em #666;
+                border-radius: .2em;
+                display: inline-block;
+                margin: 0 .1em .5em;
+                padding: .2em .5em;
+                position: relative;
+            }
+            /* If the tree represents DOM structure */
+            .tree code {
+                font-family: monaco, Consolas, 'Lucida Console', monospace;
+            }
+
+                /* | */
+                
+                .tree code:before,
+                .tree span:before {
+                    outline: solid 3px #666;
+                    content: "";
+                    height: .5em;
+                    left: 50%;
+                    position: absolute;
+                }
+
+
+            .tree ul:before {
+                top: -.5em;
+            }
+
+            .tree code:before,
+            .tree span:before {
+                top: -.55em;
+            }
+
+            /* The root node doesn't connect upwards */
+            .tree > li {
+                margin-top: 0;
+            }
+
+                .tree > li:before,
+                .tree > li:after,
+                .tree > li > code:before,
+                .tree > li > span:before {
+                    outline: none;
+                }
+</style>
+@if (TempData["PersonMessage"] != null)
+{
+    <div class="alert alert-info">
+        <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+        @TempData["PersonMessage"]
+    </div>
+}
+<br />
+<div id="message"></div>
+
+@for (int i = 0; i < Model.Count(); i++)
+{
+
+    <li>
+        <code>
+            <a href="#" class="btn btn-primary" onclick="display('@Model[i].PersonId','@Model[i].PersonName','@Model[i].Address')">
+            @Model[i].PersonName (@Model[i].Mobileno)
+
+            </a>
+        </code>
+        @if (Model[i].List.Count() != 0)
+        {
+            <ul>
+                @Html.Partial("~/Views/Person/PartialViews/PersondetailsHierarichalPartial.cshtml", Model[i].List)
+
+            </ul>
+        }
+    </li>
+
+}
+<script>
+    function display(Id, Name, Address) {
+
+
+
+
+
+        var Search = $("#Search").val();
+        var map = $("#map").val();
+
+
+        $.ajax({
+            url: '/Person/GetDataforPartialView',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+
+                PersonId: Id
+
+
+
+            }),
+            success: function (data) {
+
+                $("#Mybody").html(data);
+                $("#myModal").modal("show");
+
+            },
+            error: function () {
+
+            },
+        });
+    }
+</script>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Person Detail</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+
+            </div>
+            <div class="modal-body" id="Mybody">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

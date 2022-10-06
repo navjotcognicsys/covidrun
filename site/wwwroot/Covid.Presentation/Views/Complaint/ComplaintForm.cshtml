@@ -1,0 +1,253 @@
+﻿@model Covid.Infrastructure.ViewModel.Complaint.vmComplaint
+ @{   
+     Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="covid-19 Information">
+    <meta name="author" content="covid-19 Information">
+    <title>covid-19 Information || Complaint Registration </title>
+    <!-- Favicon -->
+    <link rel="icon" href="assets/img/brand/favicon.png" type="image/png">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <!-- Icons -->
+    <link rel="stylesheet" href="assets/vendor/nucleo/css/nucleo.css" type="text/css">
+
+    @*<link rel="stylesheet" href="assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">*@
+    <!-- Page plugins -->
+    <!-- Argon CSS -->
+    <link rel="stylesheet" href="assets/css/argon.css?v=1.2.0" type="text/css">
+</head>
+<body>
+    <!-- Sidenav -->
+    <!-- Main content -->
+    <div class="main-content" id="panel">
+        <!-- Topnav -->
+        <!-- Header -->
+        <!-- Header -->
+        <div class="header bg-primary pb-6">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <div class="row align-items-center py-4">
+                        <div class="col-lg-6 col-7">
+                            @*@section HomeDesign
+                            {
+                                <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+                                    <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                        <li class="breadcrumb-item"><a href=""><i class="fas fa-home"></i></a></li>
+                                        <li class="breadcrumb-item">
+                                            Complaint Registration Form
+
+                                        </li>
+                                    </ol>
+                                </nav>
+                            }*@
+                        </div>
+                        <!-- <div class="col-lg-6 col-5 text-right">
+                          <a href="#" class="btn btn-sm btn-neutral">New</a>
+                          <a href="#" class="btn btn-sm btn-neutral">Filters</a>
+                        </div> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Page content -->
+     
+        <div class="container-fluid mt--6">
+            <div class="row">
+                <div class="col">
+                  
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="row align-items-center">
+                                    <div class="col-8">
+                                        <h3 class="mb-0">Complaint Registration (Please provide Ward info for fast processing) </h3>
+                                        <h1>@ViewBag.Message</h1>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <form action="~/Complaint/AddComplaint" method="post" id="target">
+                                    <div class="">
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-username">Name  </label>
+                                                    @Html.TextBoxFor(x => x.ComplaintDetails.Name, new { Name = "Name", @class = "form-control", @id = "input-Name", @required = "required" })
+                                                    @*<input type="text" id="input-Name" name="Name" class="form-control" placeholder="Name" required>*@
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-last-name">Mobile No. </label>
+                                                    @Html.TextBoxFor(x => x.ComplaintDetails.MobileNo, new { Name = "MobileNo", @class = "form-control", @id = "input-Name", @required = "required", pattern = @"^\d{10}$", title = "Please enter 10 digit mobile number", @maxlength = "10" })
+                                                    @*<input type="text" id="input-last-name" name="MobileNo" class="form-control" placeholder="Mobile Number" required maxlength="10" pattern="^\d{10}$" title="Please enter 10 digit mobile number">*@
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-email">Email</label>
+                                                    @Html.TextBoxFor(x => x.ComplaintDetails.Email, new { Name = "Email", @class = "form-control", @id = "input-email",  @type = "email" })
+                                                    @*<input type="email" id="input-email" name="Email" class="form-control" placeholder="Email" required>*@
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <div class="form-group">
+                                                    @Html.Label("Complaint Type", new { @class = "form-control-label" })
+                                                    @*@Html.DropDownListFor(model => model.ComplaintTypeList, new SelectList(Model.ComplaintTypeList.OrderBy(x => x)), new { Class = "form-control", Name = "ComplaintType" })*@
+
+                                                    <select class="form-control" id="ComplaintTypeId" name="ComplaintType" required>
+                                                        <option value="">Please Select </option>
+                                                        @foreach (var i in Model.ComplaintTypeList)
+                                                        {
+                                                            <option value="@i.ComplaintTypeId">@i.ComplaintTypeName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.Label("Local Body", new { @class = "form-control-label" })
+                                                    <select class="form-control" id="localBodyList" name="LocalBody" required>
+                                                        <option value="" selected>Please Select </option>
+                                                        @foreach (var i in Model.LocalBodyList)
+                                                        {
+                                                            <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.Label("Ward", new { @class = "form-control-label" })
+                                                    <select class="form-control" id="zoneList" name="Ward" required >
+                                                       
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            @*<div class="col-lg-4">
+                                                <div class="form-group">
+                                                    @Html.Label("Ward", new { @class = "form-control-label" })
+                                                    <select class="form-control" id="ward" name="Ward">
+                                                    </select>
+                                                 
+                                                </div>
+                                            </div>*@
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-last-name">Address  </label>
+                                                    <textarea type="text" id="input-last-name" name="Address" class="form-control" placeholder="" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <label class="form-control-label" for="input-last-name">Details  </label>
+                                                    <textarea type="text" name="Details" id="input-last-name" class="form-control" placeholder="" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12">
+                                                <div class="form-group">
+                                                    <input type="submit" id="input-Rural/Urban" class="btn btn-primary" value="Submit">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            
+                            </div>
+                        </div>
+                   
+                </div>
+            </div>
+            <!-- Footer -->
+        </div>
+        
+       
+    </div>
+
+    <script>
+        $(document).ready(function () {
+          
+        });
+        //$('#localBodyList').change(function () {
+           
+        //    $.ajax({
+        //        url: "/Complaint/GetZoneDropDown",
+        //        type: "POST",
+        //        dataType: "json",
+        //        data: { LocalBodyId :$(this).val()},
+        //        success: function (data) {
+                   
+        //            $('#zoneList').find('option').remove();
+        //            $('#wardList').find('option').remove();
+        //            $('#zoneList').append('<option value="0">Please Select</option>')
+        //            for (var i = 0; i < data.length; i++)
+        //            {
+        //                var x = data[i];
+        //                $('#zoneList').append(`<option value="${x.LocalBodyID}">
+        //                               ${x.LocalBodyName}
+        //                          </option>`);
+        //            }
+                   
+        //        }
+        //    })
+        //});
+        //$('#zoneList').change(function () {
+         
+        //    $.ajax({
+        //        url: "/Complaint/GetZoneDropDown",
+        //        type: "POST",
+        //        dataType: "json",
+        //        data: { LocalBodyId: $(this).val() },
+        //        success: function (data) {
+        //            $('#wardList').find('option').remove();
+        //             $('#wardList').append('<option value="0">Please Select</option>')
+        //            for (var i = 0; i < data.length; i++) {
+        //                var x = data[i];
+        //                $('#wardList').append(`<option value="${x.LocalBodyID}">
+        //                               ${x.LocalBodyName}
+        //                          </option>`);
+        //            }
+
+        //        }
+        //    })
+        //});
+
+            var localityUrl = '@Url.Action("GetWardDropDown","Complaint")';
+			//var subLocalityUrl = '@Url.Action("GetWardDropDown","Complaint")';
+			var localities = $('#zoneList');
+        //var subLocalities = $('#ward');
+        $('#localBodyList').change(function () {
+				localities.empty();
+				//subLocalities.empty();
+				$.getJSON(localityUrl, { LocalBodyId: $(this).val() },function(data) {
+					if (!data) {
+						return;
+					}
+				 localities.append($('<option></option>').val('').text('Please select'));
+                    $.each(data, function (index, item) {
+                        localities.append($('<option></option>').val(item.LocalBodyID).text(item.LocalBodyName));
+					});
+				});
+        })
+   //     $('#zoneList').change(function () {
+			//	subLocalities.empty();
+			//	$.getJSON(subLocalityUrl, { LocalBodyId: $(this).val() },function(data) {
+			//		if (!data) {
+			//			return;
+			//		}
+			//		subLocalities.append($('<option></option>').val('0').text('Please select'));
+   //                 $.each(data, function (index, item) {
+   //                     debugger;
+			//			subLocalities.append($('<option></option>').val(item.LocalBodyID).text(item.LocalBodyName));
+			//		});
+			//	});
+			//})
+    </script>
+</body>
+</html>

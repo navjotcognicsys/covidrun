@@ -1,0 +1,171 @@
+﻿@model Covid.Infrastructure.ViewModel.SeroSurve.vmSeroSurve
+
+@if (TempData["QMessage"] != null)
+{
+    <div class="alert alert-info">
+        <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+        @TempData["QMessage"]
+    </div>
+}
+@if (Model.SeroSurveList != null)
+{
+
+
+    <div class="table-responsive">
+
+        <table id="" class="table table-bordered example">
+            <thead>
+                <tr role="row">
+                    <th>Sero Surve ID</th>
+                    <th>Person Name </th>
+                    <th> Address   </th>
+                    <th> Ward Name                    </th>
+                    <th>Mobile                    </th>
+                    <th>Parents Name                    </th>
+                    <th>Age                    </th>
+                    <th>Gender                    </th>
+                    <th>क्या नमूने का चयन संभव है                    </th>
+                    <th> यदि नही                    </th>
+                    <th>Education                    </th>
+                    <th>Occupation                    </th>
+                    <th>Occupation Type                    </th>
+                    <th> Any body Worked in lockdown                    </th>
+                    <th>Who (if yes)                    </th>
+                    <th> Govt. Id Type                    </th>
+                    <th>Govt. Id                    </th>
+                    <th># of Family member                    </th>
+                    <th>                        पुरुषों की संख्या                    </th>
+                    <th>                        स्त्रीयों की संख्या                    </th>
+                    <th>                        बच्चों की संख्या                    </th>
+                    <th>                        वयस्को की संख्या                    </th>
+                    <th>                        परिवार की औषत मासिक आय                    </th>
+                    <th>                        BPL                    </th>
+                    <th>                        मकान का प्रकार                    </th>
+                    <th>                        # of Total Room                    </th>
+                    <th>                        Total Area                    </th>
+                    <th>                        घर का स्थान                    </th>
+                    <th>                        शौचालय की सुविधा                    </th>
+                    <th>                        मधुमेह                    </th>
+                    <th>                        उच्च रक्तचाप                    </th>
+                    <th>                        कर्क रोग                    </th>
+                    <th>                        गुर्दे की बीमारी                    </th>
+                    <th>                        फेफड़े की बीमारी                    </th>
+                    <th>                        ह्र्दय रोग                    </th>
+                    <th>                        जिगर की बीमारी                    </th>
+                    <th>                        अंग प्रत्यारोपण                    </th>
+                    <th>                       विकलांगता                   </th>
+                    <th>                        रक्त रोग                   </th>
+                    <th>                       कोविड 19 के लिये RT- PCR                  </th>
+                    <th>                        सर्दी, खांसी, तथा बुखार                   </th>
+                    <th>                        सर्दी , खांसी, बुखार तथा साँस लेने में कठिनाई                   </th>
+                    <th>                        Created On                    </th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.SeroSurveList != null)
+                {
+                    foreach (var j in Model.SeroSurveList)
+                    {
+                <tr role="row" class="odd">
+                    <td>@j.SeroSurveId</td>
+                    <td>@j.Name</td>
+                    <td>@j.Address</td>
+                    <td>@j.WardName</td>
+                    <td>@j.Mobile</td>
+
+                    <td>@j.ParentsName</td>
+                    <td>@j.Age</td>
+                    <td>@(j.Gender == true ? "पुरुष" : "महिला")</td>
+                    <td>@(j.IsSamplePossible == true ? "Yes" : "No")</td>
+                    @if (j.IsSamplePossible)
+                    {
+                        <td>NA</td>
+                    }
+                    else
+                    {
+                        <td>@Covid.Infrastructure.Helpers.MappingHelper.CauseForNoSample(j.CauseForNoSample)</td>
+                    }
+                    <td>@Covid.Infrastructure.Helpers.MappingHelper.HigherEducation(j.HighestEdu)</td>
+                    <td>@j.Occupation</td>
+                    <td>@Covid.Infrastructure.Helpers.MappingHelper.OccupationType(j.OccupationType)</td>
+                    <td>@(j.IsWorkEmergency == true ? "Yes" : "No")</td>
+                    @if (j.IsWorkEmergency)
+                    {
+                        <td>@Covid.Infrastructure.Helpers.MappingHelper.WhoWork(j.WhoWork)</td>
+                    }
+                    else
+                    {
+                        <td>NA</td>
+                    }
+                    <td>@Covid.Infrastructure.Helpers.MappingHelper.GovtIdType(j.GovtIdType)</td>
+                    <td>@j.GovtId</td>
+                    <td>@j.NumberofFamily</td>
+                    <td>@j.MaleMember</td>
+                    <td>@j.FemaleMember</td>
+                    <td>@j.KidsNumber</td>
+                    <td>@j.AdlutNumber</td>
+                    <td>@j.FamilyMontlyIncome</td>
+                    <td>@(j.IsBPL == true ? "Yes" : "No")</td>
+                    <td>@Covid.Infrastructure.Helpers.MappingHelper.HomeType(j.HomeType)</td>
+                    <td>@j.TotalRoom</td>
+                    <td>@j.TotalArea</td>
+                    <td>@(j.HomeArea == true ? "नान स्लम" : "स्लम")</td>
+                    <td>@Covid.Infrastructure.Helpers.MappingHelper.BathFacility(j.Batroom)</td>
+                    <td>@(j.IsDiabities == true ? "Yes" : "No")</td>
+                    <td>@(j.BP == true ? "Yes" : "No")</td>
+                    <td>@(j.IsCancer == true ? "Yes" : "No") </td>
+                    <td>@(j.IsKidney == true ? "Yes" : "No")</td>
+                    <td>@(j.IsLungs == true ? "Yes" : "No")</td>
+                    <td>@(j.IsHeart == true ? "Yes" : "No")</td>
+                    <td>@(j.IsLiver == true ? "Yes" : "No")</td>
+                    <td>@(j.IsOrgantransplant == true ? "Yes" : "No")</td>
+                    <td>@(j.IsDisable == true ? "Yes" : "No")</td>
+                    <td>@(j.IsBlood == true ? "Yes" : "No")</td>
+                    <td>@(j.IsPCR == true ? "Yes" : "No")</td>
+                    <td>@(j.IsILI == true ? "Yes" : "No")</td>
+                    <td>@(j.IsSARI == true ? "Yes" : "No")</td>
+                    <td>@j.CollectedOn.ToString("MMM dd yyy")</td>
+                </tr>
+
+                    }
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+ }
+else
+{
+    <p>No data </p>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.example').DataTable({
+            responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+           
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Excel data'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'PDF data',
+                     orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+                }
+            ]
+        });
+    });
+
+</script>

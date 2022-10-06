@@ -1,0 +1,81 @@
+@import url("https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap");
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{border:none;outline:0;font-weight:inherit;font-style:inherit;font-family:inherit;vertical-align:baseline;text-decoration:none;margin:0;padding:0;}
+table{border-collapse:separate;border-spacing:0}
+blockquote:before,blockquote:after,q:before,q:after{content:""}
+*{margin:0;padding:0;-webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {display: block; }								  
+ol, ul { list-style: none;}
+blockquote, q { quotes: none;}
+:focus { outline: 0;}
+table { border-collapse: collapse; border-spacing: 0;}
+img { border: 0; -ms-interpolation-mode: bicubic; vertical-align: middle; }
+a{text-decoration:none; position:relative; color:#000;}
+audio,video,canvas {max-width: 100%;}
+
+body {
+  color: #2a2a2a;
+  background-color: #fafafa;
+  padding: 0;
+  margin: 0;
+  font-size: 15px;
+  font-family: "Nunito", sans-serif;
+}
+.form-container{padding:25px;background:#fff;margin:25px 0;border-radius:10px;border:1px solid #d7d7d7;}
+
+.form-container h1{text-transform:uppercase;font-size:2em;padding:30px 0 0;font-weight:700;}
+.form-row>.col, .form-row>[class*=col-]{padding-right: 10px;padding-left: 10px;}
+.form-container .custom-select, .form-container .custom-file-label{-webkit-box-sizing: content-box;box-sizing: content-box;background-color: transparent;border: none;border-bottom: 1px solid #ced4da;border-radius: 0;outline: none;-webkit-box-shadow: none;box-shadow: none;-webkit-transition:border-color 0.15s ease-in-out,-webkit-box-shadow 0.15s ease-in-out;transition: border-color 0.15s ease-in-out,-webkit-box-shadow 0.15s ease-in-out;transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out;transition: border-color 0.15s ease-in-out,box-shadow 0.15s ease-in-out,-webkit-box-shadow 0.15s ease-in-out;height: auto;padding: .6rem 0 .4rem 0;margin: 0 0 .5rem 0;}
+.form-container .custom-select:focus, .form-container .custom-file-label:focus {border-bottom: 1px solid #4285f4;-webkit-box-shadow: 0 1px 0 0 #4285f4;box-shadow: 0 1px 0 0 #4285f4;}
+.md-form label.custom-file-label, .md-form label.form-check-label{-webkit-transform: translateY(0px);transform: translateY(0px);}
+.form-container .needs-validation .md-form label {left: .7rem;}.form-container .needs-validation .md-form label.form-check-label {left: 0rem;}
+.custom-file-input::after{cursor:pointer;}
+.custom-file-input:lang(en):focus~.custom-file-label::after, .custom-file-input:lang(en):hover~.custom-file-label::after{cursor:pointer;color:#fff;background:#000;}
+.form-container .label.bold{padding-bottom:12px;;font-weight:600;}
+ 
+ /*ID Card*/
+ .profile_info{border-bottom:1px solid #fff;margin-bottom:15px;padding-bottom:15px;}
+ .id-wrapper{background:#4472c4;padding:40px;color:#fff;font-size:1em;}
+ .id-wrapper strong{font-weight:600;font-size:1.1em;}
+ .contact_date{padding-bottom:1.6em;}
+ .id-wrapper td{padding:12px 0;}
+ .id-wrapper td.cell_content{padding-left:12px;}
+ .patient_photo{border:1px solid #fff;margin-bottom:15px;}
+ .patient_risk{}
+ .risk_type{display:block;text-align:right;line-height:30px;margin:0;vertical-align:middle;}
+ .norisk{padding-top:12px;}
+ .risk_type span{display:inline-block;width:50px;height:30px;vertical-align:top;margin-left:10px;}
+ .risk_type.norisk span{background:#00b050;}
+ .risk_type.minrisk span{background:#ffc000;}
+ .risk_type.hirisk span{background:#c00000;}
+ .patient_drname{padding-top:12px;padding-bottom:12px;}
+ footer.page-footer{background:#322e2e}
+ footer.page-footer .container-fluid{padding:15px;}
+ .header .navbar {
+    font-weight: 300;
+    -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0), 0 2px 10px 0 rgba(0,0,0,0);
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,0), 0 2px 10px 0 rgba(0,0,0,0);background:#fff;padding:0 15px;
+}
+.header .navbar-brand {margin-bottom: -0px;background: #fff;padding: 10px;border-radius: 0px 0 8px 8px;padding:0 12px;}
+.health_facility .card{padding:12px 25px 20px;}.health_facility .card .card-action{border-top:0;padding-left:0px;padding-top:8px;}
+.health_facility .tab-content{padding:20px 0;}
+.health_facility .panel-heading .nav-tabs li{box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14), 0 1px 5px 0 rgba(0,0,0,0.12), 0 3px 1px -2px rgba(0,0,0,0.2);padding:0;}
+.health_facility .panel-heading .nav-tabs li a{display:block;width:100%;padding:12px 15px;line-height:32px;}.health_facility .panel-heading .nav-tabs li.active a{background:#f87500;color:#fff;}
+.health_facility .table{
+	border:1px solid #cacaca;border-radius:0;
+}
+.health_facility .table-responsive {border-radius: 0px;}
+.health_facility .table td, .health_facility .table th{border:1px solid #cacaca;border-radius:0;}
+.health_facility .table th{background:#f5f5f5;}
+.health_facility .table td:nth-child(4),
+.health_facility .table td:nth-child(9),
+.health_facility .table td:nth-child(13){background:var(--light-orange);font-weight:700;}
+.bluet{color:#fff;}.tab-content>.active.in{opacity:1;}
+.bg2{}
+.bg3{}
+.bg4{}
+@media all and (max-width:992px){
+	.header .navbar-brand img{max-width:250px;}
+}
+@media all and (max-width:768px){
+	.header .navbar-brand img{max-width:200px;}
+}

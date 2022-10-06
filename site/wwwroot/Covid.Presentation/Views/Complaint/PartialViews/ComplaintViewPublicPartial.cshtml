@@ -1,0 +1,39 @@
+﻿@model Covid.Infrastructure.ViewModel.Complaint.vmComplaint
+
+<div class="table-responsive">
+    <!-- Projects table -->
+    <table class="table align-items-center table-flush">
+        <thead class="thead-light">
+            <tr>
+                <th scope="col">Complaint Id  </th>
+                <th scope="col">Complaint By  </th>
+                <th scope="col">Complaint Details  </th>
+                <th scope="col">Remarks  </th>
+                <th scope="col">Status</th>
+                <th scope="col">CreatedOn</th>
+                <th scope="col">UpdatedOn</th>
+
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var x in Model.ComplaintDetailsList)
+            {
+                Covid.Core.Enum.ComplaintStatus Status = (Covid.Core.Enum.ComplaintStatus)Enum.ToObject(typeof(Covid.Core.Enum.ComplaintStatus) , x.Status);
+
+            <tr>
+                <th scope="row">@x.ComplaintId</th>
+                <th scope="row">@x.Name</th>
+                <td>@x.Details</td>
+                <td>@x.Remark</td>
+                <td>@Status</td>
+                <td>@x.CreatedOn</td>
+                <td>@x.AssignOn</td>
+
+
+            </tr>
+            }
+
+
+        </tbody>
+    </table>
+</div>

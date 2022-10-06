@@ -1,0 +1,376 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmPerson
+@using Covid.Core.Enum
+@{
+    ViewBag.Title = "PersonSearch";
+}
+
+
+
+@section HomeDesign
+   {
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+            <li class="breadcrumb-item"><a href="@Url.Action("DashBoard", "DashBoard")"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item">
+                Person Search
+            </li>
+        </ol>
+    </nav>
+}
+<div class="row">
+    <div class="col">
+        <form>
+
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">View</h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="">
+
+                        <div class="row">
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Person Name</label>
+                                    <input type='text' class="form-control" id="PersonName" Name="PersonName" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Coming From</label>
+                                    <input type='text' class="form-control" id="ComingFrom" Name="ComingFrom" />
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-city">Local Body</label>
+                                    <select class="form-control" name="LocalBodyId" id="LBID">
+                                        <option value="" disabled="" selected>Local Body</option>
+                                        @if (Model.LocalBodyList.Count() != 0)
+                                        {
+                                            foreach (var i in Model.LocalBodyList)
+                                            {
+                                                if (@i.LocalBodyID == Model.PersonDetail.LocalBodyId)
+                                                {
+                                                    <option selected value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                                    continue;
+                                                }
+                                                <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Zone</label>
+                                    <select class="form-control" name="ZoneId" id="ZID">
+                                        @if (Model.GetZoneList.Count() != 0)
+                                        {
+                                            foreach (var i in Model.GetZoneList)
+                                            {
+                                                if (@i.LocalBodyID == Model.PersonDetail.ZoneId)
+                                                {
+                                                    <option selected value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                                    continue;
+                                                }
+                                                <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Ward</label>
+                                    <select class="form-control" name="WardId" id="WID">
+                                        @if (Model.GetWardList.Count() != 0)
+                                        {
+                                            foreach (var i in Model.GetWardList)
+                                            {
+                                                if (@i.LocalBodyID == Model.PersonDetail.WardId)
+                                                {
+                                                    <option selected value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                                    continue;
+                                                }
+                                                <option value="@i.LocalBodyID">@i.LocalBodyName</option>
+                                            }
+
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            @*<div class="col-lg-3">
+            <div class="form-group">
+                <label class="form-control-label" for="input-country">Date of arrvial</label>
+                <input type='date' class="form-control" id='datetimepicker4'  />
+            </div>
+        </div>*@
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Quarantine</label>
+                                    <select name="Quarantine" id="Quarantine" class="form-control View_Drop OverIew">
+                                        <option value="">Please Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Cough</label>
+                                    <select name="Sick" id="Sick" class="form-control View_Drop OverIew">
+                                        <option value="">Please Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Fever</label>
+                                    <select name="Fever" id="Fever" class="form-control View_Drop OverIew">
+                                        <option value="">Please Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Shortness of Breath</label>
+                                    <select name="ShortnessofBreath" id="ShortnessofBreath" class="form-control View_Drop OverIew">
+                                        <option value="">Please Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Health Status</label>
+                                    <select name="HealthStatus" id="HealthStatus" class="form-control View_Drop OverIew">
+                                        <option value="">Please Select</option>
+                                        <option value="1">Sick</option>
+                                        <option value="0">Fit</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Travel Mode</label>
+                                    <input type='text' class="form-control" id="TravalMode" Name="TravalMode" />
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Infection Source</label>
+                                    <select name="InfectionSource" id="InfectionSource" class="form-control col-sm-8 View_Drop">
+                                        <option value="" disabled="" selected>Please Select User</option>
+                                        @if (Model.InfectionSourceList != null || Model.InfectionSourceList.Count() > 0)
+                                        {
+                                            foreach (var i in Model.InfectionSourceList)
+                                            {
+                                                if (i.InfectionId == Model.PersonDetail.InfectionSource)
+                                                {
+                                                    <option selected value="@i.InfectionId">@i.InfectionSource</option>
+                                                    continue;
+                                                }
+                                                <option value="@i.InfectionId">@i.InfectionSource</option>
+                                            }
+
+                                        }
+
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Sticker</label>
+                                    <select name="Sticker" id="Sticker" class="form-control View_Drop OverIew">
+                                        <option value="">Please Select</option>
+                                        <option value="1">Yes</option>
+                                        <option value="0">No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Related Person</label>
+                                    @*<input type='text' class="form-control" id='RelatedPersonID' />*@
+                                    <select id="RelatedPersonID" class="form-control col-sm-8 View_Drop">
+                                        <option value="" disabled="" selected>Please Select User</option>
+                                        @if (Model.PositivePersonDetailList != null || Model.PositivePersonDetailList.Count() > 0)
+                                        {
+                                            foreach (var i in Model.PositivePersonDetailList)
+                                            {
+
+                                                <option value="@i.PersonId">@i.PersonName (@i.Mobileno)</option>
+                                            }
+
+                                        }
+
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">Current Location</label>
+                                    @*<input type='text' class="form-control" id='RelatedPersonID' />*@
+                                    <select id="CurrentLocation" class="form-control col-sm-8 View_Drop">
+                                        <option value="" disabled="" selected>Please Select User</option>
+                                        @if (Model.CurrentLocationDetailList != null || Model.CurrentLocationDetailList.Count() > 0)
+                                        {
+                                            foreach (var i in Model.CurrentLocationDetailList)
+                                            {
+
+                                                <option value="@i.CurrentLocation">@i.CurrentLocation</option>
+                                            }
+
+                                        }
+
+
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-3">
+                                <div class="form-group">
+                                    <label class="form-control-label" for="input-country">CheckPost</label>
+                                    <select name="CheckPoint" id="CheckPoint" class="form-control col-sm-8 View_Drop" required>
+                                        <option value=selected>Please Select</option>
+                                        <option value=1>Yes</option>
+                                        <option value=0>No</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-lg-3">
+                                <div class="form-group mt-4">
+                                    <button type="button" class="btn btn-success" id="BtnSaveDataUser" onclick="ChangeData1()">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                         
+
+                          
+                        </div>
+
+                        <div id="DataView">
+                            @Html.Partial("~/Views/Person/PartialViews/PersonSearchPartial.cshtml", Model)
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+</div>
+
+<script type="text/javascript">
+    //$(function () {
+    //    $('#datetimepicker4').datetimepicker();
+    //});
+
+    var ChangeData1 = function () {
+        
+        var LBID = $("#LBID").val();
+        var ZID = $("#ZID").val();
+        var WID = $("#WID").val();
+        var datetimepicker4 = $("#datetimepicker4").val();
+        var Quarantine = $("#Quarantine").val();
+        var HealthStatus = $("#HealthStatus").val();
+        var TravalMode = $("#TravalMode").val();
+        var PersonName = $("#PersonName").val();
+        var ComingFrom = $("#ComingFrom").val();
+        var InfectionSource = $("#InfectionSource").val();
+        var Sticker = $("#Sticker").val();
+        var RelatedPersonID = $("#RelatedPersonID").val();
+         var CurrentLocation = $("#CurrentLocation").val();
+        var CheckPoint = $("#CheckPoint").val();
+        var Sick = $("#Sick").val();
+        var Fever = $("#Fever").val();
+        var ShortnessofBreath = $("#ShortnessofBreath").val();
+        
+        $.ajax({
+            url: '/Person/GetIPersonDeailByFilter',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+                LOcalBodyID: LBID,
+                ZoneID: ZID,
+                WardID: WID,
+                DateOfArrival: datetimepicker4,
+                Quarantine: Quarantine,
+                HealthStatus: HealthStatus,
+                TravalMode: TravalMode,
+                PersonName: PersonName,
+                ComingFrom:ComingFrom,
+                InfectionSource: InfectionSource,
+                Sticker: Sticker,
+                RelatedPersonID: RelatedPersonID,
+                CheckPoint: CheckPoint,
+                Sick: Sick,
+                Fever: Fever,
+                ShortnessofBreath: ShortnessofBreath,
+                CurrentLocation:CurrentLocation
+            }),
+            success: function (data) {
+               
+                $("#DataView").html("");
+                $("#DataView").append(data);
+               
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+
+
+
+</script>
+<script>
+     var localityUrl = '@Url.Action("FetchZone","Person")';
+			var subLocalityUrl = '@Url.Action("FetchWard","Person")';
+			var localities = $('#ZID');
+    var subLocalities = $('#WID');
+    $('#LBID').click(function () {
+				localities.empty();
+				subLocalities.empty();
+				$.getJSON(localityUrl, { ID: $(this).val() },function(data) {
+					if (!data) {
+						return;
+					}
+					localities.append($('<option></option>').val('').text('Please select'));
+					$.each(data, function(index, item) {
+						localities.append($('<option></option>').val(item.Value).text(item.Text));
+					});
+				});
+    })
+    $('#ZID').click(function () {
+				subLocalities.empty();
+				$.getJSON(subLocalityUrl, { ID: $(this).val() },function(data) {
+					if (!data) {
+						return;
+					}
+					subLocalities.append($('<option></option>').val('').text('Please select'));
+					$.each(data, function(index, item) {
+						subLocalities.append($('<option></option>').val(item.Value).text(item.Text));
+					});
+				});
+			})
+</script>

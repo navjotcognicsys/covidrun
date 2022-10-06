@@ -1,0 +1,138 @@
+﻿@model Covid.Infrastructure.ViewModel.Dashboard.vmDashboard
+@using Covid.Core.Enum
+@{
+
+}
+@section HomeDesign
+   {
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+            <li class="breadcrumb-item"><a href="@Url.Action("DashBoard", "DashBoard")"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item">
+
+                Complaints Assigned To Me
+
+            </li>
+        </ol>
+    </nav>
+}
+<div class="row">
+    <div class="col">
+        <div class="card">
+            <div class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-8">
+                        <h3 class="mb-0">Complaints Assigned To Me </h3>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+
+                <table id="x" class="table table-bordered">
+                    <thead>
+                        <tr role="row">
+                            <th>
+                                Actions
+                            </th>
+                            <th c>
+                                Complaint ID
+                            </th>
+                            <th>
+                                Name
+                            </th>
+                            <th>
+                                ComplaintType
+                            </th>
+
+
+                            <th>
+                                Details
+                            </th>
+                            <th>
+                                Address
+                            </th>
+                            <th>
+                                Mobile No
+                            </th>
+
+                            <th>
+                                Email
+                            </th>
+                            <th>
+                                Ward
+                            </th>
+                            <th>
+                                Date Of Creation
+                            </th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        @if (Model.ComplaintDetailsList != null)
+                        {
+                            foreach (var i in Model.ComplaintDetailsList)
+                            {
+                                <tr role="row" class="odd">
+                                    <td><input type="button" class="btn btn-success btn-sm btn_resolved pull-left" value="Assign/Update " onclick="location.href ='@Url.Action("OpenAssignmentForm", "Complaint",new {ComplaintId=@i.ComplaintId ,complaintTypeID=@i.ComplaintTypeId})'" /></td>
+                                    <td tabindex="0" class="sorting_1">@i.ComplaintId</td>
+                                    <td>@i.Name</td>
+
+                                    <td>
+                                        <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.ComplaintTypeName</textarea>
+                                    </td>
+
+                                    <td>
+                                        <textarea rows="2" cols="20" disabled name="details" form="usrform">@i.Details</textarea>
+                                    </td>
+                                    <td>
+
+                                        <textarea rows="2" cols="20" disabled name="address" form="usrform">@i.Address</textarea>
+                                    </td>
+                                    <td>@i.MobileNo</td>
+                                    <td>@i.Email</td>
+                                    <td>@i.wardname</td>
+                                    <td>@i.CreatedOn.ToString("dd/MM/yyyy")</td>
+
+
+
+                                </tr>
+                            }
+                        }
+
+
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#x').DataTable({
+            responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+           
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Excel data'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'PDF data',
+                     orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+                }
+            ]
+        });
+    });
+</script>

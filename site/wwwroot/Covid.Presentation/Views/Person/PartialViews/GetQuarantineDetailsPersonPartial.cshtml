@@ -1,0 +1,145 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmPerson
+
+@{
+    //var m = Model.QList.Select(x => new { x.PersonId, x.PersonName, x.MobileNo, x.Address }).Distinct();
+    var c = 1;
+}
+
+@if (Model.QList != null)
+{
+
+
+    <div class="table-responsive">
+
+        <table id="" class="table table-bordered example">
+            <thead>
+                <tr role="row">
+                    <th>Serial Number</th>
+                    <th>
+                        Person Id
+                    </th>
+                    <th>
+                        Person Name
+                    </th>
+                    <th>
+                        Related Person Name
+                    </th>
+                    <th>
+                        Person Address
+                    </th>
+                    <th>
+                        Mobile No.
+                    </th>
+
+                    @*<th>
+                            Checked By
+                        </th>*@
+                    <th>
+                        Checked On
+                    </th>
+                    <th>
+                        IsFever
+                    </th>
+                    <th>
+                        IsCough
+                    </th>
+                    <th>
+                        Breathing Problem
+                    </th>
+                    <th>
+                        NA
+                    </th>
+                    <th>
+                        IsSticker
+                    </th>
+
+                    <th>
+                        Any Trouble
+                    </th>
+                    <th>
+                        Any Need
+                    </th>
+                    <th>Remark</th>
+
+
+
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.QList != null)
+                {
+                    foreach (var j in Model.QList)
+                    {
+                        <tr role="row" class="odd">
+                            <td>@c</td>
+                            <td>@j.PersonId</td>
+
+                            <td>@j.PersonName</td>
+                            <td>@j.RelatedPersonName</td>
+                            <td>@j.Address</td>
+
+                            <td>@j.Mobileno</td>
+                            @*<td>@j.Checkedby</td>*@
+
+                            <td>@j.CheckedOn</td>
+                            <td>@(j.Fever == true ? "Yes" : "No")</td>
+                            <td>@(j.Cough == true ? "Yes" : "No")</td>
+                            <td>
+                                @(j.BreathingProblem == true ? "Yes" : "No")
+                            </td>
+                            <td>@(j.NA == true ? "Yes" : "No")</td>
+                            <td>@(j.IsSticker == true ? "Yes" : "No")</td>
+                            <td>@j.AnyTrouble</td>
+                            <td>@j.AnyNeed</td>
+                            <td>@j.Remark</td>
+                        </tr>
+                        { c = c + 1; }
+                    }
+                }
+
+            </tbody>
+
+        </table>
+    </div>
+
+
+
+
+
+
+
+}
+else
+{
+    <p>No data </p>
+}
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+        $('.example').DataTable({
+            responsive: true,
+            "lengthMenu": [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+
+            //dom: 'Bfrtip',
+            "dom": '<"top"Bf>rt<"bottom"lip><"clear">',
+
+            buttons: [
+                {
+                    extend: 'excelHtml5',
+                    title: 'Excel data'
+                },
+                {
+                    extend: 'pdfHtml5',
+                    title: 'PDF data',
+                     orientation: 'landscape',
+                    pageSize: 'LEGAL',
+                    text: '<i class="fa fa-file-pdf-o"> PDF</i>',
+                    titleAttr: 'PDF'
+                }
+            ]
+        });
+    });
+
+</script>

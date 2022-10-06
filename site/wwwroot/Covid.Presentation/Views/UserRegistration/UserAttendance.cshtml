@@ -1,0 +1,204 @@
+﻿@*@model Covid.Infrastructure.ViewModel.vmUserDetails.vmUserDetails
+@using Covid.Infrastructure.Helpers;
+@{
+    ViewBag.Title = "UserAttendance";
+}
+@section HomeDesign
+   {
+    <nav aria-label="breadcrumb" class="d-none d-md-inline-block ">
+        <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+            <li class="breadcrumb-item"><a href="@Url.Action("DashBoard", "DashBoard")"><i class="fas fa-home"></i></a></li>
+            <li class="breadcrumb-item">
+
+                Attendance
+
+            </li>
+        </ol>
+    </nav>
+}
+
+
+<div class="row">
+    <div class="col">
+        <form id="myform" enctype="multipart/form-data">
+            @if (TempData["UserMessage"] != null)
+            {
+                <div class="alert alert-info">
+                    <button type="button" class="close close-alert" data-dismiss="alert" aria-hidden="true">×</button>
+                    @TempData["UserMessage"]
+                </div>
+            }
+            <div class="card">
+                <div class="card-header">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <h3 class="mb-0">Attendance </h3>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <input type="hidden" name="UserID" id="UserID" value="@SessionHelper.UserDetails.UserId" />
+                    <input type="hidden" name="Longitude" id="Longitude" />
+                    <input type="hidden" name="Latitude" id="Latitude" />
+                    @if (Model.UserATT == null)
+                    {
+                        <div class="container">
+                            <h2> Attach a Picture:</h2>
+                            <p>
+                                <input type="file" id="take-picture" accept="image/*" capture>
+                            </p>
+
+                            <h2>Preview:</h2>
+                            <p>
+                                <img src="" alt="" id="show-picture" style="height: 500px; width:250px">
+                            </p>
+
+
+
+
+
+
+                        </div>
+
+                        <input type="button" class="btn btn-primary" value="Press for todays' Attendance" id="Submit1" onclick="return getLocation()" />
+
+
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">
+
+                            <p>Attendence done for today</p>
+                        </div>
+
+                    }
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    var longt, lat;
+
+
+    function getLocation() {
+
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function (position) {
+
+                $("#Latitude").val(position.coords.latitude);
+
+                $("#Longitude").val(position.coords.longitude);
+
+                var x = $('#myform').serialize();
+                var src = $('#show-picture').attr('src');
+
+
+                if (src != "") {
+                    x = x.concat("&src=" + src);
+                    $.ajax({
+                        url: '/UserRegistration/SubmitUserAttendance',
+                        type: 'post',
+                        data: x,
+                        success: function (result) {
+                            location.reload();
+
+
+
+                        }
+                    });
+                }
+                else {
+                    return false;
+                    alert("Please attach any Image");
+                }
+
+            });
+        } else {
+            alert("Geolocation is not supported by this browser.");
+        }
+
+
+    }
+    function myFunction() {
+
+
+
+
+    }
+
+
+
+
+
+
+
+</script>
+
+<script>
+
+</script>
+<script type="text/javascript">
+
+
+
+$("document").ready(function(){
+    // Set events
+    $("#take-picture").change(function (event) {
+
+            // Get a reference to the taken picture or chosen file
+            var files = event.target.files,
+                file;
+            if (files && files.length > 0) {
+                file = files[0];
+
+                var formData = new FormData();
+
+                formData.append("Photo", files[0]);
+                var xhr = new XMLHttpRequest();
+                xhr.open("POST", "/UserRegistration/Capture", true);
+              xhr.addEventListener("load", function (evt) { UploadComplete(evt); }, false);
+                xhr.addEventListener("error", function (evt) { UploadFailed(evt); }, false);
+                xhr.send(formData);
+
+
+
+
+
+
+            }
+        });
+
+    });
+    function UploadComplete(evt) {
+        if (evt.target.status == 200) {
+
+            $.ajax({
+                type: 'POST',
+                url: ("@Url.Content("~/UserRegistration/Rebind")/"),
+                dataType: 'json',
+                success: function (data) {
+                    $("#show-picture").attr("src", data+"?t=" + new Date().getTime());
+
+                    alert("Photo Capture successfully!");
+                }
+            });
+        }
+        else {
+            alert("Error Uploading File");
+            $("#take-picture").val('');
+        }
+
+        }
+
+    function UploadFailed(evt) {
+        alert("There was an error attempting to upload the file.");
+
+    }
+
+
+
+</script>*@
+

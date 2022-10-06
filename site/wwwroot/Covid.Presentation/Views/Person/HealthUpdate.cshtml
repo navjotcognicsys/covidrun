@@ -1,0 +1,85 @@
+﻿@model Covid.Infrastructure.ViewModel.Person.vmPerson
+@{
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+<div class="main-content">
+    <!-- Header -->
+    <div class="header bg-gradient-primary py-7 py-lg-8 pt-lg-9">
+        <div class="separator separator-bottom separator-skew zindex-100">
+            <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <polygon class="fill-default" points="2560 0 2560 100 0 100"></polygon>
+            </svg>
+        </div>
+    </div>
+    <div class="container mt--13 pb-5">
+        <div class="row justify-content-center">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="row align-items-center">
+                            <div class="col-8">
+                                <h3 class="mb-0"></h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+
+                        <div class="form-group">
+                            <label class="form-control-label" for="input-country">Search Person</label>
+
+                            <input class="form-control User" type="text" id="Search" placeholder="Enter your mobile number" />
+
+                        </div>
+                        <div class="form-group">
+                            <input class="btn btn-primary" value="Search" type="button" onclick="ChangeData1()" />
+                        </div>
+
+                    </div>
+
+                    <div id="DataView" style="height: 500px; overflow: auto">
+
+                        @Html.Partial("~/Views/Person/PartialViews/HealthUpdatePartial.cshtml", Model)
+
+                    </div>
+                   
+                       
+                    
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var ChangeData1 = function () {
+
+
+        var Search = $("#Search").val();
+
+
+        $.ajax({
+            url: '/Person/HealthUpdateBySearch',
+            type: 'POST',
+            datatype: 'application/json',
+            contentType: 'application/json',
+            data: JSON.stringify({
+
+                Search: Search
+
+
+            }),
+            success: function (data) {
+
+                $("#DataView").html("");
+                $("#DataView").append(data);
+
+            },
+            error: function () {
+
+            },
+        });
+    }
+
+</script>

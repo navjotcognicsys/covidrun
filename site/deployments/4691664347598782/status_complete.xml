@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<deployment>
+  <id>4691664347598782</id>
+  <author>Microsoft.VisualStudio.Services.TFS</author>
+  <deployer>VSTS</deployer>
+  <authorEmail />
+  <message>{"type":"Deployment","commitId":"bf2c216d36f928679d20d4b577540efc2978dcd7","buildId":"469","buildNumber":"469","repoProvider":"GitHub","repoName":"navjotcognicsys/covidjbp","collectionUrl":"https://dev.azure.com/navjotshrivastava/","teamProject":"bcd77516-5886-4459-aaa2-2a9e696cb81b","buildProjectUrl":"https://dev.azure.com/navjotshrivastava/bcd77516-5886-4459-aaa2-2a9e696cb81b","repositoryUrl":"https://github.com/navjotcognicsys/covidjbp","branch":"master","teamProjectName":"covidjbp","slotName":"production"}</message>
+  <progress />
+  <status>Failed</status>
+  <statusText />
+  <lastSuccessEndTime>2022-09-28T06:46:39.9458632Z</lastSuccessEndTime>
+  <receivedTime>2022-09-28T06:46:39.9458632Z</receivedTime>
+  <startTime>2022-09-28T06:46:39.9458632Z</startTime>
+  <endTime>2022-09-28T06:46:39.9458632Z</endTime>
+  <complete>True</complete>
+  <is_temp>False</is_temp>
+  <is_readonly>True</is_readonly>
+  <project_type></project_type>
+  <vsproject_id></vsproject_id>
+</deployment>

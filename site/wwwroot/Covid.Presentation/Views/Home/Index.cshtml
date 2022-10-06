@@ -1,0 +1,334 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="covid-19 Information">
+    <meta name="author" content="covid-19 Information">
+    <title>covid-19 Information || Home</title>
+    <!-- Favicon -->
+    <link rel="icon" href="~/assets/img/brand/favicon.png" type="image/png">
+    <!-- Fonts -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700">
+    <!-- Icons -->
+    <link rel="stylesheet" href="~/assets/vendor/nucleo/css/nucleo.css" type="text/css">
+    <link rel="stylesheet" href="~/assets/vendor/fortawesome/fontawesome-free/css/all.min.css" type="text/css">
+    <!-- Page plugins -->
+    <!-- Argon CSS -->
+    <link rel="stylesheet" href="~/assets/css/argon.css?v=1.2.0" type="text/css">
+    <style>
+
+        .list-group-item {
+            position: relative;
+            display: block;
+            padding: 0.5rem 1rem !important;
+            border: 1px solid #e9ecef;
+            background-color: #fff;
+        }
+
+        .list-group.scroll {
+            height: 250px;
+            overflow: scroll;
+            overflow-x: hidden;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background-color: #2dce89;
+            -webkit-border-radius: 8px;
+            border-radius: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            -webkit-border-radius: 8px;
+            border-radius: 8px;
+            background: #eeeeee;
+            width: 5px;
+            height: 5px;
+        }
+
+        .icon-y {
+            margin-right: 10px;
+        }
+        iframe{
+        width: 100%;
+        border: 2px solid #ccc;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- Main content -->
+    <div class="main-content" id="panel">
+
+        <!-- Header -->
+        <!-- Header -->
+        <div class="header bg-jss pb-6">
+            <div class="container-fluid">
+                <div class="header-body">
+                    <div class="row align-items-center py-4">
+                        <div class="col-lg-6 col-sm-12">
+                            <nav aria-label="breadcrumb" class="d-md-inline-block">
+                                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                    <li class="breadcrumb-item"><a href=""><img src="~/assets/img/covid-19-logo.png" width="250"> </a></li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="col-lg-6 col-sm-12 text-right">
+                            <nav aria-label="breadcrumb" class="d-md-inline-block">
+                                <ol class="breadcrumb breadcrumb-links breadcrumb-dark">
+                                    <li class="breadcrumb-item"><a target="_blank" href="https://jscljabalpur.org/"><img src="~/assets/img/smart_city_jabalpur.png" width="250"> </a></li>
+                                    <li class="breadcrumb-item"><a target="_blank" href="http://jmcjabalpur.gov.in/"><img src="~/assets/img/nagarnigam.png" width="50"> </a></li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div style="align-content">
+                            <h1 style="color:white">@ViewBag.Message</h1>
+                        </div>
+                    </div>
+                    <!-- Card stats -->
+
+                </div>
+            </div>
+        </div>
+        <!-- Page content -->
+        <div class="container-fluid mt--6" style="background-image:url(~/assets/img/brand/covid19jbp.jpg);">
+            <div class="row col-12">
+                <div class="col-xl-3 col-md-6">
+                    <a href="@Url.Action("OpenComplaintForm","Complaint")" class="btn btn-info btn-lg btn-block">Register Your Complaint</a>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <a href="https://mapit.gov.in/covid-19/Default.aspx" target="_blank" class="btn btn-neutral btn-lg btn-block">ePass Application</a>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <a href="https://mpcovidwarriors.org/images/jabalpurmart.apk" target="_blank" class="btn btn-success btn-lg btn-block">Jabalpur Mart</a>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <a href="@Url.Action("LogIn","Login")" class="btn btn-neutral btn-lg btn-block">Login</a>
+                </div>
+                <div class="col-xl-3 col-md-6">
+                    <a href="@Url.Action("OpenComplaintSearchForm","Complaint")" class="btn btn-neutral btn-lg btn-block">Complaint Status</a>
+                </div>
+                @*<div class="col-xl-3 col-md-6">
+                    <a href="@Url.Action("HealthUpdate","Person")" class="btn btn-success btn-lg btn-block">Self Health Update</a>
+                </div>*@
+                <div class="col-xl-3 col-md-6">
+                    <a href="@Url.Action("NewEntryPersonCreation","Person")" class="btn btn-neutral btn-lg btn-block">Person Entry</a>
+                </div>
+            </div>
+
+
+            <div class="row mt-5">
+
+                <div class="col-xl-4 col-md-6">
+                    <div class="card">
+                        <div class="btn btn-info btn-lg btn-block">Notice board </div>
+                        <div class="">
+                            <div class="list-group scroll">
+
+                                <a href="~/assets/img/Notice-2 02-Jun-2020.pdf" target="_blank" class="list-group-item">
+                                    <img src="~/assets/img/file_icon.png" class="icon-y"> Notice 02-June-2020 (Unlock-1)
+
+                                </a>
+                                <a href="~/assets/img/Notice-1 02-Jun-2020.pdf" target="_blank" class="list-group-item">
+                                    <img src="~/assets/img/file_icon.png" class="icon-y"> Notice 02-June-2020
+
+                                </a>
+                                <a href="~/assets/img/New Doc 2020-04-27 16.17.27.pdf" target="_blank" class="list-group-item">
+                                    <img src="~/assets/img/file_icon.png" class="icon-y"> New containment area office in Jabalpur
+
+                                </a>
+                                <a href="~/assets/img/pdfjoiner.pdf" target="_blank" class="list-group-item">
+                                    <img src="~/assets/img/file_icon.png" class="icon-y"> Lockdown Notice
+
+                                </a>
+                                <a href="~/assets/img/New Area.pdf" target="_blank" class="list-group-item">
+                                    <img src="~/assets/img/file_icon.png" class="icon-y"> कोविड -19 हेतु  Containment Zone हेतु गठित दल की सूची
+
+                                </a>
+                                <a href="~/assets/img/Corona war room updates 20-04-2020.pdf" target="_blank" class="list-group-item">
+                                    <img src="~/assets/img/file_icon.png" class="icon-y"> Corona war room update
+                                </a>
+                                <a href="~/assets/img/teamCorona.pdf" target="_blank" class="list-group-item">
+                                    <img src="~/assets/img/file_icon.png" class="icon-y"> Corona Control Room Team
+                                </a>
+                                <a href="~/assets/img/New Doc 04-13.pdf" target="_blank" class="list-group-item">
+                                    <img src="~/assets/img/file_icon.png" class="icon-y"> खाद्य आपूर्तिकर्ताओं हेतु ज़िले में व ज़िले से बाहर आवागमन के सम्ब्न्ध में निर्देश
+                                </a>
+
+
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-4 col-md-6">
+                    <div class="card">
+                        <div class="btn btn-info btn-lg btn-block">Helpline Number</div>
+                        <div class="">
+                            <div class="list-group scroll">
+                                <a href="#" class="list-group-item">Food Packet HelpLine :07614144444  </a>
+                                <a href="#" class="list-group-item">E - Pass             :7587983200  </a>
+                                <a href="#" class="list-group-item">Corona Control Room               :07612637500,07612637501  </a>
+                                <a href="#" class="list-group-item">Police Control Room :07612676100,07612676102  </a>
+                                <a href="#" class="list-group-item">Need Help in MP :07552411180 </a>
+                                <a href="#" class="list-group-item">Helpline Number :07552704201 </a>
+                                <a href="#" class="list-group-item">WhatsApp Number :9301089967 </a>
+                                <a href="#" class="list-group-item">MP Corona Helpline Number :104 </a>
+                                <a href="#" class="list-group-item">Nagar Nigam </a>
+                                <a href="#" class="list-group-item">Call Centre :1800-233-0014 </a>
+                                <a href="#" class="list-group-item">For water(पानी के लिए) :9424499701 to 719 Accoeding to Zoneyou can register complaint </a>
+                                <a href="#" class="list-group-item">
+                                    For cleaning (सफाई के लिए) :9424499801 to 819 Accoeding to Zoneyou can register complaint
+                                </a>
+                                <a href="#" class="list-group-item">Hearse(शव वाहन) :102 </a>
+                                <a href="#" class="list-group-item">JP Hospital :07552557142 </a>
+                                <a href="#" class="list-group-item">Hamidia Hospital :07554050464 </a>
+                                <a href="#" class="list-group-item">Electricity :1912,07552551912, Toll Free 18002331912 </a>
+                                <a href="#" class="list-group-item">Police :100 </a>
+                                <a href="#" class="list-group-item">Ambulance :108 </a>
+                                <a href="#" class="list-group-item">Fire brigade :07552542222 </a>
+                                <a href="#" class="list-group-item">Blood Bank :07554050148 </a>
+                                <a href="#" class="list-group-item">
+                                    Bhopal Milk union (भोपाल दुग्ध संघ) :07552481995
+                                </a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-md-6">
+                    <div class="card">
+                        <div class="btn btn-info btn-lg btn-block">Useful app & Useful link</div>
+                        <div class="">
+                            <div class="list-group scroll">
+                                <a href="https://forms.gle/GiFhCkueoqu5uxB7A" target="_blank" class="list-group-item"> Donation Form </a>
+                                <a href="https://play.google.com/store/apps/details?id=nic.goi.aarogyasetu" target="_blank" class="list-group-item"> Aarogya Setu app (Android) </a>
+                                <a href="https://apps.apple.com/in/app/aarogyasetu/id1505825357" target="_blank" class="list-group-item"> Aarogya Setu app (iOS) </a>
+                                <a href="https://play.google.com/store/apps/details?id=com.mpssdi.sarthak" target="_blank" class="list-group-item"> Sarthak app (Android) </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div>
+                    <iframe src="https://arcg.is/mav9W" width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+                </div>
+            </div>
+            <!-- <div class="row mt-5">
+              <div class="col-xl-4">
+                <div class="text-center">
+                  <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FSmartcityjabalpur%2F&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="500" height="350" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                </div>
+              </div>
+              <div class="col-xl-4">
+                <div class="text-center">
+                  <iframe src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fcollectorjabalpur%2F&tabs=timeline&width=340&height=500&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId" width="500" height="350" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true" allow="encrypted-media"></iframe>
+                </div>
+              </div>
+              <div class="col-xl-4">
+                <div class="text-center">
+                  <img src="https://pbs.twimg.com/media/EUHHLpLWoAEdjiv?format=jpg&name=900x900" width="100%" />
+                </div>
+              </div>
+            </div> -->
+            <!-- Footer -->
+            <footer class="footer pt-2 pb-2">
+                <div class="row align-items-center justify-content-lg-between">
+                    <div class="col-lg-12">
+                        <div class="copyright text-center  text-lg-left  text-muted">
+                            &nbsp; &copy; 2020 <a href="" class="font-weight-bold ml-1" target="_blank">covid-19 Information</a> All Rights Reserved.
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <!-- Argon Scripts -->
+    <!-- Core -->
+    <script src="~/assets/vendor/jquery/dist/jquery.min.js"></script>
+    <script src="~/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/assets/vendor/js-cookie/js.cookie.js"></script>
+    <script src="~/assets/vendor/jquery.scrollbar/jquery.scrollbar.min.js"></script>
+    <script src="~/assets/vendor/jquery-scroll-lock/dist/jquery-scrollLock.min.js"></script>
+    <!-- Optional JS -->
+    <script src="~/assets/vendor/chart.js/dist/Chart.min.js"></script>
+    <script src="~/assets/vendor/chart.js/dist/Chart.extension.js"></script>
+    <!-- Argon JS -->
+    <script src="~/assets/js/argon.js?v=1.2.0"></script>
+    <script>
+        window.onload = function () {
+
+            //Better to construct options first and then pass it as a parameter
+            var options = {
+                animationEnabled: false,
+                title: {
+                    text: ""
+                },
+                axisY: {
+                    title: "Grievance Resolve"
+                },
+                toolTip: {
+                    shared: true,
+                    reversed: true
+                },
+                data: [{
+                    type: "stackedColumn",
+                    name: "Resolve",
+                    showInLegend: "true",
+                    yValueFormatString: "#",
+                    dataPoints: [
+                        { y: 20, label: "01-03-2020" },
+                        { y: 36, label: "05-03-2020" },
+                        { y: 24, label: "10-03-2020" },
+                        { y: 13, label: "15-03-2020" },
+                        { y: 37, label: "20-03-2020" },
+                        { y: 19, label: "25-03-2020" }
+                    ]
+                },
+                {
+                    type: "stackedColumn",
+                    name: "Pending",
+                    showInLegend: "true",
+                    yValueFormatString: "#",
+                    dataPoints: [
+                        { y: 25, label: "01-03-2020" },
+                        { y: 11, label: "05-03-202" },
+                        { y: 20, label: "10-03-2020" },
+                        { y: 33, label: "15-03-2020" },
+                        { y: 11, label: "20-03-2020" },
+                        { y: 0, label: "25-03-2020" }
+                    ]
+                }]
+            };
+
+            $("#chartContainer").CanvasJSChart(options);
+        }
+    </script>
+    <script>
+        // Selecting the iframe element
+        var iframe = document.getElementById("myIframe");
+
+        // Adjusting the iframe height onload event
+        iframe.onload = function () {
+            iframe.style.height = iframe.contentWindow.document.body.scrollHeight + 'px';
+        }
+    </script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>
+    <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
+</body>
+
+</html>
